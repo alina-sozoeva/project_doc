@@ -1,0 +1,35 @@
+.filter {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  border-bottom: 1px dashed #dbdfe9;
+  padding: 10px 0;
+}
+
+.status {
+  padding: 10px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  border-bottom: 1px dashed #dbdfe9;
+}
+
+.floder {
+  padding: 10px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  border-bottom: 1px dashed #dbdfe9;
+}
+
+.new_folder {
+  padding: 10px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.btn {
+  width: 100%;
+  padding: 10px 0
+}

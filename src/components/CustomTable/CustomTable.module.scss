@@ -1,0 +1,18 @@
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.guid {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+
+  p {
+    font-size: 16px;
+    font-weight: 600;
+  }
+
+}

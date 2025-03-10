@@ -3,11 +3,9 @@ import { Header } from "../common";
 import * as Pages from "../pages";
 
 const Layout = () => (
-  <div className="layout">
+  <div>
     <Header />
-    <div className="outlet">
-      <Outlet />
-    </div>
+    <Outlet />
   </div>
 );
 
