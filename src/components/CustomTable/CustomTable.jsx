@@ -125,7 +125,7 @@ export const CustomTable = () => {
               pagination={false}
               className={styles.table}
               bordered
-              scroll={{ y: 450, x: 1200 }}
+              scroll={{ y: 450 }}
             />
           </Col>
         </div>

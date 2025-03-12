@@ -11,7 +11,7 @@ export const useFolderColumns = () => {
       dataIndex: "guid",
       key: "guid",
       align: "center",
-      width: 50,
+      width: 30,
     },
     {
       title: "Инициатор",
@@ -30,7 +30,7 @@ export const useFolderColumns = () => {
           </div>
         </div>
       ),
-      width: 150,
+      width: 100,
     },
     {
       title: "Тема",
@@ -44,14 +44,14 @@ export const useFolderColumns = () => {
       dataIndex: "date",
       key: "date",
       align: "center",
-      width: 150,
+      width: 100,
     },
     {
       title: "Папка",
       dataIndex: "folder_name",
       key: "folder_name",
       align: "center",
-      width: 150,
+      width: 100,
     },
     {
       title: "Статус",
@@ -63,7 +63,7 @@ export const useFolderColumns = () => {
           {record}
         </StatusButton>
       ),
-      width: 100,
+      width: 80,
     },
     {
       title: "...",

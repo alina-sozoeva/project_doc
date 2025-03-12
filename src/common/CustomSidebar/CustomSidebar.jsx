@@ -17,13 +17,13 @@ const menuKeys = [
   },
   {
     key: "3",
-    label: "Папки",
-    path: "/registry",
+    label: "Добавить сотрудника",
+    path: "/add-employee",
   },
   {
     key: "4",
-    label: "Добавить папку",
-    path: "/irrigation",
+    label: "Все папки",
+    path: "/registry",
   },
 ];
 
@@ -71,7 +71,6 @@ export const CustomSidebar = () => {
           className={styles.menu}
         />
       </div>
-      я
       <Button className={`${styles.logout}`}>
         <LogoutOutlined className={styles.out} /> Выход
       </Button>

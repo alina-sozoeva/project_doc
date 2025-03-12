@@ -1,4 +1,6 @@
 import styles from "./Wrapper.module.scss";
-export const Wrapper = ({ children }) => {
-  return <div className={styles.wrapper}>{children}</div>;
+import clsx from "clsx";
+
+export const Wrapper = ({ children, className }) => {
+  return <div className={clsx(styles.wrapper, className)}>{children}</div>;
 };

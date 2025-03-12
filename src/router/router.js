@@ -55,6 +55,8 @@ export const router = createBrowserRouter([
     children: [
       { path: "/", element: <Pages.HomePage /> },
       { path: "/employees", element: <Pages.EmployeesPage /> },
+      { path: "/edit-floder", element: <Pages.EditFloderPage /> },
+      { path: "/add-employee", element: <Pages.AddEmployeePage /> },
     ],
   },
 ]);
