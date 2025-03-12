@@ -1,32 +1,44 @@
 import { CloseOutlined, PlusOutlined } from "@ant-design/icons";
 import styles from "./StatusButton.module.scss";
-import { Button, Flex } from "antd";
+import { Button } from "antd";
 import { status } from "../../enums";
 
-export const StatusButton = ({ children, icon, typeIcon, statusFolder }) => {
+export const StatusButton = ({
+  children,
+  icon,
+  typeIcon,
+  statusFolder,
+  source,
+}) => {
   const isTypeIcon = typeIcon === "plus" ? <PlusOutlined /> : <CloseOutlined />;
-  
+
   const color = (() => {
     switch (statusFolder) {
       case status.APPROVED:
         return "green";
       case status.REJECTED:
         return "danger";
+      case status.IN_PROCESS:
+        return "blue";
+      case status.DRAFT:
+        return "default";
+      case status.REVISION:
+        return "yellow";
       default:
         return "";
     }
   })();
 
   return (
-    <Flex gap="small" wrap>
+    <div className={styles.content}>
       <Button
         color={color}
         variant="filled"
-        className={styles.btn}
+        className={source !== "table" ? styles.btn : styles.btn_table}
         icon={icon ? isTypeIcon : false}
       >
         {children}
       </Button>
-    </Flex>
+    </div>
   );
 };

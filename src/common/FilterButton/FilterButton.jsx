@@ -1,14 +1,16 @@
-import { Flex } from "antd";
-import { Button } from "antd";
 import styles from "./FilterButton.module.scss";
+import { Button } from "antd";
 
-export const FilterButton = ({ children, icon }) => {
+export const FilterButton = ({ children, icon, onClick  }) => {
   return (
-    <Flex gap="small" wrap>
-      <Button color="default" variant="filled" className={styles.btn}>
-        {icon}
-        <p> {children}</p>
-      </Button>
-    </Flex>
+    <Button
+      color="default"
+      variant="filled"
+      className={styles.btn}
+      onClick={onClick}
+    >
+      {icon}
+      <p> {children}</p>
+    </Button>
   );
 };

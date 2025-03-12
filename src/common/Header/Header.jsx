@@ -1,13 +1,27 @@
 import { BellFilled, LogoutOutlined } from "@ant-design/icons";
 import styles from "./Header.module.scss";
+import { EmployeesDrawer } from "../EmployeesDrawer";
+import { useState } from "react";
+import { Link } from "react-router-dom";
 
 export const Header = () => {
+  const [openEmploe, setOpenEmploe] = useState(false);
+
   return (
     <header className={styles.header}>
       <div className={`${styles.nav} container`}>
-        <img src="" alt="logo" className={styles.nax_logo} />
+        <Link to="/">
+          <img
+            src="http://docs.icloud.kg/image/logo.png"
+            alt="logo"
+            className={styles.nav_logo}
+          />
+        </Link>
         <div className={styles.nav_list}>
-          <button className={styles.nav_btn}>
+          <button
+            className={styles.nav_btn}
+            onClick={() => setOpenEmploe(true)}
+          >
             <p className={styles.empl}>Список сотрудников</p>
           </button>
           <button className={styles.nav_btn}>
@@ -24,6 +38,10 @@ export const Header = () => {
           </button>
         </div>
       </div>
+      <EmployeesDrawer
+        openEmploe={openEmploe}
+        onOpenEmploe={() => setOpenEmploe(false)}
+      />
     </header>
   );
 };

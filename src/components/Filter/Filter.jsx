@@ -7,6 +7,7 @@ import {
 } from "@ant-design/icons";
 import {
   FilterButton,
+  FloderDrawer,
   FolderButton,
   StatusButton,
   Wrapper,
@@ -14,12 +15,20 @@ import {
 import styles from "./Filter.module.scss";
 import { status } from "../../enums";
 import { Button, Flex } from "antd";
+import { useState } from "react";
 
 export const Filter = () => {
+  const [openFloder, setOpenFloder] = useState(false);
+
   return (
     <Wrapper>
       <div className={styles.filter}>
-        <FilterButton icon={<CloudUploadOutlined />}>Документы</FilterButton>
+        <FilterButton
+          icon={<CloudUploadOutlined />}
+          onClick={() => setOpenFloder(true)}
+        >
+          Документы
+        </FilterButton>
         <FilterButton icon={<FolderOpenOutlined />}>Все</FilterButton>
         <FilterButton icon={<MailOutlined />}>Входящие</FilterButton>
         <FilterButton icon={<VerticalAlignTopOutlined />}>
@@ -55,6 +64,10 @@ export const Filter = () => {
           </Button>
         </Flex>
       </div>
+      <FloderDrawer
+        openFloder={openFloder}
+        onOpenFloder={() => setOpenFloder(false)}
+      />
     </Wrapper>
   );
 };

@@ -1,4 +1,7 @@
 export const status = {
-  APPROVED: "approved",
-  REJECTED: "rejected",
+  APPROVED: "Утверждено",
+  REJECTED: "Отказано",
+  IN_PROCESS: "На обработке",
+  DRAFT: "Черновик",
+  REVISION: "Доработать",
 };

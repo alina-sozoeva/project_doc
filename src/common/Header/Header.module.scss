@@ -7,12 +7,15 @@
 }
 
 .nav {
-
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 20px;
 
+}
+
+.nav_logo {
+  width: 150px;
 }
 
 .nav_list {

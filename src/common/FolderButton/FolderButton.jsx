@@ -1,10 +1,10 @@
 import { CloseOutlined, FolderOutlined, PlusOutlined } from "@ant-design/icons";
+import { Button } from "antd";
 import styles from "./FolderButton.module.scss";
-import { Button, Flex } from "antd";
 
 export const FolderButton = ({ children }) => {
   return (
-    <Flex gap="small" wrap className={styles.content}>
+    <div className={styles.content}>
       <Button color="default" variant="filled" className={styles.btn}>
         <FolderOutlined />
         <p> {children}</p>
@@ -13,6 +13,6 @@ export const FolderButton = ({ children }) => {
         <PlusOutlined className={styles.plus} />
         <CloseOutlined className={styles.close} />
       </div>
-    </Flex>
+    </div>
   );
 };
