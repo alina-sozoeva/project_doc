@@ -1,14 +1,16 @@
 import { Button, Flex } from "antd";
 import { CustomTable, Filter, Itinerary } from "../../components";
 import styles from "./HomePage.module.scss";
+import { CustomSidebar } from "../../common";
 
 export const HomePage = () => {
   return (
-    <main className="basic">
+    <main>
       <div className={`${styles.home} container`}>
-        <Filter />
+        {/* <CustomSidebar /> */}
+        {/* <Filter /> */}
         <CustomTable />
-        <Itinerary />
+        {/* <Itinerary /> */}
       </div>
     </main>
   );

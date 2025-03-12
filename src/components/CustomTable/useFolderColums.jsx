@@ -1,6 +1,8 @@
-import { CaretDownOutlined } from "@ant-design/icons";
+import { CaretDownOutlined, EditOutlined } from "@ant-design/icons";
 import styles from "./CustomTable.module.scss";
 import { FilterButton, StatusButton } from "../../common";
+import { Button } from "antd";
+import { status } from "../../enums";
 
 export const useFolderColumns = () => {
   const columns = [
@@ -28,15 +30,14 @@ export const useFolderColumns = () => {
           </div>
         </div>
       ),
-      align: "center",
-      width: 100,
+      width: 150,
     },
     {
       title: "Тема",
       dataIndex: "title",
       key: "title",
       align: "center",
-      width: 200,
+      width: 150,
     },
     {
       title: "Дата",
@@ -50,7 +51,7 @@ export const useFolderColumns = () => {
       dataIndex: "folder_name",
       key: "folder_name",
       align: "center",
-      width: 100,
+      width: 150,
     },
     {
       title: "Статус",
@@ -65,18 +66,20 @@ export const useFolderColumns = () => {
       width: 100,
     },
     {
-      title: "",
+      title: "...",
       dataIndex: "edit",
       key: "edit",
       align: "center",
-      width: 180,
+      width: 50,
       render: (guid) => (
-        <div className={styles.guid}>
-          <FilterButton>
-            Редактировать
-            <CaretDownOutlined />
-          </FilterButton>
-        </div>
+        <Button
+          className={styles.btn}
+          icon={false}
+          source={"table"}
+          type="primary"
+        >
+          <EditOutlined />
+        </Button>
       ),
     },
   ];

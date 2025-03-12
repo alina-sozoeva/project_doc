@@ -1,11 +1,3 @@
 .home { 
-  display: grid;
-  grid-template-columns: 1fr 3fr 1fr;
-  gap: 20px;
-}
 
-@media (max-width: 1200px) {
-  .home {
-    grid-template-columns: 1fr;
-  }
 }
