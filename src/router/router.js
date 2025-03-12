@@ -2,15 +2,14 @@ import { createBrowserRouter, Outlet } from "react-router-dom";
 import { CustomSidebar, Header } from "../common";
 import * as Pages from "../pages";
 import { Layout } from "antd";
+import { pathname } from "../enums";
 
 const CustomLayout = () => (
   <Layout style={{ minHeight: "100vh", background: "white" }}>
     <Layout.Sider
       width={190}
       collapsible
-      // collapsed={collapsed}
       collapsedWidth={60}
-      // onCollapse={(value) => setCollapsed(value)}
       trigger={null}
       theme="light"
       style={{
@@ -42,7 +41,10 @@ const CustomLayout = () => (
       >
         <Header />
       </Layout.Header>
-      <Layout.Content style={{ background: "white" }} className="basic">
+      <Layout.Content
+        style={{ background: "white" }}
+        className="basic"
+      >
         <Outlet />
       </Layout.Content>
     </Layout>
@@ -53,10 +55,12 @@ export const router = createBrowserRouter([
   {
     element: <CustomLayout />,
     children: [
-      { path: "/", element: <Pages.HomePage /> },
-      { path: "/employees", element: <Pages.EmployeesPage /> },
-      { path: "/edit-floder", element: <Pages.EditFloderPage /> },
-      { path: "/add-employee", element: <Pages.AddEmployeePage /> },
+      { path: pathname.HOME, element: <Pages.HomePage /> },
+      { path: pathname.DOCUMENTS, element: <Pages.DocumemtsPage /> },
+      { path: pathname.EMPLOYEES, element: <Pages.EmployeesPage /> },
+      { path: pathname.EDIT_FOLDER, element: <Pages.EditFolderPage /> },
+      { path: pathname.ADD_EMPLOYEE, element: <Pages.AddEmployeePage /> },
+      { path: pathname.FOLDERS, element: <Pages.FoldersPage /> },
     ],
   },
 ]);

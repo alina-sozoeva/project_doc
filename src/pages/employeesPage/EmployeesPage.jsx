@@ -4,6 +4,7 @@ import { useEmployeesColums } from "./useEmployeesColums";
 import { Wrapper } from "../../common";
 import styles from "./EmployeesPage.module.scss";
 import { useNavigate } from "react-router-dom";
+import { pages, pathname } from "../../enums";
 
 export const EmployeesPage = () => {
   const navigate = useNavigate();
@@ -11,7 +12,12 @@ export const EmployeesPage = () => {
   const { columns } = useEmployeesColums();
 
   return (
-    <Wrapper className={styles.content}>
+    <Wrapper
+      className={styles.content}
+      path={pathname.EMPLOYEES}
+      title={pages.EMPLOYEES}
+      page={true}
+    >
       <Flex justify="space-between">
         <Input
           placeholder="Поиск по ФИО"

@@ -4,12 +4,6 @@ import styles from "./EmployeesPage.module.scss";
 export const useEmployeesColums = () => {
   const columns = [
     {
-      title: "Опции",
-      dataIndex: "guid",
-      key: "guid",
-      align: "center",
-    },
-    {
       title: "ФИО",
       dataIndex: "user_name",
       key: "user_name",

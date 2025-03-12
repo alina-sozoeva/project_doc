@@ -7,7 +7,6 @@ import {
 } from "@ant-design/icons";
 import {
   FilterButton,
-  FloderDrawer,
   FolderButton,
   StatusButton,
   Wrapper,
@@ -64,10 +63,6 @@ export const Filter = () => {
           </Button>
         </Flex>
       </div>
-      <FloderDrawer
-        openFloder={openFloder}
-        onOpenFloder={() => setOpenFloder(false)}
-      />
     </Wrapper>
   );
 };

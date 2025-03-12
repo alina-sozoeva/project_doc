@@ -1,8 +1,9 @@
-import { Col, Input, Select, Table } from "antd";
-import { Wrapper } from "../../common";
-import styles from "./CustomTable.module.scss";
+import { Col, Flex, Input, Select, Table } from "antd";
 import { SearchOutlined } from "@ant-design/icons";
-import { useFolderColumns } from "./useFolderColums";
+import { Wrapper } from "../../common";
+import { useDocumentsColums } from "./useDocumentsColums";
+import styles from "./DocumentsPage.module.scss";
+import { pages, pathname } from "../../enums";
 
 const dataSource = [
   {
@@ -85,6 +86,16 @@ const dataSource = [
     folder_name: "qwerty",
     status: "Черновик",
   },
+  {
+    key: "9",
+    guid: 27,
+    user_foto: "http://docs.icloud.kg/image/avatar/28.jpg",
+    user_name: "Leon",
+    title: "qwerty",
+    date: "2025-01-01",
+    folder_name: "qwerty",
+    status: "Черновик",
+  },
 ];
 
 const items = [
@@ -95,41 +106,63 @@ const items = [
   { value: "5", label: "Доработать" },
 ];
 
-export const CustomTable = () => {
-  const { columns } = useFolderColumns();
+export const DocumemtsPage = () => {
+  const { columns } = useDocumentsColums();
   return (
-    <div>
-      <Wrapper>
-        <div className={styles.content}>
-          <div className={styles.filter}>
-            <Input
-              placeholder="Поиск"
-              prefix={<SearchOutlined />}
-              style={{
-                width: "30%",
-              }}
-            />
-            <Select
-              placeholder="Статус документа"
-              options={items}
-              style={{
-                width: "15%",
-              }}
-            />
-          </div>
+    <Wrapper
+      className={styles.content}
+      path={pathname.DOCUMENTS}
+      title={pages.DOCUMENTS}
+      page={true}
+    >
+      <Flex gap="small">
+        <Input
+          placeholder="Поиск по инициатору"
+          prefix={<SearchOutlined />}
+          style={{
+            width: "30%",
+          }}
+        />
+        <Select
+          placeholder="Год"
+          options={items}
+          style={{
+            width: "10%",
+          }}
+        />
+        <Select
+          placeholder="Месяц"
+          options={items}
+          style={{
+            width: "10%",
+          }}
+        />
+        <Select
+          placeholder="Папка"
+          options={items}
+          style={{
+            width: "10%",
+          }}
+        />
+        <Select
+          placeholder="Статус документа"
+          options={items}
+          style={{
+            width: "15%",
+          }}
+        />
+      </Flex>
 
-          <Col span={24}>
-            <Table
-              dataSource={dataSource}
-              columns={columns}
-              pagination={false}
-              className={styles.table}
-              bordered
-              scroll={{ y: 450 }}
-            />
-          </Col>
-        </div>
-      </Wrapper>
-    </div>
+      <Col span={24}>
+        <Table
+          dataSource={dataSource}
+          columns={columns}
+          pagination={false}
+          className={styles.table}
+          bordered
+          scroll={{ y: 450 }}
+        />
+      </Col>
+    </Wrapper>
   );
 };

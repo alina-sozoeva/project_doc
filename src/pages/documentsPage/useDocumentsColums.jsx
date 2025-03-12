@@ -1,10 +1,12 @@
-import { CaretDownOutlined, EditOutlined } from "@ant-design/icons";
-import styles from "./CustomTable.module.scss";
-import { FilterButton, StatusButton } from "../../common";
+import { EditOutlined } from "@ant-design/icons";
+import styles from "./DocumentsPage.module.scss";
+import { StatusButton } from "../../common";
 import { Button } from "antd";
-import { status } from "../../enums";
+import { useNavigate } from "react-router-dom";
 
-export const useFolderColumns = () => {
+export const useDocumentsColums = () => {
+  const navigate = useNavigate();
+
   const columns = [
     {
       title: "№",
@@ -77,6 +79,7 @@ export const useFolderColumns = () => {
           icon={false}
           source={"table"}
           type="primary"
+          onClick={() => navigate("/edit-folder")}
         >
           <EditOutlined />
         </Button>
