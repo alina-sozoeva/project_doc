@@ -5,3 +5,4 @@ export * from "./StatusButton";
 export * from "./Wrapper";
 export * from "./CustomSidebar";
 export * from "./CustomCard";
+export * from './FolderModal'

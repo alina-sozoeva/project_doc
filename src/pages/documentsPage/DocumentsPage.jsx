@@ -4,6 +4,8 @@ import { Wrapper } from "../../common";
 import { useDocumentsColums } from "./useDocumentsColums";
 import styles from "./DocumentsPage.module.scss";
 import { pages, pathname } from "../../enums";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const dataSource = [
   {
@@ -107,7 +109,8 @@ const items = [
 ];
 
 export const DocumemtsPage = () => {
-  const { columns } = useDocumentsColums();
+const { columns } = useDocumentsColums();
+
   return (
     <Wrapper
       className={styles.content}
@@ -160,7 +163,7 @@ export const DocumemtsPage = () => {
           pagination={false}
           className={styles.table}
           bordered
-          scroll={{ y: 450 }}
+          scroll={{ y: 700 }}
         />
       </Col>
     </Wrapper>

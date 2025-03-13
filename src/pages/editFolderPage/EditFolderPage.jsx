@@ -1,13 +1,17 @@
 import { Wrapper } from "../../common";
-import { Itinerary } from "../../components";
-import styles from './EditFolderPage.module.scss'
+import { EditForm, Itinerary } from "../../components";
+import { pages, pathname } from "../../enums";
+import styles from "./EditFolderPage.module.scss";
 
 export const EditFolderPage = () => {
   return (
-    <Wrapper className={styles.content}>
-      <div>
-        Редактироание
-      </div>
+    <Wrapper
+      className={styles.content}
+      path={pathname.EDIT_FOLDER}
+      title={pages.EDIT_FOLDER}
+      page={true}
+    >
+      <EditForm />
       <Itinerary />
     </Wrapper>
   );

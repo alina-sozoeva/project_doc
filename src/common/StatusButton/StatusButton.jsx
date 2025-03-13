@@ -6,11 +6,9 @@ import { status } from "../../enums";
 export const StatusButton = ({
   children,
   icon,
-  typeIcon,
   statusFolder,
   source,
 }) => {
-  const isTypeIcon = typeIcon === "plus" ? <PlusOutlined /> : <CloseOutlined />;
 
   const color = (() => {
     switch (statusFolder) {
@@ -35,7 +33,7 @@ export const StatusButton = ({
         color={color}
         variant="filled"
         className={source !== "table" ? styles.btn : styles.btn_table}
-        icon={icon ? isTypeIcon : false}
+        icon={icon}
       >
         {children}
       </Button>

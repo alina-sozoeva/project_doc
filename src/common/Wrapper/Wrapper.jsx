@@ -3,7 +3,7 @@ import styles from "./Wrapper.module.scss";
 import clsx from "clsx";
 import { Breadcrumb } from "antd";
 
-export const Wrapper = ({ children, className, path, title, page = false }) => {
+export const Wrapper = ({ children, className, path, title, descrip, page = false }) => {
   return (
     <div className={styles.content}>
       {page && (
@@ -14,7 +14,7 @@ export const Wrapper = ({ children, className, path, title, page = false }) => {
               title: <HomeOutlined />,
             },
             {
-              href: path ,
+              href: path,
               title: (
                 <>
                   <span>{title}</span>

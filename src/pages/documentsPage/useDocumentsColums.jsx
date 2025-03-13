@@ -7,6 +7,12 @@ import { useNavigate } from "react-router-dom";
 export const useDocumentsColums = () => {
   const navigate = useNavigate();
 
+  const onStatus = (record) => {
+    console.log(record);
+
+    navigate(`/edit-folder/${record.guid}/${record.status}`);
+  };
+
   const columns = [
     {
       title: "№",
@@ -69,17 +75,16 @@ export const useDocumentsColums = () => {
     },
     {
       title: "...",
-      dataIndex: "edit",
-      key: "edit",
+      key: "guid",
       align: "center",
       width: 50,
-      render: (guid) => (
+      render: (record) => (
         <Button
           className={styles.btn}
           icon={false}
           source={"table"}
           type="primary"
-          onClick={() => navigate("/edit-folder")}
+          onClick={() => onStatus(record)}
         >
           <EditOutlined />
         </Button>
