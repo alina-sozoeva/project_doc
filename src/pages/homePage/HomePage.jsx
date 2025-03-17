@@ -1,4 +1,4 @@
-import { Button, Empty, Flex, Input, Typography } from "antd";
+import { Button, Flex, Input } from "antd";
 import { CustomCard, FolderModal, Wrapper } from "../../common";
 import { pathname, status } from "../../enums";
 import styles from "./HomePage.module.scss";
@@ -16,6 +16,14 @@ import { useState } from "react";
 export const HomePage = () => {
   const [open, setOpen] = useState(false);
   const statusCount = JSON.parse(localStorage.getItem("statusCount"));
+
+  const onClose = () => {
+    setOpen(false);
+  };
+
+  const filteredStatus = (status) => {
+    localStorage.setItem("filteredStatus", status);
+  };
 
   const folderArr = [
     {
@@ -59,14 +67,6 @@ export const HomePage = () => {
       count: statusCount ? statusCount[status.REVISION] : null,
     },
   ];
-
-  const onClose = () => {
-    setOpen(false);
-  };
-
-  const filteredStatus = (status) => {
-    localStorage.setItem("filteredStatus", status);
-  };
 
   return (
     <Wrapper path={pathname.HOME} page={true} className={styles.home}>

@@ -6,21 +6,11 @@
 }
 
 .nav {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
   padding: 20px;
 
   h3 {
     margin-bottom: 0;
   }
-}
-
-
-.nav_list {
-  display: flex;
-  align-items: center;
-  gap: 10px;
 }
 
 .user_foto {

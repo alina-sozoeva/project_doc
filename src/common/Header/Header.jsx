@@ -1,8 +1,9 @@
 import { useLocation } from "react-router-dom";
 import styles from "./Header.module.scss";
 import { useEffect, useState } from "react";
-import { Typography } from "antd";
+import { Button, Flex, Typography } from "antd";
 import { pages, pathname } from "../../enums";
+import { BellOutlined } from "@ant-design/icons";
 
 export const Header = () => {
   const location = useLocation();
@@ -19,17 +20,28 @@ export const Header = () => {
 
   return (
     <header className={styles.header}>
-      <div className={`${styles.nav} container`}>
+      <Flex
+        align="center"
+        justify="space-between"
+        className={`${styles.nav} container`}
+        style={{ height: "100%" }}
+      >
         <Typography.Title level={3}>{title}</Typography.Title>
-        <div className={styles.nav_list}>
-          <img
-            src="http://docs.icloud.kg/image/avatar/28.jpg"
-            alt="user foto"
-            className={styles.user_foto}
-          />
-          <p>Name</p>
-        </div>
-      </div>
+        <Flex gap={"small"} align="center" className={styles.nav_list}>
+          <Flex vertical style={{ height: "100%" }}>
+            <Button type="primary">Уведомления</Button>
+          </Flex>
+
+          <Flex align="center" gap={"small"}>
+            <img
+              src="http://docs.icloud.kg/image/avatar/28.jpg"
+              alt="user foto"
+              className={styles.user_foto}
+            />
+            <p>Name</p>
+          </Flex>
+        </Flex>
+      </Flex>
     </header>
   );
 };

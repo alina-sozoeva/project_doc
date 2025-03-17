@@ -1,9 +1,16 @@
-import { Col, Flex, Input, Select, Table } from "antd";
-import { SearchOutlined } from "@ant-design/icons";
-import { Wrapper } from "../../common";
+import { Button, Col, Flex, Input, Select, Table } from "antd";
+import {
+  CloseCircleOutlined,
+  FilterOutlined,
+  FolderAddOutlined,
+  RedoOutlined,
+  SearchOutlined,
+} from "@ant-design/icons";
+import { FolderModal, Wrapper } from "../../common";
 import { useDocumentsColums } from "./useDocumentsColums";
 import styles from "./DocumentsPage.module.scss";
 import { pages, pathname, status } from "../../enums";
+import { useState } from "react";
 
 const items = [
   { value: "1", label: status.APPROVED },
@@ -14,9 +21,14 @@ const items = [
 ];
 
 export const DocumemtsPage = () => {
+  const [open, setOpen] = useState(false);
   const { columns } = useDocumentsColums();
   const data = JSON.parse(localStorage.getItem("folderArr"));
   const filteredStatus = localStorage.getItem("filteredStatus");
+
+  const onClose = () => {
+    setOpen(false);
+  };
 
   const statusCount = data?.reduce((acc, item) => {
     acc[item.status] = (acc[item.status] || 0) + 1;
@@ -36,35 +48,49 @@ export const DocumemtsPage = () => {
       title={pages.DOCUMENTS}
       page={true}
     >
-      <Flex gap="small">
-        <Input
-          placeholder="Поиск по инициатору"
-          prefix={<SearchOutlined />}
-          style={{
-            width: "30%",
-          }}
-        />
-        <Select
-          placeholder="Год"
-          options={items}
-          style={{
-            width: "10%",
-          }}
-        />
-        <Select
-          placeholder="Месяц"
-          options={items}
-          style={{
-            width: "10%",
-          }}
-        />
-        <Select
-          placeholder="Статус документа"
-          options={items}
-          style={{
-            width: "15%",
-          }}
-        />
+      <Flex gap="small" justify="space-between">
+        <Flex gap="small">
+          <Input
+            placeholder="Поиск по инициатору"
+            prefix={<SearchOutlined />}
+            style={{
+              width: "200px",
+            }}
+          />
+          <Select
+            placeholder="Год"
+            options={items}
+            style={{
+              width: "80px",
+            }}
+          />
+          <Select
+            placeholder="Месяц"
+            options={items}
+            style={{
+              width: "100px",
+            }}
+          />
+          <Select
+            placeholder="Статус документа"
+            options={items}
+            style={{
+              width: "150px",
+            }}
+          />
+          <Button type="primary">
+            <FilterOutlined />
+          </Button>
+          <Button type="primary">
+            <RedoOutlined />
+          </Button>
+        </Flex>
+        <Flex gap="small">
+          <Button type="primary" onClick={() => setOpen(true)}>
+            <FolderAddOutlined />
+            Добавить документ
+          </Button>
+        </Flex>
       </Flex>
 
       <Col span={24}>
@@ -77,6 +103,7 @@ export const DocumemtsPage = () => {
           scroll={{ y: 480 }}
         />
       </Col>
+      <FolderModal open={open} onCancel={onClose} />
     </Wrapper>
   );
 };

@@ -7,7 +7,7 @@ import { useMemo } from "react";
 const menuKeys = [
   {
     key: "1",
-    label: "Гавная",
+    label: "Главная",
     path: "/",
   },
   {
