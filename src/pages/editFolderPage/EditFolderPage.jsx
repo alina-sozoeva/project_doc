@@ -7,8 +7,10 @@ export const EditFolderPage = () => {
   return (
     <Wrapper
       className={styles.content}
-      path={pathname.EDIT_FOLDER}
-      title={pages.EDIT_FOLDER}
+      path={pathname.DOCUMENTS}
+      pathChildter={pathname.EDIT_FOLDER}
+      title={pages.DOCUMENTS}
+      descrip={pages.EDIT_FOLDER}
       page={true}
     >
       <EditForm />

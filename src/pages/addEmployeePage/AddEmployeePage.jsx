@@ -2,7 +2,7 @@ import { Button, Form, Input, Row, Col } from "antd";
 import { Wrapper } from "../../common";
 import { pages, pathname } from "../../enums";
 import { useNavigate } from "react-router-dom";
-import styles from './AddEmployeePage.module.scss'
+import styles from "./AddEmployeePage.module.scss";
 
 export const AddEmployeePage = () => {
   const [form] = Form.useForm();
@@ -14,8 +14,10 @@ export const AddEmployeePage = () => {
 
   return (
     <Wrapper
-      path={pathname.ADD_EMPLOYEE}
-      title={pages.ADD_EMPLOYEE}
+      path={pathname.EMPLOYEES}
+      pathChildter={pathname.ADD_EMPLOYEE}
+      title={pages.EMPLOYEES}
+      descrip={pages.ADD_EMPLOYEE}
       page={true}
       className={styles.form}
     >

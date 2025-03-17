@@ -163,7 +163,7 @@ const { columns } = useDocumentsColums();
           pagination={false}
           className={styles.table}
           bordered
-          scroll={{ y: 700 }}
+          scroll={{ y: 480 }}
         />
       </Col>
     </Wrapper>

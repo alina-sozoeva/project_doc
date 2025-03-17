@@ -28,24 +28,23 @@
   flex-direction: column;
   gap: 10px;
 }
+
 .burger {
   display: flex;
   justify-content: center;
   align-items: center;
 }
+
 .burgerButton {
   background: transparent;
   border: none;
   height: 24px;
 }
+
 .logout {
-  border: none;
   display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 0 auto;
   width: fit-content !important;
-  color: rgba(0, 0, 0, 0.88);
+  margin-left: 30px;
 }
 
 .collapsedLogout {

@@ -3,7 +3,15 @@ import styles from "./Wrapper.module.scss";
 import clsx from "clsx";
 import { Breadcrumb } from "antd";
 
-export const Wrapper = ({ children, className, path, title, descrip, page = false }) => {
+export const Wrapper = ({
+  children,
+  className,
+  path,
+  pathChildter,
+  title,
+  descrip = null,
+  page = false,
+}) => {
   return (
     <div className={styles.content}>
       {page && (
@@ -21,7 +29,11 @@ export const Wrapper = ({ children, className, path, title, descrip, page = fals
                 </>
               ),
             },
-          ]}
+            descrip !== null && {
+              href: pathChildter,
+              title: <span>{descrip}</span>,
+            },
+          ].filter(Boolean)}
         />
       )}
 
