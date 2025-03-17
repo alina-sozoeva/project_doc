@@ -4,21 +4,15 @@ import styles from "./EmployeesPage.module.scss";
 export const useEmployeesColums = () => {
   const columns = [
     {
+      title: "№",
+      dataIndex: "guid",
+      key: "guid",
+      align: "center",
+    },
+    {
       title: "ФИО",
       dataIndex: "user_name",
       key: "user_name",
-      align: "center",
-    },
-    {
-      title: "Склонение ФИО",
-      dataIndex: "title",
-      key: "title",
-      align: "center",
-    },
-    {
-      title: "Склонение ФИО KG",
-      dataIndex: "date",
-      key: "date",
       align: "center",
     },
     {
@@ -28,57 +22,21 @@ export const useEmployeesColums = () => {
       align: "center",
     },
     {
-      title: "Пароль",
-      dataIndex: "status",
-      key: "status",
-      align: "center",
-    },
-    {
       title: "Телеграмм",
-      dataIndex: "edit",
-      key: "edit",
+      dataIndex: "telegram",
+      key: "telegram",
       align: "center",
     },
     {
       title: "Email",
-      dataIndex: "edit",
-      key: "edit",
+      dataIndex: "email",
+      key: "email",
       align: "center",
     },
     {
       title: "Должность",
-      dataIndex: "edit",
-      key: "edit",
-      align: "center",
-    },
-    {
-      title: "Склонение должности",
-      dataIndex: "edit",
-      key: "edit",
-      align: "center",
-    },
-    {
-      title: "Должность KG",
-      dataIndex: "edit",
-      key: "edit",
-      align: "center",
-    },
-    {
-      title: "Склонение должности KG",
-      dataIndex: "edit",
-      key: "edit",
-      align: "center",
-    },
-    {
-      title: "Кампус",
-      dataIndex: "edit",
-      key: "edit",
-      align: "center",
-    },
-    {
-      title: "Подпись",
-      dataIndex: "edit",
-      key: "edit",
+      dataIndex: "position",
+      key: "position",
       align: "center",
     },
   ];
