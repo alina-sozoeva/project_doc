@@ -41,7 +41,7 @@ export const useDocumentsColums = () => {
       width: 100,
     },
     {
-      title: "Тема",
+      title: "Название",
       dataIndex: "title",
       key: "title",
       align: "center",

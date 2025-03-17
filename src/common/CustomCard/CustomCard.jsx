@@ -1,40 +1,55 @@
-import { Card, Flex, Typography } from "antd";
+import { Flex, Typography } from "antd";
 import styles from "./CustomCard.module.scss";
-import { FileTextOutlined } from "@ant-design/icons";
 
 export const CustomCard = ({
   title,
   count = null,
   backgroundColor,
-  filter,
+  icon,
+  onClick,
+  path
 }) => {
   return (
-    <Card style={{ backgroundColor: backgroundColor }} className={styles.card}>
-      <Flex vertical="vertical" gap="small" align="center">
+    <a href={path} >
+      <Flex
+        style={{ backgroundColor: backgroundColor }}
+        vertical
+        align="center"
+        className={styles.card}
+        onClick={onClick}
+      >
         <Typography.Title level={4}>
           {count !== null ? `${title}: ${count}` : title}
         </Typography.Title>
-        <Flex gap="small">
-          {count !== null ? (
-            <>
-              <Flex vertical="vertical" gap="small" align="center">
-                <Card>{0}</Card>
-                <Typography.Text>Новые</Typography.Text>
-              </Flex>
-
-              <Flex vertical="vertical" gap="small" align="center">
-                <Card>{0}</Card>
-                <Typography.Text>Просроченные</Typography.Text>
-              </Flex>
-            </>
-          ) : (
-            <Flex vertical="vertical" align="center" justify="space-between">
-              {/* <FileTextOutlined /> */}
-              <p>Нет данных</p>
+        {count !== null ? (
+          <Flex>
+            <Flex
+              vertical
+              gap="small"
+              align="center"
+              className={styles.card_count}
+            >
+              <div>{count}</div>
+              <Typography.Text>Новые</Typography.Text>
             </Flex>
-          )}
-        </Flex>
+
+            <Flex
+              vertical
+              gap="small"
+              align="center"
+              className={styles.card_count}
+            >
+              <div>{0}</div>
+              <Typography.Text>Просроченные</Typography.Text>
+            </Flex>
+          </Flex>
+        ) : (
+          <Flex vertical align="center" className={styles.noData}>
+            {icon}
+            <p>Нет данных</p>
+          </Flex>
+        )}
       </Flex>
-    </Card>
+    </a>
   );
 };

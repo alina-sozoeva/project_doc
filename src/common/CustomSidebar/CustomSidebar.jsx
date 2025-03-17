@@ -20,11 +20,6 @@ const menuKeys = [
     label: "Список сотрудников",
     path: "/employees",
   },
-  {
-    key: "4",
-    label: "Все папки",
-    path: "/folders",
-  },
 ];
 
 export const CustomSidebar = () => {
@@ -43,6 +38,10 @@ export const CustomSidebar = () => {
     return currentMenuItem ? currentMenuItem.key : null;
   }, [location.pathname]);
 
+  const handleMenuClick = () => {
+    localStorage.removeItem("filteredStatus");
+  };
+
   return (
     <div className={styles.sidebarWrapper}>
       <div className={styles.nav}>
@@ -55,10 +54,14 @@ export const CustomSidebar = () => {
         <Menu
           theme="light"
           mode="inline"
-          defaultSelectedKeys={selectedKey}
+          defaultSelectedKeys={[selectedKey]}
           items={menuKeys.map(({ key, label, path }) => ({
             key,
-            label: <Link to={path}>{label}</Link>,
+            label: (
+              <Link to={path} onClick={() => handleMenuClick()}>
+                {label}
+              </Link>
+            ),
           }))}
           className={styles.menu}
         />

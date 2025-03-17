@@ -1,5 +1,27 @@
-.card{
-    cursor: pointer;
-    width: 240px;
-    height: 220px;
+.card {
+  cursor: pointer;
+  width: 240px;
+  height: 220px;
+  padding: 20px;
+  border-radius: 10px;
+  gap: 30px;
+}
+
+.card_count {
+  width: 100px;
+
+  div {
+    background-color: white;
+    padding: 20px 40px;
+    border-radius: 10px;
+    border: 1px solid #f1f1f4;
+  }
+}
+
+.noData {
+  gap: 30px;
+  svg {
+    font-size: 40px;
+    font-weight: 200;
+  }
 }

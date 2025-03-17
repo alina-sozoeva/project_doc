@@ -3,19 +3,31 @@ import { SearchOutlined } from "@ant-design/icons";
 import { Wrapper } from "../../common";
 import { useDocumentsColums } from "./useDocumentsColums";
 import styles from "./DocumentsPage.module.scss";
-import { pages, pathname } from "../../enums";
-import { dataSource } from "../../data";
+import { pages, pathname, status } from "../../enums";
 
 const items = [
-  { value: "1", label: "Утверждено" },
-  { value: "2", label: "Отказано" },
-  { value: "3", label: "На обработке" },
-  { value: "4", label: "Черновик" },
-  { value: "5", label: "Доработать" },
+  { value: "1", label: status.APPROVED },
+  { value: "2", label: status.REJECTED },
+  { value: "3", label: status.IN_PROCESS },
+  { value: "4", label: status.DRAFT },
+  { value: "5", label: status.REVISION },
 ];
 
 export const DocumemtsPage = () => {
-const { columns } = useDocumentsColums();
+  const { columns } = useDocumentsColums();
+  const data = JSON.parse(localStorage.getItem("folderArr"));
+  const filteredStatus = localStorage.getItem("filteredStatus");
+
+  const statusCount = data?.reduce((acc, item) => {
+    acc[item.status] = (acc[item.status] || 0) + 1;
+    return acc;
+  }, {});
+
+  if (data) {
+    localStorage.setItem("statusCount", JSON.stringify(statusCount));
+  }
+
+  const filteredData = data?.filter((item) => item.status === filteredStatus);
 
   return (
     <Wrapper
@@ -47,13 +59,6 @@ const { columns } = useDocumentsColums();
           }}
         />
         <Select
-          placeholder="Папка"
-          options={items}
-          style={{
-            width: "10%",
-          }}
-        />
-        <Select
           placeholder="Статус документа"
           options={items}
           style={{
@@ -64,7 +69,7 @@ const { columns } = useDocumentsColums();
 
       <Col span={24}>
         <Table
-          dataSource={dataSource}
+          dataSource={filteredStatus ? filteredData : data}
           columns={columns}
           pagination={false}
           className={styles.table}
