@@ -28,7 +28,7 @@ export const useDocumentsColums = () => {
       render: (user_name, record) => (
         <div className={styles.table_user_info}>
           <img
-            src="http://docs.icloud.kg/image/avatar/28.jpg"
+            src={record.user_foto}
             alt="product"
             className={styles.cart_img}
           />
