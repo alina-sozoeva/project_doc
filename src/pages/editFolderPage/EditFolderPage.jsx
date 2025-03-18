@@ -1,3 +1,4 @@
+import { Flex } from "antd";
 import { Wrapper } from "../../common";
 import { EditForm, Itinerary } from "../../components";
 import { pages, pathname } from "../../enums";
@@ -13,8 +14,14 @@ export const EditFolderPage = () => {
       descrip={pages.EDIT_FOLDER}
       page={true}
     >
-      <EditForm />
-      <Itinerary />
+      <Flex justify="space-between">
+        <div style={{ flex: 1 }}>
+          <EditForm />
+        </div>
+        <div>
+          <Itinerary />
+        </div>
+      </Flex>
     </Wrapper>
   );
 };

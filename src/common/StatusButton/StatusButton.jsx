@@ -1,4 +1,3 @@
-import { CloseOutlined, PlusOutlined } from "@ant-design/icons";
 import styles from "./StatusButton.module.scss";
 import { Button } from "antd";
 import { status } from "../../enums";
