@@ -8,6 +8,7 @@ export const useEmployeesColums = () => {
       dataIndex: "guid",
       key: "guid",
       align: "center",
+      width: 50,
     },
     {
       title: "ФИО",

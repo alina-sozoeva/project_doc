@@ -99,11 +99,6 @@ export const EditForm = () => {
             </div>
           </div>
         </Flex>
-
-        <Flex gap="small">
-          <Input.TextArea placeholder="Тема" />
-        </Flex>
-
         <Flex vertical justify="center" align="center" gap="middle">
           <Typography.Title level={3}>Шапка документа</Typography.Title>
           <p>Партнер Нефть</p>
@@ -122,7 +117,7 @@ export const EditForm = () => {
           <Input.TextArea placeholder="Содержание" />
         </Flex>
         <Flex vertical align="center" justify="center" gap={"small"}>
-          <Typography.Title level={4}>Документы:</Typography.Title>
+          <Typography.Title level={4}>Файлы:</Typography.Title>
           {documents.map((doc, index) => (
             <div key={index}>
               <div>

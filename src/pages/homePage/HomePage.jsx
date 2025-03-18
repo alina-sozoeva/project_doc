@@ -85,7 +85,7 @@ export const HomePage = () => {
           </Button>
         </Flex>
 
-        <Flex gap="middle" align="center" wrap>
+        <Flex gap="middle" justify="center" align="center" wrap>
           {folderArr?.map((item) => (
             <CustomCard
               title={item.title}

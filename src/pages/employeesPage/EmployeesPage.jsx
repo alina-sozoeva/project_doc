@@ -37,7 +37,7 @@ export const EmployeesPage = () => {
         </Button>
       </Flex>
 
-      <Table dataSource={data} columns={columns} bordered />
+      <Table scroll={{ y: 480 }} dataSource={data} columns={columns} bordered />
       <AddEmployeeModal open={open} onCancel={onClose} />
     </Wrapper>
   );
