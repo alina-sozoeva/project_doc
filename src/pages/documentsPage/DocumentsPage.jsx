@@ -11,6 +11,7 @@ import { useDocumentsColums } from "./useDocumentsColums";
 import styles from "./DocumentsPage.module.scss";
 import { pages, pathname, status } from "../../enums";
 import { useState } from "react";
+import { dataSource } from "../../data";
 
 const items = [
   { value: "1", label: status.APPROVED },
@@ -23,23 +24,25 @@ const items = [
 export const DocumemtsPage = () => {
   const [open, setOpen] = useState(false);
   const { columns } = useDocumentsColums();
-  const data = JSON.parse(localStorage.getItem("folderArr"));
+  // const data = JSON.parse(localStorage.getItem("folderArr"));
   const filteredStatus = localStorage.getItem("filteredStatus");
 
   const onClose = () => {
     setOpen(false);
   };
 
-  const statusCount = data?.reduce((acc, item) => {
+  const statusCount = dataSource?.reduce((acc, item) => {
     acc[item.status] = (acc[item.status] || 0) + 1;
     return acc;
   }, {});
 
-  if (data) {
+  if (dataSource) {
     localStorage.setItem("statusCount", JSON.stringify(statusCount));
   }
 
-  const filteredData = data?.filter((item) => item.status === filteredStatus);
+  const filteredData = dataSource?.filter(
+    (item) => item.status === filteredStatus
+  );
 
   return (
     <Wrapper
@@ -95,7 +98,7 @@ export const DocumemtsPage = () => {
 
       <Col span={24}>
         <Table
-          dataSource={filteredStatus ? filteredData : data}
+          dataSource={filteredStatus ? filteredData : dataSource}
           columns={columns}
           pagination={false}
           className={styles.table}

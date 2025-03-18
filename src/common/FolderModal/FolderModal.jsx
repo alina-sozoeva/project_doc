@@ -1,6 +1,7 @@
-import { Button, Flex, Form, Input, Modal, Select, Typography } from "antd";
+import { Button, Flex, Form, Input, Modal, Typography, Upload } from "antd";
 import { useState, useEffect } from "react";
 import { status } from "../../enums";
+import { UploadOutlined } from "@ant-design/icons";
 
 export const FolderModal = ({ open, onCancel }) => {
   const [folderArr, setFolderArr] = useState([]);
@@ -83,9 +84,16 @@ export const FolderModal = ({ open, onCancel }) => {
           >
             <Input.TextArea placeholder="Описание папки" />
           </Form.Item>
-          <Form.Item label="Название папки" name="folder_name">
-            <Select placeholder="Статус документа" options={folderOptions} />
+          <Form.Item label="Выберите файл" name="file">
+            <Upload beforeUpload={() => false} showUploadList={false}>
+              <Button style={{ width: "350px" }} icon={<UploadOutlined />}>
+                Загрузить файл
+              </Button>
+            </Upload>
           </Form.Item>
+          {/* <Form.Item label="Название папки" name="folder_name">
+            <Select placeholder="Статус документа" options={folderOptions} />
+          </Form.Item> */}
           <Flex justify="end" gap={"small"}>
             <Button type="default" onClick={onClose}>
               Отмена

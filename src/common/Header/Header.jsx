@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { Button, Flex, Typography } from "antd";
 import { pages, pathname } from "../../enums";
 import { BellOutlined } from "@ant-design/icons";
+import foto from "../../assets/28.jpg";
 
 export const Header = () => {
   const location = useLocation();
@@ -33,11 +34,7 @@ export const Header = () => {
           </Flex>
 
           <Flex align="center" gap={"small"}>
-            <img
-              src="http://docs.icloud.kg/image/avatar/28.jpg"
-              alt="user foto"
-              className={styles.user_foto}
-            />
+            <img src={foto} alt="user foto" className={styles.user_foto} />
             <p>Name</p>
           </Flex>
         </Flex>

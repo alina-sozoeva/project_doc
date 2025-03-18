@@ -3,45 +3,46 @@ import { ItineraryCard, Wrapper } from "../../common";
 import styles from "./Itinerary.module.scss";
 import { Flex } from "antd";
 import { status } from "../../enums";
+import foto from "../../assets/icon-5359553_1280.webp";
 
 const data = [
   {
-    img: "https://cdn.pixabay.com/photo/2020/07/01/12/58/icon-5359553_1280.png",
+    img: foto,
     position: "Project Manager",
     fio: "Leon Kennady",
     date: "2025-03-15",
     status: "",
   },
   {
-    img: "https://cdn.pixabay.com/photo/2020/07/01/12/58/icon-5359553_1280.png",
+    img: foto,
     position: "Frontend Developer",
     fio: "Leon Kennady",
     date: "2025-03-18",
     status: status.APPROVED,
   },
   {
-    img: "https://cdn.pixabay.com/photo/2020/07/01/12/58/icon-5359553_1280.png",
+    img: foto,
     position: "Backend Developer",
     fio: "Leon Kennady",
     date: "2025-03-17",
     status: status.REJECTED,
   },
   {
-    img: "https://cdn.pixabay.com/photo/2020/07/01/12/58/icon-5359553_1280.png",
+    img: foto,
     position: "UI/UX Designer",
     fio: "Leon Kennady",
     date: "2025-03-16",
     status: status.IN_PROCESS,
   },
   {
-    img: "https://cdn.pixabay.com/photo/2020/07/01/12/58/icon-5359553_1280.png",
+    img: foto,
     position: "Project Manager",
     fio: "Leon Kennady",
     date: "2025-03-15",
     status: status.DRAFT,
   },
   {
-    img: "https://cdn.pixabay.com/photo/2020/07/01/12/58/icon-5359553_1280.png",
+    img: foto,
     position: "Project Manager",
     fio: "Leon Kennady",
     date: "2025-03-15",

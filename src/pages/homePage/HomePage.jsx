@@ -71,14 +71,14 @@ export const HomePage = () => {
   return (
     <Wrapper path={pathname.HOME} page={true} className={styles.home}>
       <Flex vertical gap={"small"}>
-        <Flex justify="space-between">
-          <Input
+        <Flex justify="end">
+          {/* <Input
             placeholder="Поиск"
             prefix={<SearchOutlined />}
             style={{
               width: "20%",
             }}
-          />
+          /> */}
           <Button type="primary" onClick={() => setOpen(true)}>
             <FolderAddOutlined />
             Добавить документ

@@ -3,6 +3,7 @@ import { Button, Menu, Space } from "antd";
 import styles from "./CustomSidebar.module.scss";
 import { LogoutOutlined } from "@ant-design/icons";
 import { useMemo } from "react";
+import logo from "../../assets/logo.png";
 
 const menuKeys = [
   {
@@ -47,7 +48,7 @@ export const CustomSidebar = () => {
       <div className={styles.nav}>
         <Space direction={"horizontal"} className={styles.logo} size={56}>
           <Link to="/">
-            <img src="http://docs.icloud.kg/image/logo.png" alt="logo" />
+            <img src={logo} alt="logo" />
           </Link>
         </Space>
 
