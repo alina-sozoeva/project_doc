@@ -84,13 +84,13 @@ export const AddEmployeeModal = ({ open, onCancel }) => {
             <Input />
           </Form.Item>
 
-          <Form.Item
+          {/* <Form.Item
             label="Пароль"
             name="password"
             rules={[{ required: true, message: "Введите пароль" }]}
           >
             <Input.Password />
-          </Form.Item>
+          </Form.Item> */}
           <Form.Item
             label="Телеграмм"
             name="telegram"
