@@ -26,10 +26,10 @@ export const FoldersPage = () => {
             width: "20%",
           }}
         />
-        <Button type="primary" onClick={() => setOpen(true)}>
+        {/* <Button type="primary" onClick={() => setOpen(true)}>
           <FolderAddOutlined />
           Добавить папку
-        </Button>
+        </Button> */}
       </Flex>
 
       <Flex vertical gap={"small"}>

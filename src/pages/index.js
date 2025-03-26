@@ -3,4 +3,4 @@ export * from "./employeesPage";
 export * from "./editFolderPage";
 export * from './addEmployeePage';
 export * from './documentsPage';
-export * from './foldersPage'
+export * from './foldersPage';

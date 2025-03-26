@@ -21,6 +21,11 @@ const menuKeys = [
     label: "Список сотрудников",
     path: "/employees",
   },
+  // {
+  //   key: "4",
+  //   label: "Добавить документ",
+  //   path: "/add-document",
+  // },
 ];
 
 export const CustomSidebar = () => {

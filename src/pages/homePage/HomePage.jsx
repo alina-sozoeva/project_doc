@@ -1,5 +1,10 @@
 import { Button, Flex, Input } from "antd";
-import { CustomCard, FolderModal, Wrapper } from "../../common";
+import {
+  AddCunterpartyModal,
+  CustomCard,
+  FolderModal,
+  Wrapper,
+} from "../../common";
 import { pathname, status } from "../../enums";
 import styles from "./HomePage.module.scss";
 import {
@@ -9,16 +14,22 @@ import {
   FileSyncOutlined,
   FileTextOutlined,
   FolderAddOutlined,
-  SearchOutlined,
 } from "@ant-design/icons";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export const HomePage = () => {
+  const navigate = useNavigate()
   const [open, setOpen] = useState(false);
+  const [openCunterparty, setOpenCunterparty] = useState(false);
   const statusCount = JSON.parse(localStorage.getItem("statusCount"));
 
   const onClose = () => {
     setOpen(false);
+  };
+
+  const onCloseCunterparty = () => {
+    setOpenCunterparty(false);
   };
 
   const filteredStatus = (status) => {
@@ -71,18 +82,15 @@ export const HomePage = () => {
   return (
     <Wrapper path={pathname.HOME} page={true} className={styles.home}>
       <Flex vertical gap={"small"}>
-        <Flex justify="end">
-          {/* <Input
-            placeholder="Поиск"
-            prefix={<SearchOutlined />}
-            style={{
-              width: "20%",
-            }}
-          /> */}
-          <Button type="primary" onClick={() => setOpen(true)}>
+        <Flex justify="end" gap={"small"}>
+          <Button type="primary" onClick={() => navigate("/folders")}>
             <FolderAddOutlined />
             Добавить документ
           </Button>
+          {/* <Button type="primary" onClick={() => setOpenCunterparty(true)}>
+            <FolderAddOutlined />
+            Добавить контрагента
+          </Button> */}
         </Flex>
 
         <Flex gap="middle" justify="center" align="center" wrap>
@@ -100,6 +108,10 @@ export const HomePage = () => {
       </Flex>
 
       <FolderModal open={open} onCancel={onClose} />
+      <AddCunterpartyModal
+        open={openCunterparty}
+        onCancel={onCloseCunterparty}
+      />
     </Wrapper>
   );
 };

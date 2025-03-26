@@ -101,7 +101,7 @@ export const EditForm = () => {
           </div>
         </Flex>
         <Flex vertical justify="center" align="center" gap="middle">
-          <Typography.Title level={3}>Шапка документа</Typography.Title>
+          {/* <Typography.Title level={3}>Шапка документа</Typography.Title> */}
           <p>Партнер Нефть</p>
           <img style={{ width: "200px" }} src={logo} alt="logo" />
           <p>№ Рапорта</p>

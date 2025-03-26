@@ -12,6 +12,7 @@ import styles from "./DocumentsPage.module.scss";
 import { pages, pathname, status } from "../../enums";
 import { useState } from "react";
 import { dataSource } from "../../data";
+import { useNavigate } from "react-router-dom";
 
 const items = [
   { value: "1", label: status.APPROVED },
@@ -22,6 +23,7 @@ const items = [
 ];
 
 export const DocumemtsPage = () => {
+  const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const { columns } = useDocumentsColums();
   // const data = JSON.parse(localStorage.getItem("folderArr"));
@@ -89,7 +91,7 @@ export const DocumemtsPage = () => {
           </Button>
         </Flex>
         <Flex gap="small">
-          <Button type="primary" onClick={() => setOpen(true)}>
+          <Button type="primary" onClick={() => navigate("/folders")}>
             <FolderAddOutlined />
             Добавить документ
           </Button>

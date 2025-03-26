@@ -21,5 +21,5 @@ export const pages = {
   EMPLOYEES: "Список сотрудников",
   EDIT_FOLDER: "Редактировать файл",
   ADD_EMPLOYEE: "Добавить сотрудника",
-  FOLDERS: "Все папки",
+  FOLDERS: "Добавить документ",
 };

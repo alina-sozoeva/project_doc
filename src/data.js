@@ -2,16 +2,6 @@ import foto from "../src/assets/28.jpg";
 
 export const dataSource = [
   {
-    key: "1",
-    guid: 13,
-    user_foto: foto,
-    user_name: "test",
-    title: "qwerty",
-    date: "2000-01-01",
-    folder_name: "Одобренные",
-    status: "Утверждено",
-  },
-  {
     key: "2",
     guid: 21,
     user_foto: foto,

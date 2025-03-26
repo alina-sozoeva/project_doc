@@ -9,6 +9,8 @@ export const FolderModal = ({ open, onCancel }) => {
   const [form] = Form.useForm();
   const currentDate = new Date().toISOString().split("T")[0];
 
+  console.log("wegtwergte");
+
   useEffect(() => {
     const savedFolderArr = JSON.parse(localStorage.getItem("folderArr")) || [];
     const savedLastGuid = Math.max(
