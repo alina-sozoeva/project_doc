@@ -12,7 +12,9 @@ export const pathname = {
   EMPLOYEES: "/employees",
   EDIT_FOLDER: "/edit-folder/:id/:status",
   ADD_EMPLOYEE: "/add-employee",
-  FOLDERS: "/folders",
+  ADD_DOCUMENT: "/add-document",
+  LOGIN: "/login",
+  REGISTER: "/register",
 };
 
 export const pages = {
@@ -21,5 +23,5 @@ export const pages = {
   EMPLOYEES: "Список сотрудников",
   EDIT_FOLDER: "Редактировать файл",
   ADD_EMPLOYEE: "Добавить сотрудника",
-  FOLDERS: "Добавить документ",
+  ADD_DOCUMENT: "Добавить документ",
 };

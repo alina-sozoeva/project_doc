@@ -26,25 +26,23 @@ export const DocumemtsPage = () => {
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const { columns } = useDocumentsColums();
-  // const data = JSON.parse(localStorage.getItem("folderArr"));
+  const data = JSON.parse(localStorage.getItem("folderArr"));
   const filteredStatus = localStorage.getItem("filteredStatus");
 
   const onClose = () => {
     setOpen(false);
   };
 
-  const statusCount = dataSource?.reduce((acc, item) => {
+  const statusCount = data?.reduce((acc, item) => {
     acc[item.status] = (acc[item.status] || 0) + 1;
     return acc;
   }, {});
 
-  if (dataSource) {
+  if (data) {
     localStorage.setItem("statusCount", JSON.stringify(statusCount));
   }
 
-  const filteredData = dataSource?.filter(
-    (item) => item.status === filteredStatus
-  );
+  const filteredData = data?.filter((item) => item.status === filteredStatus);
 
   return (
     <Wrapper
@@ -91,7 +89,7 @@ export const DocumemtsPage = () => {
           </Button>
         </Flex>
         <Flex gap="small">
-          <Button type="primary" onClick={() => navigate("/folders")}>
+          <Button type="primary" onClick={() => navigate("/add-document")}>
             <FolderAddOutlined />
             Добавить документ
           </Button>
@@ -100,7 +98,7 @@ export const DocumemtsPage = () => {
 
       <Col span={24}>
         <Table
-          dataSource={filteredStatus ? filteredData : dataSource}
+          dataSource={filteredStatus ? filteredData : data}
           columns={columns}
           pagination={false}
           className={styles.table}

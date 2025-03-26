@@ -1,8 +1,8 @@
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Button, Menu, Space } from "antd";
 import styles from "./CustomSidebar.module.scss";
 import { LogoutOutlined } from "@ant-design/icons";
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import logo from "../../assets/logo.png";
 
 const menuKeys = [
@@ -30,6 +30,7 @@ const menuKeys = [
 
 export const CustomSidebar = () => {
   const location = useLocation();
+  const navigate = useNavigate();
 
   const selectedKey = useMemo(() => {
     if (location.pathname.includes("edit-folder")) {
@@ -47,6 +48,19 @@ export const CustomSidebar = () => {
   const handleMenuClick = () => {
     localStorage.removeItem("filteredStatus");
   };
+
+  const logOut = () => {
+    localStorage.removeItem("userInfo");
+    navigate("/login");
+  };
+
+  useEffect(() => {
+    const userInfo = JSON.parse(localStorage.getItem("userInfo"));
+
+    if (userInfo === null) {
+      navigate("/login");
+    }
+  }, [navigate]);
 
   return (
     <div className={styles.sidebarWrapper}>
@@ -72,7 +86,11 @@ export const CustomSidebar = () => {
           className={styles.menu}
         />
       </div>
-      <Button type="primary" className={`${styles.logout}`}>
+      <Button
+        type="primary"
+        className={`${styles.logout}`}
+        onClick={() => logOut()}
+      >
         <LogoutOutlined className={styles.out} /> Выход
       </Button>
     </div>

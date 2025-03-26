@@ -7,7 +7,7 @@ import {
 } from "@ant-design/icons";
 import {
   FilterButton,
-  FolderButton,
+  DocumentButton,
   StatusButton,
   Wrapper,
 } from "../../common";
@@ -51,9 +51,10 @@ export const Filter = () => {
         </StatusButton>
       </div>
       <div className={styles.floder}>
-        <FolderButton>Папка</FolderButton>
-        <FolderButton>Папка</FolderButton> <FolderButton>Папка</FolderButton>{" "}
-        <FolderButton>Папка</FolderButton>
+        <DocumentButton>Папка</DocumentButton>
+        <DocumentButton>Папка</DocumentButton>
+        <DocumentButton>Папка</DocumentButton>
+        <DocumentButton>Папка</DocumentButton>
       </div>
       <div className={styles.new_folder}>
         <Flex gap="small" wrap>

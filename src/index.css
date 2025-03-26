@@ -39,3 +39,7 @@ li {
 .w-full {
   width: 100%;
 }
+
+.ant-modal .ant-modal-title {
+  font-size: 24px;
+}

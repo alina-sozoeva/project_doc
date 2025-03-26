@@ -1,6 +1,6 @@
 export * from "./Header";
 export * from "./FilterButton";
-export * from "./FolderButton";
+export * from "./DocumentButton";
 export * from "./StatusButton";
 export * from "./Wrapper";
 export * from "./CustomSidebar";
@@ -9,4 +9,3 @@ export * from "./FolderModal";
 export * from "./MainLayout";
 export * from "./AddEmployeeModal";
 export * from "./ItineraryCard";
-export * from "./AddCunterpartyModal";

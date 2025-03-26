@@ -1,6 +1,5 @@
 import { Button, Flex, Input } from "antd";
 import {
-  AddCunterpartyModal,
   CustomCard,
   FolderModal,
   Wrapper,
@@ -17,9 +16,10 @@ import {
 } from "@ant-design/icons";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { AddCunterpartyModal } from "../../components";
 
 export const HomePage = () => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const [openCunterparty, setOpenCunterparty] = useState(false);
   const statusCount = JSON.parse(localStorage.getItem("statusCount"));
@@ -83,7 +83,7 @@ export const HomePage = () => {
     <Wrapper path={pathname.HOME} page={true} className={styles.home}>
       <Flex vertical gap={"small"}>
         <Flex justify="end" gap={"small"}>
-          <Button type="primary" onClick={() => navigate("/folders")}>
+          <Button type="primary" onClick={() => navigate("/add-document")}>
             <FolderAddOutlined />
             Добавить документ
           </Button>

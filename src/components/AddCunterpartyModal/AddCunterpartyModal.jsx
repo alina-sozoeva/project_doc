@@ -8,20 +8,27 @@ export const AddCunterpartyModal = ({ open, onCancel }) => {
     console.log("1");
   };
 
-  console.log("ergerhgeah");
-
   return (
-    <Modal width={500} centered open={open} onCancel={onCancel} footer={false}>
+    <Modal
+      title="Добавить контрагента"
+      width={500}
+      centered
+      open={open}
+      onCancel={onCancel}
+      footer={false}
+    >
       <Form
         form={form}
         layout="vertical"
         onFinish={onFinish}
         initialValues={{ remember: true }}
+        style={{
+          maxHeight: "400px",
+          overflowY: "auto",
+          paddingRight: "10px",
+          marginTop: "20px",
+        }}
       >
-        <Flex>
-          <Typography.Title level={3}>Добавить контрагента</Typography.Title>
-        </Flex>
-
         <Flex vertical>
           <Form.Item
             label="Юридическое наименование компании"
