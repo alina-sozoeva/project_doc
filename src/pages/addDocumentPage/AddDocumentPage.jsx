@@ -1,5 +1,11 @@
 import { Button, Flex, Input } from "antd";
-import { DocumentButton, Wrapper } from "../../common";
+import {
+  AddAgreementModal,
+  AddPaymentModal,
+  CloseDocumentsModal,
+  DocumentButton,
+  Wrapper,
+} from "../../common";
 import { pages, pathname } from "../../enums";
 import styles from "./AddDocumentPage.module.scss";
 import { FolderAddOutlined, SearchOutlined } from "@ant-design/icons";
@@ -9,6 +15,9 @@ import { AddCunterpartyModal, PurchaseRequestModal } from "../../components";
 export const AddDocumentPage = () => {
   const [openCunterparty, setOpenCunterparty] = useState(false);
   const [openRequest, setOpenRequest] = useState(false);
+  const [openAgreement, setOpenAgreement] = useState(false);
+  const [openPayment, setOpenPayment] = useState(false);
+  const [openCloseDocuments, setOpenCloseDocuments] = useState(false);
 
   const onCloseCunterparty = () => {
     setOpenCunterparty(false);
@@ -16,6 +25,18 @@ export const AddDocumentPage = () => {
 
   const onCloseRequest = () => {
     setOpenRequest(false);
+  };
+
+  const onCloseAgreement = () => {
+    setOpenAgreement(false);
+  };
+
+  const onClosePayment = () => {
+    setOpenPayment(false);
+  };
+
+  const onCloseCloseDocuments = () => {
+    setOpenCloseDocuments(false);
   };
 
   return (
@@ -38,18 +59,30 @@ export const AddDocumentPage = () => {
         <DocumentButton onClick={() => setOpenCunterparty(true)}>
           Создание карточки контрагента
         </DocumentButton>
-        <DocumentButton>Согласование договора</DocumentButton>
+        <DocumentButton onClick={() => setOpenAgreement(true)}>
+          Согласование договора
+        </DocumentButton>
         <DocumentButton onClick={() => setOpenRequest(true)}>
           Формирование заявок на закуп
         </DocumentButton>
-        <DocumentButton>Формирование заявок на выплату</DocumentButton>
-        <DocumentButton>Закрытие документов</DocumentButton>
+        <DocumentButton onClick={() => setOpenPayment(true)}>
+          Формирование заявок на выплату
+        </DocumentButton>
+        <DocumentButton onClick={() => setOpenCloseDocuments(true)}>
+          Закрытие документов
+        </DocumentButton>
       </Flex>
       <AddCunterpartyModal
         open={openCunterparty}
         onCancel={onCloseCunterparty}
       />
       <PurchaseRequestModal open={openRequest} onCancel={onCloseRequest} />
+      <AddAgreementModal open={openAgreement} onCancel={onCloseAgreement} />
+      <AddPaymentModal open={openPayment} onCancel={onClosePayment} />
+      <CloseDocumentsModal
+        open={openCloseDocuments}
+        onCancel={onCloseCloseDocuments}
+      />
     </Wrapper>
   );
 };
