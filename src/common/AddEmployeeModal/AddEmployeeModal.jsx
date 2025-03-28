@@ -42,7 +42,7 @@ export const AddEmployeeModal = ({ open, onCancel }) => {
       signature: values.signature,
     };
 
-    setEmployeesArr((prevEmployees) => [...prevEmployees, newEmployee]); // Добавляем нового сотрудника в массив
+    setEmployeesArr((prevEmployees) => [...prevEmployees, newEmployee]); 
     setLastGuid((prevGuid) => prevGuid + 1);
     form.resetFields();
     navigate(pathname.EMPLOYEES);

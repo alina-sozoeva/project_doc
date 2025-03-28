@@ -5,6 +5,7 @@ import styles from "./LoginPage.module.scss";
 import { useNavigate } from "react-router-dom";
 import { StatusButton } from "../../common";
 import { status } from "../../enums";
+import logo from '../../assets/logo.png'
 
 export const LoginPage = () => {
   const [form] = Form.useForm();
@@ -54,10 +55,8 @@ export const LoginPage = () => {
         initialValues={{ remember: true }}
         className={styles.form}
       >
-        <Flex>
-          <Typography.Title level={3} style={{ zIndex: 12 }}>
-            Войти
-          </Typography.Title>
+        <Flex align="center" justify="center">
+          <img src={logo} alt=""/>
         </Flex>
         <Flex vertical>
           <Form.Item

@@ -14,11 +14,14 @@
 
 .form {
   color: black;
-  padding: 40px;
-  margin: auto 40%;
-  background-color: white; 
+  padding: 20px 40px;
+  margin: auto 35%;
+  background-color: white;
   z-index: 12;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   border-radius: 10px;
-}
 
+  img {
+    width: 250px
+  }
+}
