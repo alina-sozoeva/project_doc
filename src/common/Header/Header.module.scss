@@ -13,7 +13,14 @@
   }
 }
 
+.nav_list {
+  gap: 20px;
+  svg {
+    font-size: 26px;
+  }
+}
+
 .user_foto {
-  width: 40px;
+  width: 45px;
   border-radius: 5px;
 }

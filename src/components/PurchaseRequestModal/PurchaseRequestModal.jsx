@@ -33,7 +33,7 @@ export const PurchaseRequestModal = ({ open, onCancel }) => {
         folder_name: status.DRAFT,
         count: 12,
         date: values.end_date,
-        status: status.DRAFT,
+        status: status.IN_PROCESS,
       },
     ];
 

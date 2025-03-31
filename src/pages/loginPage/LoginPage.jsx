@@ -38,7 +38,7 @@ export const LoginPage = () => {
     };
 
     setUserInfo(user);
-    localStorage.setItem("userInfo", JSON.stringify(user));
+    localStorage.setItem("userInfo", JSON.stringify(user.email));
     form.resetFields();
     navigate("/");
   };

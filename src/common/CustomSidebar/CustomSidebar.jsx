@@ -18,7 +18,7 @@ const menuKeys = [
   },
   {
     key: "3",
-    label: "Список сотрудников",
+    label: "Структура организации",
     path: "/employees",
   },
   // {
@@ -86,13 +86,13 @@ export const CustomSidebar = () => {
           className={styles.menu}
         />
       </div>
-      <Button
+      {/* <Button
         type="primary"
         className={`${styles.logout}`}
         onClick={() => logOut()}
       >
         <LogoutOutlined className={styles.out} /> Выход
-      </Button>
+      </Button> */}
     </div>
   );
 };

@@ -1,13 +1,14 @@
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import styles from "./Header.module.scss";
 import { useEffect, useState } from "react";
 import { Button, Flex, Typography } from "antd";
 import { pages, pathname } from "../../enums";
-import { BellOutlined } from "@ant-design/icons";
+import { BellFilled, BellOutlined, LogoutOutlined } from "@ant-design/icons";
 import foto from "../../assets/28.jpg";
 
 export const Header = () => {
   const location = useLocation();
+  const navigate = useNavigate();
   const [title, setTitle] = useState("Главная");
 
   useEffect(() => {
@@ -19,6 +20,11 @@ export const Header = () => {
     }
   }, [location, title]);
 
+  const logOut = () => {
+    localStorage.removeItem("userInfo");
+    navigate("/login");
+  };
+
   return (
     <header className={styles.header}>
       <Flex
@@ -28,15 +34,19 @@ export const Header = () => {
         style={{ height: "100%" }}
       >
         <Typography.Title level={3}>{title}</Typography.Title>
-        <Flex gap={"small"} align="center" className={styles.nav_list}>
-          <Flex vertical style={{ height: "100%" }}>
-            <Button type="primary">Уведомления</Button>
-          </Flex>
+        <Flex align="center" className={styles.nav_list}>
+          <BellOutlined />
 
           <Flex align="center" gap={"small"}>
             <img src={foto} alt="user foto" className={styles.user_foto} />
-            <p>Name</p>
           </Flex>
+          {/* <Button
+            type="primary"
+            className={`${styles.logout}`}
+            onClick={() => logOut()}
+          >
+            <LogoutOutlined className={styles.out} /> Выход
+          </Button> */}
         </Flex>
       </Flex>
     </header>

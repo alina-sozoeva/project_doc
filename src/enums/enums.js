@@ -20,8 +20,13 @@ export const pathname = {
 export const pages = {
   HOME: "Главная страница",
   DOCUMENTS: "Все документы",
-  EMPLOYEES: "Список сотрудников",
+  EMPLOYEES: "Структура организации",
   EDIT_FOLDER: "Редактировать файл",
   ADD_EMPLOYEE: "Добавить сотрудника",
   ADD_DOCUMENT: "Добавить документ",
+};
+
+export const employee = {
+  DEPARTMENT: "Отдел",
+  POSITION: "Должность",
 };

@@ -12,3 +12,4 @@ export * from "./ItineraryCard";
 export * from "./AddAgreementModal";
 export * from "./AddPaymentModal";
 export * from "./CloseDocumentsModal";
+export * from "./EmployeeButton";
