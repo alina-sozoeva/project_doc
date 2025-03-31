@@ -1,11 +1,9 @@
-import { Button, Flex, Form, Input, Modal, Select, Typography } from "antd";
+import { Button, Flex, Form, Input } from "antd";
 import { useEffect, useRef, useState } from "react";
 import NET from "vanta/dist/vanta.net.min";
 import styles from "./LoginPage.module.scss";
 import { useNavigate } from "react-router-dom";
-import { StatusButton } from "../../common";
-import { status } from "../../enums";
-import logo from '../../assets/logo.png'
+import logo from "../../assets/logo.png";
 
 export const LoginPage = () => {
   const [form] = Form.useForm();
@@ -56,7 +54,7 @@ export const LoginPage = () => {
         className={styles.form}
       >
         <Flex align="center" justify="center">
-          <img src={logo} alt=""/>
+          <img src={logo} alt="" />
         </Flex>
         <Flex vertical>
           <Form.Item

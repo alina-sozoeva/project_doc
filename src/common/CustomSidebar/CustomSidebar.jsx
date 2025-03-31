@@ -33,7 +33,7 @@ export const CustomSidebar = () => {
   const navigate = useNavigate();
 
   const selectedKey = useMemo(() => {
-    if (location.pathname.includes("edit-folder")) {
+    if (location.pathname.includes("add-document")) {
       return "2";
     }
     if (location.pathname.includes("add-employee")) {
