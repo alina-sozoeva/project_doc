@@ -1,5 +1,9 @@
 import { Button, Card, Flex } from "antd";
-import { PlusOutlined, UserAddOutlined } from "@ant-design/icons";
+import {
+  AppstoreAddOutlined,
+  PlusOutlined,
+  UserAddOutlined,
+} from "@ant-design/icons";
 import { Wrapper } from "../../common";
 import { pages, pathname } from "../../enums";
 import { Tree, TreeNode } from "react-organizational-chart";
@@ -53,7 +57,7 @@ export const EmployeesPage = () => {
           {/* <TreeNode
             label={<EmployeeCard onOpen={() => setOpenEmployee(true)} />}
           /> */}
-          {/* <TreeNode
+          <TreeNode
             className={styles.wrap}
             label={
               <Button type="primary" onClick={onOpenDepartmet}>
@@ -66,12 +70,12 @@ export const EmployeesPage = () => {
               departmentArr.map((item) => (
                 <TreeNode
                   className={styles.wrap}
-                  label={<Card title={item.departmet}></Card>}
+                  label={<EmployeeCard onOpen={() => setOpenEmployee(true)} />}
                 />
               ))}
-          </TreeNode> */}
+          </TreeNode>
 
-          {/* <TreeNode
+          <TreeNode
             className={styles.wrap}
             label={
               <Button type="primary" onClick={onOpenEmployee}>
@@ -79,20 +83,20 @@ export const EmployeesPage = () => {
                 Добавить сотрудника
               </Button>
             }
-          > */}
-          {employeeArr &&
-            employeeArr.map((item) => (
-              <TreeNode
-                className={styles.wrap}
-                label={
-                  <EmployeeCard
-                    item={item}
-                    onOpen={() => setOpenEmployee(true)}
-                  />
-                }
-              />
-            ))}
-          {/* </TreeNode> */}
+          >
+            {employeeArr &&
+              employeeArr.map((item) => (
+                <TreeNode
+                  className={styles.wrap}
+                  label={
+                    <EmployeeCard
+                      item={item}
+                      onOpen={() => setOpenEmployee(true)}
+                    />
+                  }
+                />
+              ))}
+          </TreeNode>
         </Tree>
         <DepartmetModal
           open={openDepartmet}
