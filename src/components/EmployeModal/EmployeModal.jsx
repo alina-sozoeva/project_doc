@@ -1,35 +1,34 @@
 import { Button, Flex, Form, Input, Modal } from "antd";
 import { useEffect, useState } from "react";
+import { v4 as uuidv4 } from "uuid";
 
-export const EmployeModal = ({ open, onCancel }) => {
+export const EmployeModal = ({ open, onCancel, headId, add }) => {
   const [form] = Form.useForm();
-  const [employeeArr, setEmployeeArr] = useState([]);
-  const [lastGuid, setLastGuid] = useState(0);
+  const [employeesArr, setEmployeesArr] = useState(() => {
+    const savedEmployees = localStorage.getItem("employeesArr");
+    return savedEmployees ? JSON.parse(savedEmployees) : [];
+  });
+
+  console.log(headId);
 
   useEffect(() => {
-    const savedFolderArr = JSON.parse(localStorage.getItem("folderArr")) || [];
-    const savedLastGuid = Math.max(
-      ...savedFolderArr.map((item) => item.guid),
-      0
-    );
-    setEmployeeArr(savedFolderArr);
-    setLastGuid(savedLastGuid);
-  }, []);
+    localStorage.setItem("employeesArr", JSON.stringify(employeesArr));
+  }, [employeesArr]);
+
+
 
   const onFinish = (values) => {
-    const newEmployee = [
-      ...employeeArr,
-      {
-        id: lastGuid + 1,
-        fio: values.fio,
-        email: values.email,
-        position: values.position,
-        department: values.department,
-      },
-    ];
-    setEmployeeArr(newEmployee);
-    setLastGuid(lastGuid + 1);
-    localStorage.setItem("employeeArr", JSON.stringify(newEmployee));
+    const newEmployee = {
+      id: uuidv4(),
+      fio: values.fio,
+      email: values.email,
+      position: values.position,
+      department: values.department,
+      headId,
+    };
+
+    setEmployeesArr((prevEmployees) => [...prevEmployees, newEmployee]);
+    add(newEmployee);
     form.resetFields();
     onCancel();
   };

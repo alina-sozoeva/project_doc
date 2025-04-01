@@ -5,4 +5,5 @@ export * from "./addEmployeePage";
 export * from "./documentsPage";
 export * from "./addDocumentPage";
 export * from "./loginPage";
-export * from './registerPage'
+export * from "./registerPage";
+export * from "./employeesLayout";

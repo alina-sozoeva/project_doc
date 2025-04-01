@@ -11,16 +11,20 @@ export const EmployeeCard = ({ onOpen, item }) => {
           <Flex gap={"small"} justify="center">
             <Input
               style={{ width: "120px" }}
-              placeholder={item ? item.fio : "ФИО"}
+              placeholder={"ФИО"}
+              defaultValue={item ? item.fio : ""}
             />
-
             <Input
               style={{ width: "120px" }}
-              placeholder={item ? item.department : "Отдел"}
-              className={styles.imp_posit}
+              placeholder={"Отдел"}
+              defaultValue={item ? item.department : ""}
+              className={styles.imp_depart}
             />
           </Flex>
-          <Input placeholder={item ? item.position : "Должность"} />
+          <Input
+            placeholder={"Должность"}
+            defaultValue={item ? item.position : ""}
+          />
         </Flex>
         <img src={foto} alt="" className={styles.img} />
       </Flex>

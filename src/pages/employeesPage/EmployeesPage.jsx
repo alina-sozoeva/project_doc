@@ -1,44 +1,52 @@
-import { Button, Card, Flex } from "antd";
-import {
-  AppstoreAddOutlined,
-  PlusOutlined,
-  UserAddOutlined,
-} from "@ant-design/icons";
-import { Wrapper } from "../../common";
-import { pages, pathname } from "../../enums";
+import { Flex } from "antd";
 import { Tree, TreeNode } from "react-organizational-chart";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { EmployeeCard, EmployeModal } from "../../components";
 import styles from "./EmployeesPage.module.scss";
-import { DepartmetModal, EmployeeCard, EmployeModal } from "../../components";
 
 export const EmployeesPage = () => {
-  const [addEmployee, setAddEmployee] = useState(false);
-  const [openDepartmet, setOpenDepartmet] = useState(false);
   const [openEmployee, setOpenEmployee] = useState(false);
+  const [employeeId, setEmployeeId] = useState("");
+  const [employeeArr, setEmployeeArr] = useState([]);
 
-  const onOpenDepartmet = () => {
-    setOpenDepartmet(true);
-  };
+  useEffect(() => {
+    const storedData = JSON.parse(localStorage.getItem("employeesArr")) || [];
+    setEmployeeArr(storedData);
+  }, []);
 
-  const onOpenEmployee = () => {
+  const addNewEmployee = (id) => {
+    setEmployeeId(id);
     setOpenEmployee(true);
   };
 
-  const onAddEmployee = () => {
-    setAddEmployee(true);
+  const buildTree = (employees, headId = 1) => {
+    return employees
+      .filter((employee) => employee.headId === headId)
+      .map((employee) => ({
+        ...employee,
+        children: buildTree(employees, employee.id),
+      }));
   };
 
-  const departmentArr = JSON.parse(localStorage.getItem("departmetArr"));
-  const employeeArr = JSON.parse(localStorage.getItem("employeeArr"));
+  const treeData = buildTree(employeeArr, 1);
+
+  const add = (newNews) => {
+    const updatedNewsArr = [...employeeArr, newNews];
+    setEmployeeArr(updatedNewsArr);
+    localStorage.setItem("newsArr", JSON.stringify(updatedNewsArr));
+  };
 
   return (
-    <Wrapper
+    <div
       className={styles.content}
-      path={pathname.EMPLOYEES}
-      title={pages.EMPLOYEES}
-      page={true}
+      style={{
+        overflow: "auto",
+        width: "100%",
+        height: "70vh",
+        padding: "20px",
+      }}
     >
-      <Flex style={{ height: "600px" }} justify="center">
+      <Flex justify="center">
         <Tree
           lineWidth={"2px"}
           lineColor={"#454f5d"}
@@ -50,63 +58,44 @@ export const EmployeesPage = () => {
                 position: "CEO",
                 department: "Владелец",
               }}
-              onOpen={() => setOpenEmployee(true)}
+              onOpen={() => addNewEmployee(1)}
             />
           }
         >
-          {/* <TreeNode
-            label={<EmployeeCard onOpen={() => setOpenEmployee(true)} />}
-          /> */}
-          <TreeNode
-            className={styles.wrap}
-            label={
-              <Button type="primary" onClick={onOpenDepartmet}>
-                <AppstoreAddOutlined />
-                Добавить отдел
-              </Button>
-            }
-          >
-            {departmentArr &&
-              departmentArr.map((item) => (
-                <TreeNode
-                  className={styles.wrap}
-                  label={<EmployeeCard onOpen={() => setOpenEmployee(true)} />}
-                />
-              ))}
-          </TreeNode>
-
-          <TreeNode
-            className={styles.wrap}
-            label={
-              <Button type="primary" onClick={onOpenEmployee}>
-                <UserAddOutlined />
-                Добавить сотрудника
-              </Button>
-            }
-          >
-            {employeeArr &&
-              employeeArr.map((item) => (
-                <TreeNode
-                  className={styles.wrap}
-                  label={
-                    <EmployeeCard
-                      item={item}
-                      onOpen={() => setOpenEmployee(true)}
-                    />
-                  }
-                />
-              ))}
-          </TreeNode>
+          {treeData.map((item) => (
+            <TreeNodeComponent
+              key={item.id}
+              node={item}
+              addNewEmployee={addNewEmployee}
+            />
+          ))}
         </Tree>
-        <DepartmetModal
-          open={openDepartmet}
-          onCancel={() => setOpenDepartmet(false)}
-        />
         <EmployeModal
           open={openEmployee}
           onCancel={() => setOpenEmployee(false)}
+          headId={employeeId}
+          add={add}
         />
       </Flex>
-    </Wrapper>
+    </div>
+  );
+};
+
+const TreeNodeComponent = ({ node, addNewEmployee }) => {
+  return (
+    <TreeNode
+      className={styles.wrap}
+      label={
+        <EmployeeCard item={node} onOpen={() => addNewEmployee(node.id)} />
+      }
+    >
+      {node.children.map((child) => (
+        <TreeNodeComponent
+          key={child.id}
+          node={child}
+          addNewEmployee={addNewEmployee}
+        />
+      ))}
+    </TreeNode>
   );
 };
