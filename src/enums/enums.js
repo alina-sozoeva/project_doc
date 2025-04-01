@@ -28,5 +28,5 @@ export const pages = {
 
 export const employee = {
   DEPARTMENT: "Отдел",
-  POSITION: "Должность",
+  EMPLOYEE: "Сотрудник",
 };

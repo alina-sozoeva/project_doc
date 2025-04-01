@@ -1,0 +1,43 @@
+import { Button, Flex, Input } from "antd";
+import { MailOutlined, PhoneOutlined, PlusOutlined } from "@ant-design/icons";
+import styles from "./EmployeeCard.module.scss";
+import foto from "../../assets/28.jpg";
+
+export const EmployeeCard = ({ onOpen, item }) => {
+  return (
+    <Flex vertical className={styles.content}>
+      <Flex className={styles.info} align="center" gap={"large"}>
+        <Flex vertical align="center">
+          <Flex gap={"small"} justify="center">
+            <Input
+              style={{ width: "120px" }}
+              placeholder={item ? item.fio : "ФИО"}
+            />
+
+            <Input
+              style={{ width: "120px" }}
+              placeholder={item ? item.department : "Отдел"}
+              className={styles.imp_posit}
+            />
+          </Flex>
+          <Input placeholder={item ? item.position : "Должность"} />
+        </Flex>
+        <img src={foto} alt="" className={styles.img} />
+      </Flex>
+      <Flex>
+        <div
+          className={styles.contact}
+          style={{ borderRight: "1px solid #2c3443" }}
+        >
+          <MailOutlined /> Email
+        </div>
+        <div className={styles.contact}>
+          <PhoneOutlined /> Телефон
+        </div>
+      </Flex>
+      <Button className={styles.btn_add} onClick={onOpen}>
+        <PlusOutlined />
+      </Button>
+    </Flex>
+  );
+};

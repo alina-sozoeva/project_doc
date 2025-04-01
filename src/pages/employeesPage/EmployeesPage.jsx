@@ -1,76 +1,32 @@
-import { Button, Flex, Input, Table } from "antd";
-import { SearchOutlined, UserAddOutlined } from "@ant-design/icons";
-import { useEmployeesColums } from "./useEmployeesColums";
-import { AddEmployeeModal, Wrapper } from "../../common";
-import styles from "./EmployeesPage.module.scss";
-import { useNavigate } from "react-router-dom";
+import { Button, Card, Flex } from "antd";
+import { PlusOutlined, UserAddOutlined } from "@ant-design/icons";
+import { Wrapper } from "../../common";
 import { pages, pathname } from "../../enums";
-import { useCallback, useState } from "react";
-import {
-  ReactFlow,
-  MiniMap,
-  Controls,
-  Background,
-  useNodesState,
-  useEdgesState,
-  addEdge,
-} from "@xyflow/react";
-
-import "@xyflow/react/dist/style.css";
-
-const initialEdges = [
-  { id: "e1-2", source: "1", target: "2" },
-  { id: "e1-3", source: "1", target: "3" },
-];
+import { Tree, TreeNode } from "react-organizational-chart";
+import { useState } from "react";
+import styles from "./EmployeesPage.module.scss";
+import { DepartmetModal, EmployeeCard, EmployeModal } from "../../components";
 
 export const EmployeesPage = () => {
-  const [open, setOpen] = useState(false);
-  const navigate = useNavigate();
-  const { columns } = useEmployeesColums();
-  const data = JSON.parse(localStorage.getItem("employeesArr"));
+  const [addEmployee, setAddEmployee] = useState(false);
+  const [openDepartmet, setOpenDepartmet] = useState(false);
+  const [openEmployee, setOpenEmployee] = useState(false);
 
-  const onClose = () => {
-    setOpen(false);
+  const onOpenDepartmet = () => {
+    setOpenDepartmet(true);
   };
 
-  const initialNodes = [
-    { id: "1", position: { x: 500, y: 0 }, data: { label: "Владелец" } },
-    {
-      id: "2",
-      position: { x: 200, y: 100 },
-      data: {
-        label: (
-          <>
-            <Button>Добавить отдел</Button>
-          </>
-        ),
-      },
-    },
-    {
-      id: "3",
-      position: { x: 800, y: 100 },
-      data: {
-        label: (
-          <Button
-            type="primary"
-            onClick={() => setOpen(true)}
-            style={{ width: "100%" }}
-          >
-            <UserAddOutlined />
-            Добавить сотрудника
-          </Button>
-        ),
-      },
-    },
-  ];
+  const onOpenEmployee = () => {
+    setOpenEmployee(true);
+  };
 
-  const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
-  const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
+  const onAddEmployee = () => {
+    setAddEmployee(true);
+  };
 
-  const onConnect = useCallback(
-    (params) => setEdges((eds) => addEdge(params, eds)),
-    [setEdges]
-  );
+  const departmentArr = JSON.parse(localStorage.getItem("departmetArr"));
+  const employeeArr = JSON.parse(localStorage.getItem("employeeArr"));
+
   return (
     <Wrapper
       className={styles.content}
@@ -78,38 +34,75 @@ export const EmployeesPage = () => {
       title={pages.EMPLOYEES}
       page={true}
     >
-      <Flex justify="space-between" align="center">
-        <Input
-          placeholder="Поиск по ФИО"
-          prefix={<SearchOutlined />}
-          style={{
-            width: "20%",
-          }}
+      <Flex style={{ height: "600px" }} justify="center">
+        <Tree
+          lineWidth={"2px"}
+          lineColor={"#454f5d"}
+          lineBorderRadius={"10px"}
+          label={
+            <EmployeeCard
+              item={{
+                fio: "testov test testovich",
+                position: "CEO",
+                department: "Владелец",
+              }}
+              onOpen={() => setOpenEmployee(true)}
+            />
+          }
+        >
+          {/* <TreeNode
+            label={<EmployeeCard onOpen={() => setOpenEmployee(true)} />}
+          /> */}
+          {/* <TreeNode
+            className={styles.wrap}
+            label={
+              <Button type="primary" onClick={onOpenDepartmet}>
+                <AppstoreAddOutlined />
+                Добавить отдел
+              </Button>
+            }
+          >
+            {departmentArr &&
+              departmentArr.map((item) => (
+                <TreeNode
+                  className={styles.wrap}
+                  label={<Card title={item.departmet}></Card>}
+                />
+              ))}
+          </TreeNode> */}
+
+          {/* <TreeNode
+            className={styles.wrap}
+            label={
+              <Button type="primary" onClick={onOpenEmployee}>
+                <UserAddOutlined />
+                Добавить сотрудника
+              </Button>
+            }
+          > */}
+          {employeeArr &&
+            employeeArr.map((item) => (
+              <TreeNode
+                className={styles.wrap}
+                label={
+                  <EmployeeCard
+                    item={item}
+                    onOpen={() => setOpenEmployee(true)}
+                  />
+                }
+              />
+            ))}
+          {/* </TreeNode> */}
+        </Tree>
+        <DepartmetModal
+          open={openDepartmet}
+          onCancel={() => setOpenDepartmet(false)}
+        />
+        <EmployeModal
+          open={openEmployee}
+          onCancel={() => setOpenEmployee(false)}
         />
       </Flex>
-      <Flex vertical gap={"small"} align="center" justify="center">
-        {/* <Button>Владелец</Button> */}
-        {/* <Button type="primary" onClick={() => setOpen(true)}>
-          <UserAddOutlined />
-          Добавить сотрудника
-        </Button> */}
-      </Flex>
-      <Flex style={{ height: "500px" }}>
-        <ReactFlow
-          nodes={nodes}
-          edges={edges}
-          onNodesChange={onNodesChange}
-          onEdgesChange={onEdgesChange}
-          onConnect={onConnect}
-        >
-          <Controls />
-          {/* <MiniMap /> */}
-          <Background variant="dots" gap={12} size={1} />
-        </ReactFlow>
-      </Flex>
-
-      {/* <Table scroll={{ y: 480 }} dataSource={data} columns={columns} bordered /> */}
-      <AddEmployeeModal open={open} onCancel={onClose} />
     </Wrapper>
   );
 };

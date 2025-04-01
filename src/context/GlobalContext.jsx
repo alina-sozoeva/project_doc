@@ -6,5 +6,9 @@ export const IndexedDBProvider = ({ children }) => {
   const [db, setDb] = useState(null);
   const [users, setUsers] = useState([]);
 
-  return <GlobalContext.Provider value={{}}>{children}</GlobalContext.Provider>;
+  return (
+    <GlobalContext.Provider value={{ db, setDb, users, setUsers }}>
+      {children}
+    </GlobalContext.Provider>
+  );
 };

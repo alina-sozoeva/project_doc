@@ -1,0 +1,76 @@
+.content {
+  background-color: #101828;
+  border-radius: 10px;
+  color: white;
+  position: relative;
+  display: inline-block;
+}
+
+.info {
+  padding: 20px;
+
+  input {
+    background-color: transparent;
+    color: white;
+    border: none;
+
+    &::placeholder {
+      color: white;
+    }
+
+    &:hover {
+      background-color: transparent;
+      border: none;
+      box-shadow: none;
+    }
+
+    &:active {
+      background-color: transparent;
+      border: none;
+      box-shadow: none;
+    }
+
+    &:focus {
+      background-color: transparent;
+      border: none;
+      box-shadow: none;
+    }
+  }
+}
+
+.imp_posit {
+  background-color: #0a2328 !important;
+  border-radius: 20px;
+  color: #3fc374 !important;
+
+  &::placeholder {
+    color: #3fc374 !important;
+    text-align: center;
+  }
+}
+
+.img {
+  width: 45px;
+  border-radius: 50%;
+}
+
+.contact {
+  width: 100%;
+  padding: 15px;
+  border-top: 1px solid #2c3443;
+}
+
+.btn_add {
+  position: absolute;
+  width: 15px;
+  height: 15px;
+  right: -5px;
+  top: 50px;
+  padding: 0;
+  border-radius: 3px;
+
+  svg {
+    font-size: 10px;
+    padding: 0;
+  }
+}
