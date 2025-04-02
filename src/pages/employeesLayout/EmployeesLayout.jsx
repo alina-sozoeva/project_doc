@@ -6,17 +6,17 @@ export const EmployeesLayout = () => {
   const items = [
     {
       key: "1",
-      label: "Стуктура огранизации",
-      children: "Content of Tab Pane 1",
-    },
-    {
-      key: "2",
       label: "Сотрудники",
       children: (
         <div className={styles.content}>
           <EmployeesPage />
         </div>
       ),
+    },
+    {
+      key: "2",
+      label: "Стуктура огранизации",
+      children: "Content of Tab Pane 1",
     },
   ];
 

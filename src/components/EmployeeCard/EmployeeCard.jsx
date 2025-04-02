@@ -1,7 +1,7 @@
 import { Button, Flex, Input } from "antd";
 import { MailOutlined, PhoneOutlined, PlusOutlined } from "@ant-design/icons";
 import styles from "./EmployeeCard.module.scss";
-import foto from "../../assets/28.jpg";
+// import foto from "../../assets/profile.jpg";
 
 export const EmployeeCard = ({ onOpen, item }) => {
   return (
@@ -26,7 +26,7 @@ export const EmployeeCard = ({ onOpen, item }) => {
             defaultValue={item ? item.position : ""}
           />
         </Flex>
-        <img src={foto} alt="" className={styles.img} />
+        <img src={item.photo} alt="" className={styles.img} />
       </Flex>
       <Flex>
         <div

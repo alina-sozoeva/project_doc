@@ -2,6 +2,7 @@ import { Flex } from "antd";
 import { Tree, TreeNode } from "react-organizational-chart";
 import { useState, useEffect } from "react";
 import { EmployeeCard, EmployeModal } from "../../components";
+import foto from "../../assets/foto.jpg";
 import styles from "./EmployeesPage.module.scss";
 
 export const EmployeesPage = () => {
@@ -54,9 +55,10 @@ export const EmployeesPage = () => {
           label={
             <EmployeeCard
               item={{
-                fio: "testov test testovich",
+                fio: "Testov Test",
                 position: "CEO",
                 department: "Владелец",
+                photo: foto,
               }}
               onOpen={() => addNewEmployee(1)}
             />

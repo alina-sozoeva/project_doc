@@ -1,6 +1,9 @@
-import { Button, Flex, Form, Input, Modal } from "antd";
+import { Button, Flex, Form, Input, Modal, Upload } from "antd";
 import { useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
+import foto from "../../assets/foto.jpg";
+
+const { Dragger } = Upload;
 
 export const EmployeModal = ({ open, onCancel, headId, add }) => {
   const [form] = Form.useForm();
@@ -15,9 +18,20 @@ export const EmployeModal = ({ open, onCancel, headId, add }) => {
     localStorage.setItem("employeesArr", JSON.stringify(employeesArr));
   }, [employeesArr]);
 
+  const toBase64 = (file) => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = (error) => reject(error);
+    });
+  };
 
+  const onFinish = async (values) => {
+    const photo = values.photo?.fileList?.[0]?.originFileObj;
 
-  const onFinish = (values) => {
+    const base64 = photo ? await toBase64(photo) : foto;
+
     const newEmployee = {
       id: uuidv4(),
       fio: values.fio,
@@ -25,6 +39,7 @@ export const EmployeModal = ({ open, onCancel, headId, add }) => {
       position: values.position,
       department: values.department,
       headId,
+      photo: base64,
     };
 
     setEmployeesArr((prevEmployees) => [...prevEmployees, newEmployee]);
@@ -98,6 +113,30 @@ export const EmployeModal = ({ open, onCancel, headId, add }) => {
             ]}
           >
             <Input placeholder="Введите отдел" />
+          </Form.Item>
+          <Form.Item
+            initialValue={{}}
+            name="photo"
+            rules={[
+              {
+                required: true,
+                message: "Это обязательное поле для заполнения",
+              },
+            ]}
+          >
+            <Dragger
+              name="file"
+              multiple={false}
+              accept="image/*"
+              maxCount={1}
+              beforeUpload={() => false}
+            >
+              <div className="flex justify-center items-center gap-[11px] h-[88px]">
+                <p className="ant-upload-hint">
+                  Перетащите файлы, чтобы прикрепить их или выберите
+                </p>
+              </div>
+            </Dragger>
           </Form.Item>
           <Flex justify="space-between" gap={"small"}>
             <Button style={{ width: "100%" }} onClick={onClose}>
