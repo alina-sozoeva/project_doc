@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { EmployeeCard, EmployeModal } from "../../components";
 import foto from "../../assets/foto.jpg";
 import styles from "./EmployeesPage.module.scss";
+import { toast } from "react-toastify";
 
 export const EmployeesPage = () => {
   const [openEmployee, setOpenEmployee] = useState(false);

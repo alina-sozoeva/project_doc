@@ -15,6 +15,7 @@ export const pathname = {
   ADD_DOCUMENT: "/add-document",
   LOGIN: "/login",
   REGISTER: "/register",
+  PROCESSES: "/processes",
 };
 
 export const pages = {
@@ -24,6 +25,7 @@ export const pages = {
   EDIT_FOLDER: "Редактировать файл",
   ADD_EMPLOYEE: "Добавить сотрудника",
   ADD_DOCUMENT: "Добавить документ",
+  PROCESSES: "Справочник процессов",
 };
 
 export const employee = {

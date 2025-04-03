@@ -14,7 +14,7 @@ export const router = createBrowserRouter([
       { path: pathname.ADD_EMPLOYEE, element: <Pages.AddEmployeePage /> },
       { path: pathname.ADD_DOCUMENT, element: <Pages.AddDocumentPage /> },
       { path: pathname.LOGIN, element: <Pages.LoginPage /> },
-      { path: pathname.REGISTER, element: <Pages.RegisterPage /> },
+      { path: pathname.PROCESSES, element: <Pages.ProcessesPage /> },
     ],
   },
 ]);
