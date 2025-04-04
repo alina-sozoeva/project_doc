@@ -35,7 +35,6 @@ export const EmployeesPage = () => {
   const add = (newNews) => {
     const updatedNewsArr = [...employeeArr, newNews];
     setEmployeeArr(updatedNewsArr);
-    localStorage.setItem("newsArr", JSON.stringify(updatedNewsArr));
   };
 
   return (

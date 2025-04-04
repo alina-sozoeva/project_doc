@@ -40,6 +40,7 @@ export const EmployeModal = ({ open, onCancel, headId, add }) => {
       department: values.department,
       headId,
       photo: base64,
+      phone_number: values.phone_number,
     };
 
     setEmployeesArr((prevEmployees) => [...prevEmployees, newEmployee]);
@@ -89,6 +90,18 @@ export const EmployeModal = ({ open, onCancel, headId, add }) => {
             ]}
           >
             <Input placeholder="Введите email сотрудника" />
+          </Form.Item>
+          <Form.Item
+            label="Номер телефона"
+            name="phone_number"
+            rules={[
+              {
+                required: true,
+                message: "Это обязательное поле для заполнения",
+              },
+            ]}
+          >
+            <Input placeholder="Введите номер телефона" />
           </Form.Item>
           <Form.Item
             label="Должность сотрудника"
