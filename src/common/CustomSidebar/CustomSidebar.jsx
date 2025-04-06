@@ -1,48 +1,43 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { Button, Menu, Space } from "antd";
+import { Menu, Space } from "antd";
 import styles from "./CustomSidebar.module.scss";
 import { LogoutOutlined } from "@ant-design/icons";
 import { useEffect, useMemo } from "react";
 import logo from "../../assets/logo.png";
 
-const menuKeys = [
-  {
-    key: "1",
-    label: "Главная",
-    path: "/",
-  },
-  {
-    key: "2",
-    label: "Все документы",
-    path: "/documents",
-  },
-  {
-    key: "3",
-    label: "Структура организации",
-    path: "/employees",
-  },
-  {
-    key: "4",
-    label: "Справочник процессов",
-    path: "/processes",
-    children: [
-      { key: "5", label: "Option 5" },
-      { key: "6", label: "Option 6" },
-      {
-        key: "sub3",
-        label: "Submenu",
-        children: [
-          { key: "7", label: "Option 7" },
-          { key: "8", label: "Option 8" },
-        ],
-      },
-    ],
-  },
-];
-
 export const CustomSidebar = () => {
   const location = useLocation();
   const navigate = useNavigate();
+
+  const stepDataList = JSON.parse(localStorage.getItem("stepDataList")) || [];
+
+  const menuKeys = [
+    {
+      key: "1",
+      label: "Главная",
+      path: "/",
+    },
+    {
+      key: "2",
+      label: "Все документы",
+      path: "/documents",
+    },
+    {
+      key: "3",
+      label: "Структура организации",
+      path: "/employees",
+    },
+    {
+      key: "4",
+      label: "Справочник процессов",
+      path: "/processes",
+    },
+    ...stepDataList?.map((item, index) => ({
+      key: `dynamic-${index}`,
+      label: item.title,
+      path: `/processes/${item.title}`,
+    })),
+  ];
 
   const selectedKey = useMemo(() => {
     if (location.pathname.includes("add-document")) {

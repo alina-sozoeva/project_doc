@@ -1,20 +1,10 @@
-import {
-  Alert,
-  Button,
-  Divider,
-  Flex,
-  Form,
-  Input,
-  message,
-  Steps,
-  Typography,
-} from "antd";
+import { useState } from "react";
+import { Button, Divider, Flex, Form, Input, Steps, Typography } from "antd";
 import { WarningModal, Wrapper } from "../../common";
 import { pages, pathname } from "../../enums";
-import styles from "./ProcessesPage.module.scss";
-import React, { useState } from "react";
 import { toast } from "react-toastify";
 import { StepContent } from "./components";
+import styles from "./ProcessesPage.module.scss";
 
 export const ProcessesPage = () => {
   const [form] = Form.useForm();
@@ -22,30 +12,53 @@ export const ProcessesPage = () => {
   const [openSteps, setOpenSteps] = useState(false);
   const [openModal, setOpenModal] = useState(false);
   const [title, setTitle] = useState("");
+  const [stepData, setStepData] = useState({});
 
-  const stepsArr = [];
-  for (let i = 0; i < 4; i++) {
-    stepsArr.push({
+  const [steps, setSteps] = useState([
+    {
       title: "Должность/отдел",
-      content: <StepContent count={i} />,
-    });
-  }
+      content: <StepContent count={0} form={form} />,
+    },
+    {
+      title: "Должность/отдел",
+      content: <StepContent count={1} form={form} />,
+    },
+  ]);
 
-  const items = stepsArr.map((item) => ({
-    key: item.title,
+  const items = steps.map((item, index) => ({
+    key: `step${index}`,
     title: item.title,
   }));
+
+  const handleStepChange = (stepIndex, values) => {
+    setStepData((prev) => ({
+      ...prev,
+      [`step${stepIndex}`]: values,
+    }));
+  };
 
   const handleSubmit = () => {
     form
       .validateFields()
       .then(() => {
+        const values = form.getFieldsValue();
+        handleStepChange(current, values);
         setCurrent(current + 1);
       })
-
       .catch((errorInfo) => {
         console.log("Validation failed:", errorInfo);
       });
+  };
+
+  const addStep = () => {
+    const newIndex = steps.length;
+    setSteps((prevSteps) => [
+      ...prevSteps,
+      {
+        title: "Должность/отдел ",
+        content: <StepContent count={newIndex} form={form} />,
+      },
+    ]);
   };
 
   const onConfirm = () => {
@@ -54,14 +67,47 @@ export const ProcessesPage = () => {
     setOpenModal(false);
     setCurrent(0);
     setTitle("");
+    setSteps([
+      {
+        title: "Должность/отдел 1",
+        content: <StepContent count={0} form={form} />,
+      },
+      {
+        title: "Должность/отдел 1",
+        content: <StepContent count={1} form={form} />,
+      },
+    ]);
   };
 
-  const onFinish = () => {
+  const onFinish = (values) => {
+    handleStepChange(current, values);
     toast.success("Вы успешно создали процесс");
+
+    const newProcess = {
+      title,
+      steps: stepData,
+    };
+
+    const existing = JSON.parse(localStorage.getItem("stepDataList")) || [];
+    const updatedList = [...existing, newProcess];
+
+    localStorage.setItem("stepDataList", JSON.stringify(updatedList));
+
     form.resetFields();
     setOpenSteps(false);
     setCurrent(0);
     setTitle("");
+    setStepData({});
+    setSteps([
+      {
+        title: "Должность/отдел",
+        content: <StepContent count={0} form={form} />,
+      },
+      {
+        title: "Должность/отдел",
+        content: <StepContent count={1} form={form} />,
+      },
+    ]);
   };
 
   const prev = () => {
@@ -88,7 +134,9 @@ export const ProcessesPage = () => {
           </Flex>
 
           {openSteps ? (
-            <Button type="primary">Добавить участника</Button>
+            <Button type="primary" onClick={addStep}>
+              Добавить участника
+            </Button>
           ) : (
             <Button
               type="primary"
@@ -99,33 +147,23 @@ export const ProcessesPage = () => {
             </Button>
           )}
         </Flex>
+        <Divider style={{ margin: "10px 0" }} />
+
         {openSteps && (
           <>
-            <Divider style={{ margin: "10px 0" }} />
             <Steps current={current} items={items} />
-            <Form
-              form={form}
-              layout="vertical"
-              style={{ width: "100%" }}
-              onFinish={onFinish}
-            >
-              <div className={styles.contentStyle}>
-                {stepsArr[current].content}
-              </div>
+            <Form form={form} layout="vertical" onFinish={onFinish}>
+              <div>{steps[current].content}</div>
               <Flex justify="space-between">
                 <Flex gap={"small"}>
-                  {current > 0 && <Button onClick={() => prev()}>Назад</Button>}
-                  {current < stepsArr.length - 1 && (
-                    <Button type="primary" onClick={() => handleSubmit()}>
+                  {current > 0 && <Button onClick={prev}>Назад</Button>}
+                  {current < steps.length - 1 && (
+                    <Button type="primary" onClick={handleSubmit}>
                       Вперед
                     </Button>
                   )}
-                  {current === stepsArr.length - 1 && (
-                    <Button
-                      type="primary"
-                      onClick={() => message.success("Processing complete!")}
-                      htmlType="submit"
-                    >
+                  {current === steps.length - 1 && (
+                    <Button type="primary" htmlType="submit">
                       Создать
                     </Button>
                   )}

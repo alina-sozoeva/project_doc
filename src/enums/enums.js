@@ -32,3 +32,23 @@ export const employee = {
   DEPARTMENT: "Отдел",
   EMPLOYEE: "Сотрудник",
 };
+
+export const department = {
+  LEGAL: "Юридический отдел",
+  SECURITY: "Служба безопасности",
+  FINANCE: "Финансовый отдел",
+  PROCUREMENT: "Отдел закупок",
+  MANAGEMENT: "Руководство компании",
+};
+
+export const position = {
+  ALL: "Все",
+  CEO: "Генеральный директор",
+  INITIATOR: "Инициатор",
+  EXECUTOR: "Исполнитель",
+  SECURITY_EMPLOYEE: "Сотрудник",
+  ACCOUNTANT: "Бухгалтер",
+  HEAD_OF_FINANCE: "Руководитель",
+  MANAGER: "Менеджер",
+  LAWYER: "Юрист",
+};

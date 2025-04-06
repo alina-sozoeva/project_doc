@@ -57,8 +57,10 @@ export const EmployeesPage = () => {
               item={{
                 fio: "Testov Test",
                 position: "CEO",
-                department: "Владелец",
+                department: "Генеральный директор",
                 photo: foto,
+                email: "testov@gmail.com",
+                phone_number: "+(996)700-00-00-00",
               }}
               onOpen={() => addNewEmployee(1)}
             />
