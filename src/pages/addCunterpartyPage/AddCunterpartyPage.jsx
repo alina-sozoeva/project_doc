@@ -4,6 +4,7 @@ import { v4 as uuidv4 } from "uuid";
 import { useEffect, useState } from "react";
 import { Wrapper } from "../../common";
 import styles from "./AddCunterpartyPage.module.scss";
+import { employeeInfo } from "../../utils";
 
 const { Title } = Typography;
 
@@ -24,7 +25,6 @@ export const AddCunterpartyPage = () => {
       {
         guid: uuidv4(),
         user_foto: "http://docs.icloud.kg/image/avatar/28.jpg",
-        user_name: "Leon Kennady",
         title: values.name,
         description: values.comment,
         folder_name: status.DRAFT,
@@ -32,6 +32,7 @@ export const AddCunterpartyPage = () => {
         date: values.end_date,
         status: status.IN_PROCESS,
         process: pathname.CREATE_COUNTERPARTY,
+        employee: { ...employeeInfo() },
       },
     ];
 

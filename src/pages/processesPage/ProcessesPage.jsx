@@ -1,14 +1,5 @@
 import { useState } from "react";
-import {
-  Button,
-  Divider,
-  Flex,
-  Form,
-  Input,
-  Select,
-  Steps,
-  Typography,
-} from "antd";
+import { Button, Divider, Flex, Form, Select, Steps, Typography } from "antd";
 import { WarningModal, Wrapper } from "../../common";
 import { pages, pathname } from "../../enums";
 import { toast } from "react-toastify";
@@ -44,8 +35,7 @@ export const ProcessesPage = () => {
   const [openSteps, setOpenSteps] = useState(false);
   const [openModal, setOpenModal] = useState(false);
   const [title, setTitle] = useState("");
-  const [stepData, setStepData] = useState([]);
-
+  const [stepData, setStepData] = useState([]); // Изменили на массив
   const [steps, setSteps] = useState([
     {
       title: "Должность/отдел",
@@ -63,7 +53,14 @@ export const ProcessesPage = () => {
   }));
 
   const handleStepChange = (stepIndex, values) => {
-    setStepData((prev) => [...prev, values]);
+    setStepData((prev) => {
+      const newData = [...prev];
+      newData[stepIndex] = {
+        ...values, 
+        documents: [], 
+      };
+      return newData;
+    });
   };
 
   const handleSubmit = () => {
@@ -95,7 +92,6 @@ export const ProcessesPage = () => {
     setOpenSteps(false);
     setOpenModal(false);
     setCurrent(0);
-    setTitle("");
     setSteps([
       {
         title: "Должность/отдел 1",
@@ -106,6 +102,7 @@ export const ProcessesPage = () => {
         content: <StepContent count={1} form={form} />,
       },
     ]);
+    setTitle("");
   };
 
   const onFinish = (values) => {
@@ -114,7 +111,7 @@ export const ProcessesPage = () => {
 
     const newProcess = {
       title,
-      steps: stepData,
+      members: stepData, // Прямо массив
     };
 
     const existing = JSON.parse(localStorage.getItem("stepDataList")) || [];
@@ -125,8 +122,7 @@ export const ProcessesPage = () => {
     form.resetFields();
     setOpenSteps(false);
     setCurrent(0);
-    setTitle("");
-    setStepData({});
+    setStepData([]); // Очистили массив
     setSteps([
       {
         title: "Должность/отдел",
@@ -137,6 +133,7 @@ export const ProcessesPage = () => {
         content: <StepContent count={1} form={form} />,
       },
     ]);
+    setTitle("");
   };
 
   const prev = () => {
@@ -146,6 +143,7 @@ export const ProcessesPage = () => {
   const handleChange = (value) => {
     setTitle(value);
   };
+
   return (
     <Wrapper
       className={styles.content}
@@ -162,6 +160,7 @@ export const ProcessesPage = () => {
               placeholder="Выберите название процесcа"
               options={processesArr}
               onChange={handleChange}
+              value={title}
             />
           </Flex>
 

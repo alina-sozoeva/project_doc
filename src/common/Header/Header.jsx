@@ -5,6 +5,7 @@ import { Button, Flex, Typography } from "antd";
 import { pages, pathname } from "../../enums";
 import { BellFilled, BellOutlined, LogoutOutlined } from "@ant-design/icons";
 import foto from "../../assets/28.jpg";
+import { employeeInfo } from "../../utils";
 
 export const Header = () => {
   const location = useLocation();
@@ -25,6 +26,8 @@ export const Header = () => {
     navigate("/login");
   };
 
+  console.log(employeeInfo());
+
   return (
     <header className={styles.header}>
       <Flex
@@ -40,13 +43,13 @@ export const Header = () => {
           <Flex align="center" gap={"small"}>
             <img src={foto} alt="user foto" className={styles.user_foto} />
           </Flex>
-          {/* <Button
+          <Button
             type="primary"
             className={`${styles.logout}`}
             onClick={() => logOut()}
           >
             <LogoutOutlined className={styles.out} /> Выход
-          </Button> */}
+          </Button>
         </Flex>
       </Flex>
     </header>

@@ -32,7 +32,7 @@ export const router = createBrowserRouter([
         element: <Pages.AddPaymentRequestPage />,
       },
       {
-        path: "close-documents",
+        path: pathname.CLOSE_DOCUMENTS,
         element: <Pages.CloseDocumentsPage />,
       },
     ],

@@ -25,6 +25,7 @@ export const useDocumentsColums = () => {
     {
       title: "Инициатор",
       dataIndex: "user_name",
+      align: "center",
       key: "user_name",
       render: (user_name, record) => (
         <div className={styles.table_user_info}>
@@ -57,7 +58,7 @@ export const useDocumentsColums = () => {
       render: (text) => dayjs(text).format("DD.MM.YYYY"),
     },
     {
-      title: "Папка",
+      title: "Мартшрут",
       dataIndex: "folder_name",
       key: "folder_name",
       align: "center",

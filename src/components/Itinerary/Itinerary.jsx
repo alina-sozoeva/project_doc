@@ -59,9 +59,9 @@ export const Itinerary = () => {
 
   const objFilter = obj?.find((item) => item.guid === id);
 
-  const filteredData = data?.filter((item) => item.title === objFilter.process);
-
-  console.log(filteredData[0]?.steps[0].step0_position);
+  const filteredData = data?.filter(
+    (item) => item.title === objFilter?.process
+  );
 
   return (
     <Wrapper className={styles.content}>
@@ -78,7 +78,7 @@ export const Itinerary = () => {
       </Flex>
       <div className={styles.scrollContainer}>
         <Flex vertical gap={"middle"}>
-          {filteredData[0]?.steps?.map((item, index) => {
+          {filteredData[0]?.members?.map((item, index) => {
             console.log(`step${index}_position`);
 
             return (

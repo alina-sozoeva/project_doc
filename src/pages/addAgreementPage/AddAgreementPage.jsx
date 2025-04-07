@@ -15,6 +15,7 @@ import { v4 as uuidv4 } from "uuid";
 import { Wrapper } from "../../common";
 import { pages, status, pathname } from "../../enums";
 import styles from "./AddAgreementPage.module.scss";
+import { employeeInfo } from "../../utils";
 
 const { Title } = Typography;
 
@@ -42,11 +43,13 @@ export const AddAgreementPage = () => {
         approval_status: values.approval_status,
         comments: values.comments,
         status: status.DRAFT,
+        process: pathname.CREATE_AGREEMENT,
+        employee: { ...employeeInfo() },
       },
     ];
 
     setAgreementArr(newAgreementArr);
-    localStorage.setItem("agreementArr", JSON.stringify(newAgreementArr));
+    localStorage.setItem("folderArr", JSON.stringify(newAgreementArr));
     form.resetFields();
   };
 
