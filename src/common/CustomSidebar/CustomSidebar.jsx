@@ -4,6 +4,7 @@ import styles from "./CustomSidebar.module.scss";
 import { LogoutOutlined } from "@ant-design/icons";
 import { useEffect, useMemo } from "react";
 import logo from "../../assets/logo.png";
+import { processesMap } from "../../enums";
 
 export const CustomSidebar = () => {
   const location = useLocation();
@@ -34,8 +35,8 @@ export const CustomSidebar = () => {
     },
     ...stepDataList?.map((item, index) => ({
       key: `dynamic-${index}`,
-      label: item.title,
-      path: `/processes/${item.title}`,
+      label: processesMap[item.title],
+      path: `${item.title}`,
     })),
   ];
 

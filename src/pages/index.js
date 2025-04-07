@@ -8,3 +8,8 @@ export * from "./loginPage";
 export * from "./registerPage";
 export * from "./employeesLayout";
 export * from "./processesPage";
+export * from "./addCunterpartyPage";
+export * from "./addPurchaseRequestPage";
+export * from "./addAgreementPage";
+export * from "./addPaymentRequestPage";
+export * from "./closeDocumentsPage";

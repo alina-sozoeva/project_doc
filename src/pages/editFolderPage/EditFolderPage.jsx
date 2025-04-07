@@ -5,6 +5,7 @@ import { pages, pathname } from "../../enums";
 import styles from "./EditFolderPage.module.scss";
 
 export const EditFolderPage = () => {
+  
   return (
     <Wrapper
       className={styles.content}

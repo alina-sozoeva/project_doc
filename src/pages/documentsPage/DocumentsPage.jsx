@@ -88,12 +88,12 @@ export const DocumemtsPage = () => {
             <RedoOutlined />
           </Button>
         </Flex>
-        <Flex gap="small">
+        {/* <Flex gap="small">
           <Button type="primary" onClick={() => navigate("/add-document")}>
             <FolderAddOutlined />
             Добавить документ
           </Button>
-        </Flex>
+        </Flex> */}
       </Flex>
 
       <Col span={24}>

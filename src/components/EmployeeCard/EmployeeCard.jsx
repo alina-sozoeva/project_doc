@@ -1,6 +1,7 @@
 import { Button, Flex, Input, Tooltip } from "antd";
 import { MailOutlined, PhoneOutlined, PlusOutlined } from "@ant-design/icons";
 import styles from "./EmployeeCard.module.scss";
+import { departmentMap, positionMap } from "../../enums";
 // import foto from "../../assets/profile.jpg";
 
 export const EmployeeCard = ({ onOpen, item }) => {
@@ -17,13 +18,13 @@ export const EmployeeCard = ({ onOpen, item }) => {
             <Input
               style={{ width: "120px" }}
               placeholder={"Отдел"}
-              defaultValue={item ? item.department : ""}
+              defaultValue={item ? departmentMap[item.department] : ""}
               className={styles.imp_depart}
             />
           </Flex>
           <Input
             placeholder={"Должность"}
-            defaultValue={item ? item.position : ""}
+            defaultValue={item ? positionMap[item.position] : ""}
           />
         </Flex>
         <img src={item.photo} alt="" className={styles.img} />

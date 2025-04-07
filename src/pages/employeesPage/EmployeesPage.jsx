@@ -38,42 +38,36 @@ export const EmployeesPage = () => {
   };
 
   return (
-    <div
-      className={styles.content}
-      style={{
-        overflow: "auto",
-        width: "100%",
-        height: "70vh",
-        padding: "20px",
-      }}
-    >
-      <Flex justify="center">
-        <Tree
-          lineWidth={"2px"}
-          lineColor={"#454f5d"}
-          lineBorderRadius={"10px"}
-          label={
-            <EmployeeCard
-              item={{
-                fio: "Testov Test",
-                position: "CEO",
-                department: "Генеральный директор",
-                photo: foto,
-                email: "testov@gmail.com",
-                phone_number: "+(996)700-00-00-00",
-              }}
-              onOpen={() => addNewEmployee(1)}
-            />
-          }
-        >
-          {treeData.map((item) => (
-            <TreeNodeComponent
-              key={item.id}
-              node={item}
-              addNewEmployee={addNewEmployee}
-            />
-          ))}
-        </Tree>
+    <div className={styles.content}>
+      <Flex justify="center" style={{ width: "100%" }}>
+        <div style={{ minWidth: "1200px", textAlign: "center", padding: '20px' }}>
+          <Tree
+            lineWidth={"2px"}
+            lineColor={"#454f5d"}
+            lineBorderRadius={"10px"}
+            label={
+              <EmployeeCard
+                item={{
+                  fio: "Testov Test",
+                  position: 2,
+                  department: 16,
+                  photo: foto,
+                  email: "testov@gmail.com",
+                  phone_number: "+(996)700-00-00-00",
+                }}
+                onOpen={() => addNewEmployee(1)}
+              />
+            }
+          >
+            {treeData.map((item) => (
+              <TreeNodeComponent
+                key={item.id}
+                node={item}
+                addNewEmployee={addNewEmployee}
+              />
+            ))}
+          </Tree>
+        </div>
         <EmployeModal
           open={openEmployee}
           onCancel={() => setOpenEmployee(false)}

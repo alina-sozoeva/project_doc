@@ -3,6 +3,17 @@ import { departments, positions } from "../../../../constants";
 import styles from "./StepContent.module.scss";
 
 export const StepContent = ({ count }) => {
+  const employeesArr = JSON.parse(localStorage.getItem("employeesArr"));
+
+  const updateEmployeesArr = employeesArr?.map((item) => {
+    return {
+      value: item.id,
+      label: item.fio,
+    };
+  });
+
+  console.log(updateEmployeesArr);
+
   return (
     <Row gutter={16}>
       <Col span={6}>
@@ -57,7 +68,7 @@ export const StepContent = ({ count }) => {
             showSearch
             placeholder="Выберите ФИО участника процесса"
             optionFilterProp="label"
-            options={[]}
+            options={updateEmployeesArr || []}
           />
         </Form.Item>
       </Col>

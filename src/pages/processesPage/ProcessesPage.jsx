@@ -1,10 +1,42 @@
 import { useState } from "react";
-import { Button, Divider, Flex, Form, Input, Steps, Typography } from "antd";
+import {
+  Button,
+  Divider,
+  Flex,
+  Form,
+  Input,
+  Select,
+  Steps,
+  Typography,
+} from "antd";
 import { WarningModal, Wrapper } from "../../common";
 import { pages, pathname } from "../../enums";
 import { toast } from "react-toastify";
 import { StepContent } from "./components";
 import styles from "./ProcessesPage.module.scss";
+
+const processesArr = [
+  {
+    label: "Создание карточки контрагента",
+    value: "/create-counterparty",
+  },
+  {
+    label: "Согласование договора",
+    value: "/agreement",
+  },
+  {
+    label: "Формирование заявок на закуп",
+    value: "/purchase-request",
+  },
+  {
+    label: "Формирование заявок на выплату",
+    value: "/payment-request",
+  },
+  {
+    label: "Закрытие документов",
+    value: "/close-documents",
+  },
+];
 
 export const ProcessesPage = () => {
   const [form] = Form.useForm();
@@ -12,7 +44,7 @@ export const ProcessesPage = () => {
   const [openSteps, setOpenSteps] = useState(false);
   const [openModal, setOpenModal] = useState(false);
   const [title, setTitle] = useState("");
-  const [stepData, setStepData] = useState({});
+  const [stepData, setStepData] = useState([]);
 
   const [steps, setSteps] = useState([
     {
@@ -31,10 +63,7 @@ export const ProcessesPage = () => {
   }));
 
   const handleStepChange = (stepIndex, values) => {
-    setStepData((prev) => ({
-      ...prev,
-      [`step${stepIndex}`]: values,
-    }));
+    setStepData((prev) => [...prev, values]);
   };
 
   const handleSubmit = () => {
@@ -114,6 +143,9 @@ export const ProcessesPage = () => {
     setCurrent(current - 1);
   };
 
+  const handleChange = (value) => {
+    setTitle(value);
+  };
   return (
     <Wrapper
       className={styles.content}
@@ -125,11 +157,11 @@ export const ProcessesPage = () => {
         <Flex justify="space-between" align="center">
           <Flex gap={"small"} align="center">
             <Typography.Text>Название процесса:</Typography.Text>
-            <Input
-              value={title}
+            <Select
               style={{ width: "250px" }}
-              placeholder="Введите название процесcа"
-              onChange={(e) => setTitle(e.target.value)}
+              placeholder="Выберите название процесcа"
+              options={processesArr}
+              onChange={handleChange}
             />
           </Flex>
 

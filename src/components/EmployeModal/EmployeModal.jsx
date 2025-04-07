@@ -1,7 +1,8 @@
-import { Button, Flex, Form, Input, Modal, Upload } from "antd";
+import { Button, Flex, Form, Input, Modal, Select, Upload } from "antd";
 import { useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import foto from "../../assets/foto.jpg";
+import { departments, positions } from "../../constants";
 
 const { Dragger } = Upload;
 
@@ -104,18 +105,6 @@ export const EmployeModal = ({ open, onCancel, headId, add }) => {
             <Input placeholder="Введите номер телефона" />
           </Form.Item>
           <Form.Item
-            label="Должность сотрудника"
-            name="position"
-            rules={[
-              {
-                required: true,
-                message: "Это обязательное поле для заполнения",
-              },
-            ]}
-          >
-            <Input placeholder="Введите должность сотрудника" />
-          </Form.Item>
-          <Form.Item
             label="Отдел"
             name="department"
             rules={[
@@ -125,11 +114,34 @@ export const EmployeModal = ({ open, onCancel, headId, add }) => {
               },
             ]}
           >
-            <Input placeholder="Введите отдел" />
+            <Select
+              showSearch
+              placeholder="Выберите отдел"
+              optionFilterProp="label"
+              options={departments}
+            />
+          </Form.Item>
+          <Form.Item
+            label="Должность сотрудника"
+            name="position"
+            rules={[
+              {
+                required: true,
+                message: "Это обязательное поле для заполнения",
+              },
+            ]}
+          >
+            <Select
+              showSearch
+              placeholder="Выберите должность участника процесса"
+              optionFilterProp="label"
+              options={positions}
+            />
           </Form.Item>
           <Form.Item
             initialValue={{}}
             name="photo"
+            label="Фото сотрудника"
             rules={[
               {
                 required: true,

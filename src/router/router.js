@@ -15,6 +15,26 @@ export const router = createBrowserRouter([
       { path: pathname.ADD_DOCUMENT, element: <Pages.AddDocumentPage /> },
       { path: pathname.LOGIN, element: <Pages.LoginPage /> },
       { path: pathname.PROCESSES, element: <Pages.ProcessesPage /> },
+      {
+        path: pathname.CREATE_COUNTERPARTY,
+        element: <Pages.AddCunterpartyPage />,
+      },
+      {
+        path: pathname.CREATE_PURCHASE_REQUEST,
+        element: <Pages.AddPurchaseRequestPage />,
+      },
+      {
+        path: pathname.CREATE_AGREEMENT,
+        element: <Pages.AddAgreementPage />,
+      },
+      {
+        path: pathname.CREATE_PAYMENT_REQUEST,
+        element: <Pages.AddPaymentRequestPage />,
+      },
+      {
+        path: "close-documents",
+        element: <Pages.CloseDocumentsPage />,
+      },
     ],
   },
 ]);

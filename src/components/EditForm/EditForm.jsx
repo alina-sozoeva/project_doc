@@ -15,10 +15,12 @@ import styles from "./EditForm.module.scss";
 import { useState } from "react";
 import logo from "../../assets/logo.png";
 
-export const EditForm = () => {
+export const EditForm = ({ item }) => {
   const { id, status: stat } = useParams();
 
   const [documents, setDocuments] = useState([]);
+
+  const objFilter = documents?.find((item) => item.guid === id);
 
   const handleFileUpload = (event) => {
     const files = Array.from(event.target.files);
