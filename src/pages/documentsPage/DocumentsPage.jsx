@@ -27,7 +27,7 @@ export const DocumemtsPage = () => {
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const { columns } = useDocumentsColums();
-  const data = JSON.parse(localStorage.getItem("folderArr")).filter(
+  const data = JSON.parse(localStorage.getItem("folderArr"))?.filter(
     (item) => item?.employee?.email === employeeInfo()?.email
   );
   const filteredStatus = localStorage.getItem("filteredStatus");

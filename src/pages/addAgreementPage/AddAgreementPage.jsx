@@ -48,7 +48,7 @@ export const AddAgreementPage = () => {
       },
     ];
 
-    setAgreementArr(newAgreementArr);
+    setAgreementArr(...newAgreementArr);
     localStorage.setItem("folderArr", JSON.stringify(newAgreementArr));
     form.resetFields();
   };

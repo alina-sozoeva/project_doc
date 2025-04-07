@@ -74,9 +74,9 @@ export const CustomSidebar = () => {
     <div className={styles.sidebarWrapper}>
       <div className={styles.nav}>
         <Space direction={"horizontal"} className={styles.logo} size={56}>
-          <Link to="/">
+          <a href="/">
             <img src={logo} alt="logo" />
-          </Link>
+          </a>
         </Space>
 
         <Menu
@@ -86,9 +86,9 @@ export const CustomSidebar = () => {
           items={menuKeys.map(({ key, label, path }) => ({
             key,
             label: (
-              <Link to={path} onClick={() => handleMenuClick()}>
+              <a href={path} onClick={() => handleMenuClick()}>
                 {label}
-              </Link>
+              </a>
             ),
           }))}
           className={styles.menu}

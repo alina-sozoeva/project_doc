@@ -4,7 +4,7 @@ import { v4 as uuidv4 } from "uuid";
 import { useEffect, useState } from "react";
 import { Wrapper } from "../../common";
 import styles from "./AddCunterpartyPage.module.scss";
-import { employeeInfo } from "../../utils";
+import { employeeInfo, getRecipientsForStep, getStepData } from "../../utils";
 
 const { Title } = Typography;
 
@@ -18,7 +18,8 @@ export const AddCunterpartyPage = () => {
   }, []);
 
   const onFinish = (values) => {
-    console.log(values);
+    // const stepData = getStepData(members, 0);
+    // const recipients = getRecipientsForStep(stepData, allEmployees);
 
     const newFolderArr = [
       ...folderArr,
@@ -33,6 +34,7 @@ export const AddCunterpartyPage = () => {
         status: status.IN_PROCESS,
         process: pathname.CREATE_COUNTERPARTY,
         employee: { ...employeeInfo() },
+        // recipients, 
       },
     ];
 
