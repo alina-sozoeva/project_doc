@@ -12,7 +12,7 @@ export const FolderModal = ({ open, onCancel }) => {
   useEffect(() => {
     const savedFolderArr = JSON.parse(localStorage.getItem("folderArr")) || [];
     const savedLastGuid = Math.max(
-      ...savedFolderArr.map((item) => item.guid),
+      ...savedFolderArr?.map((item) => item.guid),
       0
     );
     setFolderArr(savedFolderArr);

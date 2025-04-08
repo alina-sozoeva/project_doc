@@ -1,9 +1,20 @@
-import { Button, Col, DatePicker, Flex, Form, Input, Row, Select, Typography } from "antd";
+import {
+  Button,
+  Col,
+  DatePicker,
+  Flex,
+  Form,
+  Input,
+  Row,
+  Select,
+  Typography,
+} from "antd";
 import { useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { Wrapper } from "../../common";
 import { status, pages, pathname } from "../../enums";
 import styles from "./AddPurchaseRequestPage.module.scss";
+import { employeeInfo } from "../../utils";
 
 const { Title } = Typography;
 
@@ -22,13 +33,17 @@ export const AddPurchaseRequestPage = () => {
       {
         guid: uuidv4(),
         user_foto: "http://docs.icloud.kg/image/avatar/28.jpg",
-        user_name: "Leon Kennady",
-        title: values.name,
+        user_name: employeeInfo().fio,
+        doc_name: values.title,
+        name: values.name,
+        title: pages.CREATE_PURCHASE_REQUEST,
+        process: pathname.CREATE_PURCHASE_REQUEST,
         description: values.comment,
-        folder_name: status.DRAFT,
+        folder_name: status.IN_PROCESS,
         count: 12,
         date: values.end_date,
         status: status.IN_PROCESS,
+        employee: { ...employeeInfo() },
       },
     ];
 
@@ -53,6 +68,18 @@ export const AddPurchaseRequestPage = () => {
         <Row gutter={24}>
           <Col span={12}>
             <Form.Item
+              label="Название документа"
+              name="title"
+              rules={[
+                {
+                  required: true,
+                  message: "Это обязательное поле для заполнения",
+                },
+              ]}
+            >
+              <Input type="text" placeholder="Введите название документа " />
+            </Form.Item>
+            <Form.Item
               label="Наименование запускаемого процесса"
               name="name"
               rules={[{ required: true, message: "Это обязательное поле" }]}
@@ -75,7 +102,9 @@ export const AddPurchaseRequestPage = () => {
             >
               <Input placeholder="Введите контрагента" />
             </Form.Item>
+          </Col>
 
+          <Col span={12}>
             <Form.Item
               label="Сумма заявки"
               name="application_amount"
@@ -83,15 +112,15 @@ export const AddPurchaseRequestPage = () => {
             >
               <Input type="number" placeholder="Введите сумму" />
             </Form.Item>
-          </Col>
-
-          <Col span={12}>
             <Form.Item
               label="Крайний срок проведения"
               name="end_date"
               rules={[{ required: true, message: "Это обязательное поле" }]}
             >
-              <DatePicker style={{ width: "100%" }} placeholder="Выберите дату" />
+              <DatePicker
+                style={{ width: "100%" }}
+                placeholder="Выберите дату"
+              />
             </Form.Item>
 
             <Form.Item

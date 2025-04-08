@@ -22,6 +22,7 @@ export const Header = () => {
   }, [location, title]);
 
   const logOut = () => {
+    localStorage.removeItem("statusCount");
     localStorage.removeItem("userInfo");
     navigate("/login");
   };

@@ -1,17 +1,48 @@
-import { Button, Col, DatePicker, Flex, Form, Input, Row, Select, Typography } from "antd";
-import { useState } from "react";
+import { Button, Col, DatePicker, Flex, Form, Input, Row, Select } from "antd";
+import { useEffect, useState } from "react";
 import { Wrapper } from "../../common";
 import { status, pages, pathname } from "../../enums";
 import styles from "./AddPaymentRequestPage.module.scss";
-
-const { Title } = Typography;
+import { employeeInfo } from "../../utils";
+import { v4 as uuidv4 } from "uuid";
 
 export const AddPaymentRequestPage = () => {
   const [form] = Form.useForm();
+  const [folderArr, setFolderArr] = useState([]);
+
+  useEffect(() => {
+    const savedFolderArr = JSON.parse(localStorage.getItem("folderArr")) || [];
+    setFolderArr(savedFolderArr);
+  }, []);
 
   const onFinish = (values) => {
-    console.log('Заявка на выплату:', values);
-    // Здесь можно добавить логику для отправки заявки, например, в API
+    const newFolderArr = [
+      ...folderArr,
+      {
+        guid: uuidv4(),
+        user_foto: "http://docs.icloud.kg/image/avatar/28.jpg",
+        user_name: employeeInfo().fio,
+        title: pages.CREATE_PAYMENT_REQUEST,
+        doc_name: values.title,
+        process: pathname.CREATE_PAYMENT_REQUEST,
+        request_name: values.request_name,
+        request_basis: values.request_basis,
+        counterparty: values.counterparty,
+        amount: values.amount,
+        payment_date: values.payment_date,
+        budget_item: values.budget_item,
+        comments: values.comments,
+        folder_name: status.IN_PROCESS,
+        count: 12,
+        date: values.payment_date,
+        status: status.IN_PROCESS,
+        employee: { ...employeeInfo() },
+      },
+    ];
+
+    setFolderArr(newFolderArr);
+    localStorage.setItem("folderArr", JSON.stringify(newFolderArr));
+    form.resetFields();
   };
 
   return (
@@ -29,6 +60,18 @@ export const AddPaymentRequestPage = () => {
       >
         <Row gutter={24}>
           <Col span={12}>
+            <Form.Item
+              label="Название документа"
+              name="title"
+              rules={[
+                {
+                  required: true,
+                  message: "Это обязательное поле для заполнения",
+                },
+              ]}
+            >
+              <Input type="text" placeholder="Введите название документа " />
+            </Form.Item>
             <Form.Item
               label="Наименование заявки"
               name="request_name"
@@ -64,7 +107,9 @@ export const AddPaymentRequestPage = () => {
                 ]}
               />
             </Form.Item>
+          </Col>
 
+          <Col span={12}>
             <Form.Item
               label="Сумма заявки"
               name="amount"
@@ -72,15 +117,15 @@ export const AddPaymentRequestPage = () => {
             >
               <Input type="number" placeholder="Введите сумму" />
             </Form.Item>
-          </Col>
-
-          <Col span={12}>
             <Form.Item
               label="Срок оплаты"
               name="payment_date"
               rules={[{ required: true, message: "Это обязательное поле" }]}
             >
-              <DatePicker style={{ width: "100%" }} placeholder="Выберите дату" />
+              <DatePicker
+                style={{ width: "100%" }}
+                placeholder="Выберите дату"
+              />
             </Form.Item>
 
             <Form.Item

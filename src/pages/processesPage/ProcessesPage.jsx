@@ -5,6 +5,7 @@ import { pages, pathname } from "../../enums";
 import { toast } from "react-toastify";
 import { StepContent } from "./components";
 import styles from "./ProcessesPage.module.scss";
+import { folderArr, stepDataList } from "../../utils";
 
 const processesArr = [
   {
@@ -35,7 +36,7 @@ export const ProcessesPage = () => {
   const [openSteps, setOpenSteps] = useState(false);
   const [openModal, setOpenModal] = useState(false);
   const [title, setTitle] = useState("");
-  const [stepData, setStepData] = useState([]); // Изменили на массив
+  const [stepData, setStepData] = useState([]);
   const [steps, setSteps] = useState([
     {
       title: "Должность/отдел",
@@ -47,7 +48,15 @@ export const ProcessesPage = () => {
     },
   ]);
 
-  const items = steps.map((item, index) => ({
+  const usedTitles = stepDataList?.map((item) => item.title);
+
+  const filteredProcessesArr = processesArr?.filter(
+    (item) => !usedTitles?.includes(item.value)
+  );
+
+  console.log(filteredProcessesArr);
+
+  const items = steps?.map((item, index) => ({
     key: `step${index}`,
     title: item.title,
   }));
@@ -56,8 +65,8 @@ export const ProcessesPage = () => {
     setStepData((prev) => {
       const newData = [...prev];
       newData[stepIndex] = {
-        ...values, 
-        documents: [], 
+        ...values,
+        documents: [],
       };
       return newData;
     });
@@ -111,7 +120,7 @@ export const ProcessesPage = () => {
 
     const newProcess = {
       title,
-      members: stepData, // Прямо массив
+      members: stepData,
     };
 
     const existing = JSON.parse(localStorage.getItem("stepDataList")) || [];
@@ -122,7 +131,7 @@ export const ProcessesPage = () => {
     form.resetFields();
     setOpenSteps(false);
     setCurrent(0);
-    setStepData([]); // Очистили массив
+    setStepData([]);
     setSteps([
       {
         title: "Должность/отдел",
@@ -155,13 +164,19 @@ export const ProcessesPage = () => {
         <Flex justify="space-between" align="center">
           <Flex gap={"small"} align="center">
             <Typography.Text>Название процесса:</Typography.Text>
-            <Select
-              style={{ width: "250px" }}
-              placeholder="Выберите название процесcа"
-              options={processesArr}
-              onChange={handleChange}
-              value={title}
-            />
+            {filteredProcessesArr.length === 0 ? (
+              <Typography.Text type="secondary">
+                Все процессы созданы
+              </Typography.Text>
+            ) : (
+              <Select
+                style={{ width: "250px" }}
+                placeholder="Выберите название процесcа"
+                options={filteredProcessesArr}
+                onChange={handleChange}
+                value={title}
+              />
+            )}
           </Flex>
 
           {openSteps ? (

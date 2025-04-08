@@ -1,9 +1,5 @@
 import { Button, Flex, Input } from "antd";
-import {
-  CustomCard,
-  FolderModal,
-  Wrapper,
-} from "../../common";
+import { CustomCard, FolderModal, Wrapper } from "../../common";
 import { pathname, status } from "../../enums";
 import styles from "./HomePage.module.scss";
 import {
@@ -17,13 +13,12 @@ import {
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { AddCunterpartyModal } from "../../components";
+import { employeeInfo } from "../../utils";
 
 export const HomePage = () => {
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const [openCunterparty, setOpenCunterparty] = useState(false);
-  const statusCount = JSON.parse(localStorage.getItem("statusCount"));
-
   const onClose = () => {
     setOpen(false);
   };
@@ -31,6 +26,19 @@ export const HomePage = () => {
   const onCloseCunterparty = () => {
     setOpenCunterparty(false);
   };
+
+  const data = JSON.parse(localStorage.getItem("folderArr"))?.filter(
+    (item) => item?.employee?.email === employeeInfo()?.email
+  );
+
+  const statusCount = data?.reduce((acc, item) => {
+    acc[item.status] = (acc[item.status] || 0) + 1;
+    return acc;
+  }, {});
+
+  if (data) {
+    localStorage.setItem("statusCount", JSON.stringify(statusCount));
+  }
 
   const filteredStatus = (status) => {
     localStorage.setItem("filteredStatus", status);

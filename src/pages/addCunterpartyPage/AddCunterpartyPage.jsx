@@ -1,12 +1,16 @@
-import { Button, Col, Flex, Form, Input, Row, Select, Typography } from "antd";
+import { Button, Col, Flex, Form, Input, Row, Select } from "antd";
 import { pages, pathname, status } from "../../enums";
 import { v4 as uuidv4 } from "uuid";
 import { useEffect, useState } from "react";
 import { Wrapper } from "../../common";
 import styles from "./AddCunterpartyPage.module.scss";
-import { employeeInfo, getRecipientsForStep, getStepData } from "../../utils";
-
-const { Title } = Typography;
+import {
+  employeeInfo,
+  employeesArr,
+  getRecipientsForStep,
+  getStepData,
+  stepDataList,
+} from "../../utils";
 
 export const AddCunterpartyPage = () => {
   const [form] = Form.useForm();
@@ -18,23 +22,26 @@ export const AddCunterpartyPage = () => {
   }, []);
 
   const onFinish = (values) => {
-    // const stepData = getStepData(members, 0);
-    // const recipients = getRecipientsForStep(stepData, allEmployees);
+    // const stepData = getStepData(stepDataList.members, 0);
+    // const recipients = getRecipientsForStep(stepData, employeesArr);
 
     const newFolderArr = [
       ...folderArr,
       {
         guid: uuidv4(),
         user_foto: "http://docs.icloud.kg/image/avatar/28.jpg",
-        title: values.name,
+        user_name: employeeInfo().fio,
+        name: values.name,
+        doc_name: values.title,
+        title: pages.CREATE_COUNTERPARTY,
         description: values.comment,
-        folder_name: status.DRAFT,
+        folder_name: status.IN_PROCESS,
         count: 12,
         date: values.end_date,
         status: status.IN_PROCESS,
         process: pathname.CREATE_COUNTERPARTY,
         employee: { ...employeeInfo() },
-        // recipients, 
+        // recipients,
       },
     ];
 
@@ -50,7 +57,6 @@ export const AddCunterpartyPage = () => {
       title={pages.CREATE_COUNTERPARTY}
       page={true}
     >
-      {" "}
       <Form
         form={form}
         layout="vertical"
@@ -59,6 +65,18 @@ export const AddCunterpartyPage = () => {
       >
         <Row gutter={24}>
           <Col span={12}>
+            <Form.Item
+              label="Название документа"
+              name="title"
+              rules={[
+                {
+                  required: true,
+                  message: "Это обязательное поле для заполнения",
+                },
+              ]}
+            >
+              <Input type="text" placeholder="Введите название документа " />
+            </Form.Item>
             <Form.Item
               label="Юридическое наименование компании"
               name="company_name"
@@ -83,7 +101,9 @@ export const AddCunterpartyPage = () => {
             <Form.Item label="Фактический адрес" name="actual_address">
               <Input placeholder="Введите фактический адрес" />
             </Form.Item>
+          </Col>
 
+          <Col span={12}>
             <Form.Item
               label="Контактное лицо"
               name="contact_person"
@@ -96,9 +116,6 @@ export const AddCunterpartyPage = () => {
             >
               <Input placeholder="Введите ФИО контактного лица" />
             </Form.Item>
-          </Col>
-
-          <Col span={12}>
             <Form.Item
               label="Номер телефона"
               name="phone"

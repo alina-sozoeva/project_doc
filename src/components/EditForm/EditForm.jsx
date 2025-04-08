@@ -117,7 +117,7 @@ export const EditForm = ({ item }) => {
         </Flex>
         <Flex vertical align="center" justify="center" gap={"small"}>
           <Typography.Title level={4}>Файлы:</Typography.Title>
-          {documents.map((doc, index) => (
+          {documents?.map((doc, index) => (
             <div key={index}>
               <div>
                 <p>{doc.name}</p>

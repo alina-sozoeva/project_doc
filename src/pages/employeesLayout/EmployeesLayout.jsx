@@ -13,11 +13,11 @@ export const EmployeesLayout = () => {
         </div>
       ),
     },
-    {
-      key: "2",
-      label: "Стуктура огранизации",
-      children: "Content of Tab Pane 1",
-    },
+    // {
+    //   key: "2",
+    //   label: "Стуктура огранизации",
+    //   children: "Content of Tab Pane 1",
+    // },
   ];
 
   const onChange = (key) => {

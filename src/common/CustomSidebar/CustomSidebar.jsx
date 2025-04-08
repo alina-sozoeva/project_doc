@@ -5,6 +5,7 @@ import { LogoutOutlined } from "@ant-design/icons";
 import { useEffect, useMemo } from "react";
 import logo from "../../assets/logo.png";
 import { processesMap } from "../../enums";
+import { employeeInfo } from "../../utils";
 
 export const CustomSidebar = () => {
   const location = useLocation();
@@ -12,7 +13,7 @@ export const CustomSidebar = () => {
 
   const stepDataList = JSON.parse(localStorage.getItem("stepDataList")) || [];
 
-  const menuKeys = [
+  const baseMenu = [
     {
       key: "1",
       label: "Главная",
@@ -23,22 +24,35 @@ export const CustomSidebar = () => {
       label: "Все документы",
       path: "/documents",
     },
-    {
-      key: "3",
-      label: "Структура организации",
-      path: "/employees",
-    },
-    {
-      key: "4",
-      label: "Справочник процессов",
-      path: "/processes",
-    },
-    ...stepDataList?.map((item, index) => ({
-      key: `dynamic-${index}`,
-      label: processesMap[item.title],
-      path: `${item.title}`,
-    })),
   ];
+
+  console.log(
+    JSON.parse(localStorage.getItem("userInfo")) === "admin@gmail.com"
+  );
+
+  const adminOnlyMenu =
+  JSON.parse(localStorage.getItem("userInfo")) === "admin@gmail.com"
+      ? [
+          {
+            key: "3",
+            label: "Структура организации",
+            path: "/employees",
+          },
+          {
+            key: "4",
+            label: "Справочник процессов",
+            path: "/processes",
+          },
+        ]
+      : [];
+
+  const dynamicMenu = stepDataList?.map((item, index) => ({
+    key: `dynamic-${index}`,
+    label: processesMap[item.title] || item.title,
+    path: `${item.title}`,
+  }));
+
+  const menuKeys = [...baseMenu, ...adminOnlyMenu, ...dynamicMenu];
 
   const selectedKey = useMemo(() => {
     if (location.pathname.includes("add-document")) {

@@ -36,7 +36,7 @@ export const useDocumentsColums = () => {
           />
           <div>
             <h2>{user_name}</h2>
-            <p>{record.title}</p>
+            <p>{record.doc_name}</p>
           </div>
         </div>
       ),
