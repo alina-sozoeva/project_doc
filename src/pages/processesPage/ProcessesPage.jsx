@@ -3,9 +3,9 @@ import { Button, Divider, Flex, Form, Select, Steps, Typography } from "antd";
 import { WarningModal, Wrapper } from "../../common";
 import { pages, pathname } from "../../enums";
 import { toast } from "react-toastify";
-import { StepContent } from "./components";
+import { stepDataList } from "../../utils";
 import styles from "./ProcessesPage.module.scss";
-import { folderArr, stepDataList } from "../../utils";
+import { StepContent } from "../../components";
 
 const processesArr = [
   {

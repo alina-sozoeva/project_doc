@@ -1,5 +1,5 @@
 import { Form, Input, Select, Row, Col } from "antd";
-import { departments, positions } from "../../../../constants";
+import { departments, positions } from "../../constants";
 import styles from "./StepContent.module.scss";
 
 export const StepContent = ({ count }) => {

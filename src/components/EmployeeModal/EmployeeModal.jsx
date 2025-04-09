@@ -6,7 +6,7 @@ import { departments, positions } from "../../constants";
 
 const { Dragger } = Upload;
 
-export const EmployeModal = ({ open, onCancel, headId, add }) => {
+export const EmployeeModal = ({ open, onCancel, headId, add }) => {
   const [form] = Form.useForm();
   const [employeesArr, setEmployeesArr] = useState(() => {
     const savedEmployees = localStorage.getItem("employeesArr");

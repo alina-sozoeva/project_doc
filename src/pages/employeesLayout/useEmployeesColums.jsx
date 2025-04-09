@@ -1,6 +1,3 @@
-import { CaretDownOutlined } from "@ant-design/icons";
-import styles from "./EmployeesPage.module.scss";
-
 export const useEmployeesColums = () => {
   const columns = [
     {

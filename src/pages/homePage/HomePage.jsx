@@ -12,20 +12,16 @@ import {
 } from "@ant-design/icons";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { AddCunterpartyModal } from "../../components";
 import { employeeInfo } from "../../utils";
 
 export const HomePage = () => {
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
-  const [openCunterparty, setOpenCunterparty] = useState(false);
   const onClose = () => {
     setOpen(false);
   };
 
-  const onCloseCunterparty = () => {
-    setOpenCunterparty(false);
-  };
+
 
   const data = JSON.parse(localStorage.getItem("folderArr"))?.filter(
     (item) => item?.employee?.email === employeeInfo()?.email
@@ -91,13 +87,9 @@ export const HomePage = () => {
     <Wrapper path={pathname.HOME} page={true} className={styles.home}>
       <Flex vertical gap={"small"}>
         <Flex justify="end" gap={"small"}>
-          <Button type="primary" onClick={() => navigate("/add-document")}>
+          {/* <Button type="primary" onClick={() => navigate("/add-document")}>
             <FolderAddOutlined />
             Добавить документ
-          </Button>
-          {/* <Button type="primary" onClick={() => setOpenCunterparty(true)}>
-            <FolderAddOutlined />
-            Добавить контрагента
           </Button> */}
         </Flex>
 
@@ -116,10 +108,6 @@ export const HomePage = () => {
       </Flex>
 
       <FolderModal open={open} onCancel={onClose} />
-      <AddCunterpartyModal
-        open={openCunterparty}
-        onCancel={onCloseCunterparty}
-      />
     </Wrapper>
   );
 };

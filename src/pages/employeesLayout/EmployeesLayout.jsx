@@ -1,6 +1,6 @@
 import { Tabs } from "antd";
-import { EmployeesPage } from "../employeesPage/EmployeesPage";
 import styles from "./EmployeesLayout.module.scss";
+import { EmployeesPage } from "./EmployeesPage";
 
 export const EmployeesLayout = () => {
   const items = [
@@ -30,7 +30,7 @@ export const EmployeesLayout = () => {
         defaultActiveKey="1"
         items={items}
         onChange={onChange}
-        className={styles.content}
+        className={styles.layout}
       />
     </>
   );

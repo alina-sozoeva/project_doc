@@ -1,10 +1,9 @@
 import { Flex } from "antd";
 import { Tree, TreeNode } from "react-organizational-chart";
 import { useState, useEffect } from "react";
-import { EmployeeCard, EmployeModal } from "../../components";
+import { EmployeeCard, EmployeeModal } from "../../components";
 import foto from "../../assets/foto.jpg";
-import styles from "./EmployeesPage.module.scss";
-import { toast } from "react-toastify";
+import styles from "./EmployeesLayout.module.scss";
 
 export const EmployeesPage = () => {
   const [openEmployee, setOpenEmployee] = useState(false);
@@ -40,7 +39,9 @@ export const EmployeesPage = () => {
   return (
     <div className={styles.content}>
       <Flex justify="center" style={{ width: "100%" }}>
-        <div style={{ minWidth: "1200px", textAlign: "center", padding: '20px' }}>
+        <div
+          style={{ minWidth: "1200px", textAlign: "center", padding: "20px" }}
+        >
           <Tree
             lineWidth={"2px"}
             lineColor={"#454f5d"}
@@ -68,7 +69,7 @@ export const EmployeesPage = () => {
             ))}
           </Tree>
         </div>
-        <EmployeModal
+        <EmployeeModal
           open={openEmployee}
           onCancel={() => setOpenEmployee(false)}
           headId={employeeId}
