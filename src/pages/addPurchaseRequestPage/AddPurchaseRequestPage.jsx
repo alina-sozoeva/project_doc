@@ -6,11 +6,16 @@ import { status, pages, pathname } from "../../enums";
 import { employeeInfo, getFolderArr } from "../../utils";
 import styles from "./AddPurchaseRequestPage.module.scss";
 import { toast } from "react-toastify";
+import { useDispatch, useSelector } from "react-redux";
+import { addToNotifications } from "../../store";
 
 export const AddPurchaseRequestPage = () => {
+  const dispatch = useDispatch();
   const [form] = Form.useForm();
   const [folderArr, setFolderArr] = useState([]);
   const [statusFolder, setStatusFolder] = useState(status.IN_PROCESS);
+
+  const notifications = useSelector((state) => state.notifications.notifArr);
 
   useEffect(() => {
     const savedFolderArr = getFolderArr() || [];
@@ -18,16 +23,12 @@ export const AddPurchaseRequestPage = () => {
   }, []);
 
   const onFinish = (values) => {
-    if (statusFolder === status.DRAFT) {
-      toast.info("Ваш документ успешно добавлен в черновики");
-    } else {
-      toast.success("Ваш документ успешно отправлен на проверку");
-    }
+    const newGuid = uuidv4();
 
     const newFolderArr = [
       ...folderArr,
       {
-        guid: uuidv4(),
+        guid: newGuid,
         user_foto: "http://docs.icloud.kg/image/avatar/28.jpg",
         user_name: employeeInfo().fio,
         doc_name: values.title,
@@ -43,8 +44,27 @@ export const AddPurchaseRequestPage = () => {
       },
     ];
 
+    dispatch(
+      addToNotifications([
+        {
+          id: uuidv4(),
+          user_id: employeeInfo().id,
+          doc_id: newGuid,
+          process: pathname.CREATE_PURCHASE_REQUEST,
+          status: false,
+          comment: "",
+          folder_status: statusFolder,
+        },
+      ])
+    );
     setFolderArr(newFolderArr);
     localStorage.setItem("folderArr", JSON.stringify(newFolderArr));
+
+    if (statusFolder === status.DRAFT) {
+      toast.info("Ваш документ успешно добавлен в черновики");
+    } else {
+      toast.success("Ваш документ успешно отправлен на проверку");
+    }
     form.resetFields();
   };
 

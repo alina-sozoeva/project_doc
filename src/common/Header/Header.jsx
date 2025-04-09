@@ -3,14 +3,18 @@ import styles from "./Header.module.scss";
 import { useEffect, useState } from "react";
 import { Button, Flex, Typography } from "antd";
 import { pages, pathname } from "../../enums";
-import { BellFilled, BellOutlined, LogoutOutlined } from "@ant-design/icons";
+import { BellOutlined, LogoutOutlined } from "@ant-design/icons";
 import foto from "../../assets/28.jpg";
-import { employeeInfo } from "../../utils";
+import { useSelector } from "react-redux";
+import { employeeInfo, getUserInfo } from "../../utils";
 
 export const Header = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const [title, setTitle] = useState("Главная");
+  const notifications = useSelector((state) => state.notifications.notifArr);
+
+  console.log(notifications);
 
   useEffect(() => {
     const key = Object.keys(pathname).find(
@@ -26,6 +30,12 @@ export const Header = () => {
     localStorage.removeItem("userInfo");
     navigate("/login");
   };
+
+  const test = notifications.filter(
+    (item) => item.user_id === employeeInfo()?.id
+  );
+
+  console.log(test, "test");
 
   return (
     <header className={styles.header}>
