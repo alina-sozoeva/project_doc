@@ -2,7 +2,6 @@ export * from "./homePage";
 export * from "./documentsPage";
 export * from "./employeesLayout";
 export * from "./editFolderPage";
-export * from "./addEmployeePage";
 export * from "./loginPage";
 export * from "./processesPage";
 export * from "./addCunterpartyPage";

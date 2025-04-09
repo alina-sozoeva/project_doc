@@ -3,9 +3,9 @@ import { Button, Divider, Flex, Form, Select, Steps, Typography } from "antd";
 import { WarningModal, Wrapper } from "../../common";
 import { pages, pathname } from "../../enums";
 import { toast } from "react-toastify";
-import { stepDataList } from "../../utils";
-import styles from "./ProcessesPage.module.scss";
+import { getStepDataList } from "../../utils";
 import { StepContent } from "../../components";
+import styles from "./ProcessesPage.module.scss";
 
 const processesArr = [
   {
@@ -48,7 +48,7 @@ export const ProcessesPage = () => {
     },
   ]);
 
-  const usedTitles = stepDataList?.map((item) => item.title);
+  const usedTitles = getStepDataList()?.map((item) => item.title);
 
   const filteredProcessesArr = processesArr?.filter(
     (item) => !usedTitles?.includes(item.value)
@@ -126,7 +126,7 @@ export const ProcessesPage = () => {
       title,
       members: stepData,
     };
-    const existing = JSON.parse(localStorage.getItem("stepDataList")) || [];
+    const existing = getStepDataList() || [];
     const updatedList = [...existing, newProcess];
     localStorage.setItem("stepDataList", JSON.stringify(updatedList));
     form.resetFields();

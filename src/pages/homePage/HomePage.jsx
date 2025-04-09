@@ -10,7 +10,7 @@ import {
   FileTextOutlined,
 } from "@ant-design/icons";
 import { useState } from "react";
-import { employeeInfo } from "../../utils";
+import { employeeInfo, getFolderArr } from "../../utils";
 
 export const HomePage = () => {
   const [open, setOpen] = useState(false);
@@ -18,7 +18,7 @@ export const HomePage = () => {
     setOpen(false);
   };
 
-  const data = JSON.parse(localStorage.getItem("folderArr"))?.filter(
+  const data = getFolderArr()?.filter(
     (item) => item?.employee?.email === employeeInfo()?.email
   );
 

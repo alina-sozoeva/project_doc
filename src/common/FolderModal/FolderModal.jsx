@@ -2,6 +2,7 @@ import { Button, Flex, Form, Input, Modal, Typography, Upload } from "antd";
 import { useState, useEffect } from "react";
 import { status } from "../../enums";
 import { UploadOutlined } from "@ant-design/icons";
+import { getFolderArr } from "../../utils";
 
 export const FolderModal = ({ open, onCancel }) => {
   const [folderArr, setFolderArr] = useState([]);
@@ -10,7 +11,7 @@ export const FolderModal = ({ open, onCancel }) => {
   const currentDate = new Date().toISOString().split("T")[0];
 
   useEffect(() => {
-    const savedFolderArr = JSON.parse(localStorage.getItem("folderArr")) || [];
+    const savedFolderArr = getFolderArr() || [];
     const savedLastGuid = Math.max(
       ...savedFolderArr?.map((item) => item.guid),
       0

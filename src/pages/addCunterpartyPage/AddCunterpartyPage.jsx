@@ -7,6 +7,7 @@ import styles from "./AddCunterpartyPage.module.scss";
 import {
   employeeInfo,
   employeesArr,
+  getFolderArr,
   getRecipientsForStep,
   getStepData,
   stepDataList,
@@ -17,7 +18,7 @@ export const AddCunterpartyPage = () => {
   const [folderArr, setFolderArr] = useState([]);
 
   useEffect(() => {
-    const savedFolderArr = JSON.parse(localStorage.getItem("folderArr")) || [];
+    const savedFolderArr = getFolderArr() || [];
     setFolderArr(savedFolderArr);
   }, []);
 

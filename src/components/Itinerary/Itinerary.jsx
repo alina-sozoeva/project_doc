@@ -3,12 +3,12 @@ import { ItineraryCard, Wrapper } from "../../common";
 import { Flex } from "antd";
 import { useParams } from "react-router-dom";
 import styles from "./Itinerary.module.scss";
-
-const data = JSON.parse(localStorage.getItem("stepDataList"));
-const obj = JSON.parse(localStorage.getItem("folderArr"));
+import { getFolderArr, getStepDataList } from "../../utils";
 
 export const Itinerary = () => {
   const { id } = useParams();
+  const data = getStepDataList();
+  const obj = getFolderArr();
 
   const objFilter = obj?.find((item) => item.guid === id);
 

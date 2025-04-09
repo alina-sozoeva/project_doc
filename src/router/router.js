@@ -11,7 +11,6 @@ export const router = createBrowserRouter([
       { path: pathname.DOCUMENTS, element: <Pages.DocumemtsPage /> },
       { path: pathname.EMPLOYEES, element: <Pages.EmployeesLayout /> },
       { path: pathname.EDIT_FOLDER, element: <Pages.EditFolderPage /> },
-      { path: pathname.ADD_EMPLOYEE, element: <Pages.AddEmployeePage /> },
       { path: pathname.LOGIN, element: <Pages.LoginPage /> },
       { path: pathname.PROCESSES, element: <Pages.ProcessesPage /> },
       {

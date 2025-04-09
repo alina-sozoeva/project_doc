@@ -16,7 +16,7 @@ import { pages, pathname, status } from "../../enums";
 import styles from "./CloseDocumentsPage.module.scss";
 import { v4 as uuidv4 } from "uuid";
 import { useEffect, useState } from "react";
-import { employeeInfo } from "../../utils";
+import { employeeInfo, getFolderArr } from "../../utils";
 
 const { Title } = Typography;
 
@@ -25,7 +25,7 @@ export const CloseDocumentsPage = () => {
   const [folderArr, setFolderArr] = useState([]);
 
   useEffect(() => {
-    const savedFolderArr = JSON.parse(localStorage.getItem("folderArr")) || [];
+    const savedFolderArr = getFolderArr() || [];
     setFolderArr(savedFolderArr);
   }, []);
 

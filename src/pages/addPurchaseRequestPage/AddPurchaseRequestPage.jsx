@@ -1,35 +1,29 @@
-import {
-  Button,
-  Col,
-  DatePicker,
-  Flex,
-  Form,
-  Input,
-  Row,
-  Select,
-  Typography,
-} from "antd";
+import { Button, Col, DatePicker, Flex, Form, Input, Row, Select } from "antd";
 import { useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { Wrapper } from "../../common";
 import { status, pages, pathname } from "../../enums";
-import { employeeInfo } from "../../utils";
+import { employeeInfo, getFolderArr } from "../../utils";
 import styles from "./AddPurchaseRequestPage.module.scss";
-
-const { Title } = Typography;
+import { toast } from "react-toastify";
 
 export const AddPurchaseRequestPage = () => {
   const [form] = Form.useForm();
   const [folderArr, setFolderArr] = useState([]);
+  const [statusFolder, setStatusFolder] = useState(status.IN_PROCESS);
 
   useEffect(() => {
-    const savedFolderArr = JSON.parse(localStorage.getItem("folderArr")) || [];
+    const savedFolderArr = getFolderArr() || [];
     setFolderArr(savedFolderArr);
   }, []);
 
-  console.log(employeeInfo());
-
   const onFinish = (values) => {
+    if (statusFolder === status.DRAFT) {
+      toast.info("Ваш документ успешно добавлен в черновики");
+    } else {
+      toast.success("Ваш документ успешно отправлен на проверку");
+    }
+
     const newFolderArr = [
       ...folderArr,
       {
@@ -44,7 +38,7 @@ export const AddPurchaseRequestPage = () => {
         folder_name: status.IN_PROCESS,
         count: 12,
         date: values.end_date,
-        status: status.IN_PROCESS,
+        status: statusFolder,
         employee: { ...employeeInfo() },
       },
     ];
@@ -75,7 +69,7 @@ export const AddPurchaseRequestPage = () => {
               rules={[
                 {
                   required: true,
-                  message: "Это обязательное поле для заполнения",
+                  message: "Это обязательное поле",
                 },
               ]}
             >
@@ -146,8 +140,18 @@ export const AddPurchaseRequestPage = () => {
         </Row>
 
         <Flex gap="small" justify="end">
-          <Button type="primary" htmlType="submit">
-            Добавить
+          <Button
+            htmlType="submit"
+            onClick={() => setStatusFolder(status.DRAFT)}
+          >
+            Добавить в черновики
+          </Button>
+          <Button
+            type="primary"
+            htmlType="submit"
+            onClick={() => setStatusFolder(status.IN_PROCESS)}
+          >
+            Отравить на проверку
           </Button>
         </Flex>
       </Form>

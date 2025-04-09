@@ -43,7 +43,7 @@ export const useDocumentsColums = () => {
       width: 100,
     },
     {
-      title: "Название",
+      title: "Название процесса",
       dataIndex: "title",
       key: "title",
       align: "center",

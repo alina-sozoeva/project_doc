@@ -4,12 +4,13 @@ import { useEffect, useMemo } from "react";
 import { processesMap } from "../../enums";
 import styles from "./CustomSidebar.module.scss";
 import logo from "../../assets/logo.png";
+import { getStepDataList } from "../../utils";
 
 export const CustomSidebar = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const stepDataList = JSON.parse(localStorage.getItem("stepDataList")) || [];
+  const stepDataList = getStepDataList() || [];
 
   const baseMenu = [
     {

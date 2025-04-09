@@ -1,10 +1,11 @@
 import { Form, Input, Select, Row, Col } from "antd";
 import { departments, positions } from "../../constants";
-import styles from "./StepContent.module.scss";
 import { useMemo, useState } from "react";
+import { getEmployeesArr } from "../../utils/storageHelpers";
+import styles from "./StepContent.module.scss";
 
 export const StepContent = ({ count }) => {
-  const employeesArr = JSON.parse(localStorage.getItem("employeesArr"));
+  const employeesArr = getEmployeesArr();
   const [filters, setFilters] = useState({
     departmentId: undefined,
     positionId: undefined,
@@ -29,9 +30,6 @@ export const StepContent = ({ count }) => {
     }
 
     if (positionId) {
-      if (positionId === 1 || positionId === 2) {
-        return employeesArr;
-      }
       return employeesArr.filter((item) => item.position === positionId);
     }
 

@@ -1,5 +1,5 @@
 import { Button, Flex, Form, Input, Modal, Select, Upload } from "antd";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import foto from "../../assets/foto.jpg";
 import { departments, positions } from "../../constants";
@@ -8,16 +8,7 @@ const { Dragger } = Upload;
 
 export const EmployeeModal = ({ open, onCancel, headId, add }) => {
   const [form] = Form.useForm();
-  const [employeesArr, setEmployeesArr] = useState(() => {
-    const savedEmployees = localStorage.getItem("employeesArr");
-    return savedEmployees ? JSON.parse(savedEmployees) : [];
-  });
-
-  console.log(headId);
-
-  useEffect(() => {
-    localStorage.setItem("employeesArr", JSON.stringify(employeesArr));
-  }, [employeesArr]);
+  const [, setEmployeesArr] = useState([]);
 
   const toBase64 = (file) => {
     return new Promise((resolve, reject) => {
@@ -30,7 +21,6 @@ export const EmployeeModal = ({ open, onCancel, headId, add }) => {
 
   const onFinish = async (values) => {
     const photo = values.photo?.fileList?.[0]?.originFileObj;
-
     const base64 = photo ? await toBase64(photo) : foto;
 
     const newEmployee = {

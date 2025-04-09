@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { Wrapper } from "../../common";
 import { status, pages, pathname } from "../../enums";
 import styles from "./AddPaymentRequestPage.module.scss";
-import { employeeInfo } from "../../utils";
+import { employeeInfo, getFolderArr } from "../../utils";
 import { v4 as uuidv4 } from "uuid";
 
 export const AddPaymentRequestPage = () => {
@@ -11,7 +11,7 @@ export const AddPaymentRequestPage = () => {
   const [folderArr, setFolderArr] = useState([]);
 
   useEffect(() => {
-    const savedFolderArr = JSON.parse(localStorage.getItem("folderArr")) || [];
+    const savedFolderArr = getFolderArr() || [];
     setFolderArr(savedFolderArr);
   }, []);
 

@@ -1,19 +1,34 @@
 import { Flex } from "antd";
-import { Tree, TreeNode } from "react-organizational-chart";
+import { Tree } from "react-organizational-chart";
 import { useState, useEffect } from "react";
-import { EmployeeCard, EmployeeModal } from "../../components";
+import { EmployeeCard, EmployeeModal, TreeComponent } from "../../components";
+import { v4 as uuidv4 } from "uuid";
 import foto from "../../assets/foto.jpg";
 import styles from "./EmployeesLayout.module.scss";
+
+const defaultEmployees = [
+  {
+    id: uuidv4(),
+    fio: "Generalnyi Director",
+    email: "generalnyi.director@company.com",
+    position: 9,
+    department: "CEO",
+    photo: foto,
+    phone_number: "+(996)700-00-00-00",
+  },
+];
 
 export const EmployeesPage = () => {
   const [openEmployee, setOpenEmployee] = useState(false);
   const [employeeId, setEmployeeId] = useState("");
-  const [employeeArr, setEmployeeArr] = useState([]);
+  const [employeesArr, setEmployeeArr] = useState(() => {
+    const saved = localStorage.getItem("employeesArr");
+    return saved ? JSON.parse(saved) : defaultEmployees;
+  });
 
   useEffect(() => {
-    const storedData = JSON.parse(localStorage.getItem("employeesArr")) || [];
-    setEmployeeArr(storedData);
-  }, []);
+    localStorage.setItem("employeesArr", JSON.stringify(employeesArr));
+  }, [employeesArr]);
 
   const addNewEmployee = (id) => {
     setEmployeeId(id);
@@ -29,10 +44,10 @@ export const EmployeesPage = () => {
       }));
   };
 
-  const treeData = buildTree(employeeArr, 1);
+  const treeData = buildTree(employeesArr, 1);
 
   const add = (newNews) => {
-    const updatedNewsArr = [...employeeArr, newNews];
+    const updatedNewsArr = [...employeesArr, newNews];
     setEmployeeArr(updatedNewsArr);
   };
 
@@ -48,20 +63,13 @@ export const EmployeesPage = () => {
             lineBorderRadius={"10px"}
             label={
               <EmployeeCard
-                item={{
-                  fio: "Generalnyi Director",
-                  position: 11,
-                  department: "CEO",
-                  photo: foto,
-                  email: "generalnyi.director@company.com",
-                  phone_number: "+(996)700-00-00-00",
-                }}
+                item={employeesArr[0]}
                 onOpen={() => addNewEmployee(1)}
               />
             }
           >
             {treeData.map((item) => (
-              <TreeNodeComponent
+              <TreeComponent
                 key={item.id}
                 node={item}
                 addNewEmployee={addNewEmployee}
@@ -69,32 +77,13 @@ export const EmployeesPage = () => {
             ))}
           </Tree>
         </div>
-        <EmployeeModal
-          open={openEmployee}
-          onCancel={() => setOpenEmployee(false)}
-          headId={employeeId}
-          add={add}
-        />
       </Flex>
+      <EmployeeModal
+        open={openEmployee}
+        onCancel={() => setOpenEmployee(false)}
+        headId={employeeId}
+        add={add}
+      />
     </div>
-  );
-};
-
-const TreeNodeComponent = ({ node, addNewEmployee }) => {
-  return (
-    <TreeNode
-      className={styles.wrap}
-      label={
-        <EmployeeCard item={node} onOpen={() => addNewEmployee(node.id)} />
-      }
-    >
-      {node.children.map((child) => (
-        <TreeNodeComponent
-          key={child.id}
-          node={child}
-          addNewEmployee={addNewEmployee}
-        />
-      ))}
-    </TreeNode>
   );
 };

@@ -9,7 +9,7 @@ import { useDocumentsColums } from "./useDocumentsColums";
 import styles from "./DocumentsPage.module.scss";
 import { pages, pathname, status } from "../../enums";
 import { useState } from "react";
-import { employeeInfo } from "../../utils";
+import { employeeInfo, getFolderArr } from "../../utils";
 
 const items = [
   { value: "1", label: status.APPROVED },
@@ -22,7 +22,7 @@ const items = [
 export const DocumemtsPage = () => {
   const [open, setOpen] = useState(false);
   const { columns } = useDocumentsColums();
-  const data = JSON.parse(localStorage.getItem("folderArr"))?.filter(
+  const data = getFolderArr()?.filter(
     (item) => item?.employee?.email === employeeInfo()?.email
   );
   const filteredStatus = localStorage.getItem("filteredStatus");

@@ -15,16 +15,14 @@ import { v4 as uuidv4 } from "uuid";
 import { Wrapper } from "../../common";
 import { pages, status, pathname } from "../../enums";
 import styles from "./AddAgreementPage.module.scss";
-import { employeeInfo } from "../../utils";
-
-const { Title } = Typography;
+import { employeeInfo, getFolderArr } from "../../utils";
 
 export const AddAgreementPage = () => {
   const [form] = Form.useForm();
   const [agreementArr, setAgreementArr] = useState([]);
 
   useEffect(() => {
-    const savedFolderArr = JSON.parse(localStorage.getItem("folderArr")) || [];
+    const savedFolderArr = getFolderArr() || [];
     setAgreementArr(savedFolderArr);
   }, []);
 
