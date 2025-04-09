@@ -49,11 +49,11 @@ export const EmployeesPage = () => {
             label={
               <EmployeeCard
                 item={{
-                  fio: "Testov Test",
-                  position: 2,
-                  department: 16,
+                  fio: "Generalnyi Director",
+                  position: 11,
+                  department: "CEO",
                   photo: foto,
-                  email: "testov@gmail.com",
+                  email: "generalnyi.director@company.com",
                   phone_number: "+(996)700-00-00-00",
                 }}
                 onOpen={() => addNewEmployee(1)}

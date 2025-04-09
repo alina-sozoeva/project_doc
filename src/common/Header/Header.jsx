@@ -27,8 +27,6 @@ export const Header = () => {
     navigate("/login");
   };
 
-  console.log(employeeInfo());
-
   return (
     <header className={styles.header}>
       <Flex

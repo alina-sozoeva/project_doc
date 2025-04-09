@@ -18,13 +18,13 @@ export const EmployeeCard = ({ onOpen, item }) => {
             <Input
               style={{ width: "120px" }}
               placeholder={"Отдел"}
-              defaultValue={item ? departmentMap[item.department] : ""}
+              defaultValue={departmentMap[item.department] || item.department}
               className={styles.imp_depart}
             />
           </Flex>
           <Input
             placeholder={"Должность"}
-            defaultValue={item ? positionMap[item.position] : ""}
+            defaultValue={positionMap[item.position] || item.position}
           />
         </Flex>
         <img src={item.photo} alt="" className={styles.img} />

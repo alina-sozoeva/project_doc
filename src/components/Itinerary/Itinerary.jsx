@@ -1,10 +1,8 @@
 import { CarryOutOutlined, CommentOutlined } from "@ant-design/icons";
 import { ItineraryCard, Wrapper } from "../../common";
-import styles from "./Itinerary.module.scss";
 import { Flex } from "antd";
-import { departmentMap, positionMap, status } from "../../enums";
-import foto from "../../assets/icon-5359553_1280.webp";
 import { useParams } from "react-router-dom";
+import styles from "./Itinerary.module.scss";
 
 const data = JSON.parse(localStorage.getItem("stepDataList"));
 const obj = JSON.parse(localStorage.getItem("folderArr"));
@@ -14,14 +12,9 @@ export const Itinerary = () => {
 
   const objFilter = obj?.find((item) => item.guid === id);
 
-  console.log(data);
-  console.log(obj);
-
   const filteredData = data?.filter(
     (item) => item.title === objFilter?.process
   );
-
-  console.log(filteredData);
 
   return (
     <Wrapper className={styles.content}>
@@ -40,16 +33,7 @@ export const Itinerary = () => {
         <Flex vertical gap={"middle"}>
           {filteredData &&
             filteredData[0]?.members?.map((item, index) => {
-              return (
-                <ItineraryCard
-                  key={item.id}
-                  img={foto}
-                  fio={departmentMap[item[`step${index}_department`]]}
-                  position={positionMap[item[`step${index}_position`]]}
-                  date={item.date}
-                  statusItinerary={item.status}
-                />
-              );
+              return <ItineraryCard key={item.id} item={item} index={index} />;
             })}
         </Flex>
       </div>

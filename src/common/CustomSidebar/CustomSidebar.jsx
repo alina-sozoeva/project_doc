@@ -1,11 +1,9 @@
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { Menu, Space } from "antd";
-import styles from "./CustomSidebar.module.scss";
-import { LogoutOutlined } from "@ant-design/icons";
 import { useEffect, useMemo } from "react";
-import logo from "../../assets/logo.png";
 import { processesMap } from "../../enums";
-import { employeeInfo } from "../../utils";
+import styles from "./CustomSidebar.module.scss";
+import logo from "../../assets/logo.png";
 
 export const CustomSidebar = () => {
   const location = useLocation();
@@ -26,12 +24,8 @@ export const CustomSidebar = () => {
     },
   ];
 
-  console.log(
-    JSON.parse(localStorage.getItem("userInfo")) === "admin@gmail.com"
-  );
-
   const adminOnlyMenu =
-  JSON.parse(localStorage.getItem("userInfo")) === "admin@gmail.com"
+    JSON.parse(localStorage.getItem("userInfo")) === "admin@gmail.com"
       ? [
           {
             key: "3",
@@ -55,12 +49,6 @@ export const CustomSidebar = () => {
   const menuKeys = [...baseMenu, ...adminOnlyMenu, ...dynamicMenu];
 
   const selectedKey = useMemo(() => {
-    if (location.pathname.includes("add-document")) {
-      return "2";
-    }
-    if (location.pathname.includes("add-employee")) {
-      return "3";
-    }
     const currentMenuItem = menuKeys.find(
       (item) => item.path === location.pathname
     );
@@ -69,11 +57,6 @@ export const CustomSidebar = () => {
 
   const handleMenuClick = () => {
     localStorage.removeItem("filteredStatus");
-  };
-
-  const logOut = () => {
-    localStorage.removeItem("userInfo");
-    navigate("/login");
   };
 
   useEffect(() => {
@@ -108,13 +91,6 @@ export const CustomSidebar = () => {
           className={styles.menu}
         />
       </div>
-      {/* <Button
-        type="primary"
-        className={`${styles.logout}`}
-        onClick={() => logOut()}
-      >
-        <LogoutOutlined className={styles.out} /> Выход
-      </Button> */}
     </div>
   );
 };

@@ -1,6 +1,5 @@
 import { Drawer, Flex, Typography } from "antd";
-import styles from "./ItineraryCard.module.scss";
-import { status } from "../../enums";
+import { departmentMap, positionMap, status } from "../../enums";
 import {
   CheckCircleOutlined,
   CloseCircleOutlined,
@@ -10,15 +9,13 @@ import {
   SyncOutlined,
 } from "@ant-design/icons";
 import { useState } from "react";
+import styles from "./ItineraryCard.module.scss";
+import foto from "../../assets/icon-5359553_1280.webp";
 
-export const ItineraryCard = ({
-  img,
-  position,
-  fio,
-  date,
-  statusItinerary,
-}) => {
+export const ItineraryCard = ({ key, item, index }) => {
   const [open, setOpen] = useState(false);
+
+  console.log(item);
 
   const showDrawer = () => {
     setOpen(true);
@@ -29,7 +26,7 @@ export const ItineraryCard = ({
   };
 
   const color = (() => {
-    switch (statusItinerary) {
+    switch (item.status) {
       case status.APPROVED:
         return "#f6ffed";
       case status.REJECTED:
@@ -46,7 +43,7 @@ export const ItineraryCard = ({
   })();
 
   const icon = (() => {
-    switch (statusItinerary) {
+    switch (item.status) {
       case status.APPROVED:
         return <CheckCircleOutlined style={{ color: "#52c41a" }} />;
       case status.REJECTED:
@@ -71,13 +68,17 @@ export const ItineraryCard = ({
         className={styles.card}
         style={{ background: color }}
         onClick={() => showDrawer()}
+        key={key}
       >
         {icon}
-        <img src={img} alt="user foto" className={styles.img} />
-        <Typography.Text>{position}</Typography.Text>
-        <Flex vertical gap={"small"}>
-          <Typography.Text>{fio}</Typography.Text>
-          <Typography.Text>{date}</Typography.Text>
+        <img src={foto} alt="user foto" className={styles.img} />
+        <Flex vertical gap={"small"} align="center">
+          <Typography.Text>
+            {positionMap[item[`step${index}_position`]]}
+          </Typography.Text>
+          <Typography.Text>
+            {departmentMap[item[`step${index}_department`]]}
+          </Typography.Text>
         </Flex>
       </Flex>
       <Drawer title="Комметарий" onClose={onClose} open={open}></Drawer>

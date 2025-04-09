@@ -1,4 +1,4 @@
-import { Button, Flex, Input } from "antd";
+import { Flex } from "antd";
 import { CustomCard, FolderModal, Wrapper } from "../../common";
 import { pathname, status } from "../../enums";
 import styles from "./HomePage.module.scss";
@@ -8,20 +8,15 @@ import {
   FileExclamationOutlined,
   FileSyncOutlined,
   FileTextOutlined,
-  FolderAddOutlined,
 } from "@ant-design/icons";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { employeeInfo } from "../../utils";
 
 export const HomePage = () => {
-  const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const onClose = () => {
     setOpen(false);
   };
-
-
 
   const data = JSON.parse(localStorage.getItem("folderArr"))?.filter(
     (item) => item?.employee?.email === employeeInfo()?.email
@@ -86,13 +81,7 @@ export const HomePage = () => {
   return (
     <Wrapper path={pathname.HOME} page={true} className={styles.home}>
       <Flex vertical gap={"small"}>
-        <Flex justify="end" gap={"small"}>
-          {/* <Button type="primary" onClick={() => navigate("/add-document")}>
-            <FolderAddOutlined />
-            Добавить документ
-          </Button> */}
-        </Flex>
-
+        <Flex justify="end" gap={"small"}></Flex>
         <Flex gap="middle" justify="center" align="center" wrap>
           {folderArr?.map((item) => (
             <CustomCard

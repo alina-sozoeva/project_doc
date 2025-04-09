@@ -13,8 +13,8 @@ import { useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { Wrapper } from "../../common";
 import { status, pages, pathname } from "../../enums";
-import styles from "./AddPurchaseRequestPage.module.scss";
 import { employeeInfo } from "../../utils";
+import styles from "./AddPurchaseRequestPage.module.scss";
 
 const { Title } = Typography;
 
@@ -26,6 +26,8 @@ export const AddPurchaseRequestPage = () => {
     const savedFolderArr = JSON.parse(localStorage.getItem("folderArr")) || [];
     setFolderArr(savedFolderArr);
   }, []);
+
+  console.log(employeeInfo());
 
   const onFinish = (values) => {
     const newFolderArr = [

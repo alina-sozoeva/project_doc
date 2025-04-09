@@ -40,11 +40,11 @@ export const ProcessesPage = () => {
   const [steps, setSteps] = useState([
     {
       title: "Должность/отдел",
-      content: <StepContent count={0} form={form} />,
+      content: <StepContent count={0} />,
     },
     {
       title: "Должность/отдел",
-      content: <StepContent count={1} form={form} />,
+      content: <StepContent count={1} />,
     },
   ]);
 
@@ -53,8 +53,6 @@ export const ProcessesPage = () => {
   const filteredProcessesArr = processesArr?.filter(
     (item) => !usedTitles?.includes(item.value)
   );
-
-  console.log(filteredProcessesArr);
 
   const items = steps?.map((item, index) => ({
     key: `step${index}`,
@@ -91,9 +89,16 @@ export const ProcessesPage = () => {
       ...prevSteps,
       {
         title: "Должность/отдел ",
-        content: <StepContent count={newIndex} form={form} />,
+        content: <StepContent count={newIndex} />,
       },
     ]);
+  };
+
+  const removeStep = () => {
+    if (steps.length <= 1) {
+      return;
+    }
+    setSteps(() => [...steps.slice(0, steps.length - 1)]);
   };
 
   const onConfirm = () => {
@@ -104,11 +109,11 @@ export const ProcessesPage = () => {
     setSteps([
       {
         title: "Должность/отдел 1",
-        content: <StepContent count={0} form={form} />,
+        content: <StepContent count={0} />,
       },
       {
         title: "Должность/отдел 1",
-        content: <StepContent count={1} form={form} />,
+        content: <StepContent count={1} />,
       },
     ]);
     setTitle("");
@@ -117,17 +122,13 @@ export const ProcessesPage = () => {
   const onFinish = (values) => {
     handleStepChange(current, values);
     toast.success("Вы успешно создали процесс");
-
     const newProcess = {
       title,
       members: stepData,
     };
-
     const existing = JSON.parse(localStorage.getItem("stepDataList")) || [];
     const updatedList = [...existing, newProcess];
-
     localStorage.setItem("stepDataList", JSON.stringify(updatedList));
-
     form.resetFields();
     setOpenSteps(false);
     setCurrent(0);
@@ -135,11 +136,11 @@ export const ProcessesPage = () => {
     setSteps([
       {
         title: "Должность/отдел",
-        content: <StepContent count={0} form={form} />,
+        content: <StepContent count={0} />,
       },
       {
         title: "Должность/отдел",
-        content: <StepContent count={1} form={form} />,
+        content: <StepContent count={1} />,
       },
     ]);
     setTitle("");
@@ -180,9 +181,14 @@ export const ProcessesPage = () => {
           </Flex>
 
           {openSteps ? (
-            <Button type="primary" onClick={addStep}>
-              Добавить участника
-            </Button>
+            <Flex gap={"small"}>
+              <Button type="primary" onClick={addStep}>
+                Добавить участника
+              </Button>
+              <Button danger onClick={removeStep}>
+                Удалить участника
+              </Button>
+            </Flex>
           ) : (
             <Button
               type="primary"
@@ -219,7 +225,7 @@ export const ProcessesPage = () => {
                   danger
                   onClick={() => setOpenModal(true)}
                 >
-                  Удалить
+                  Удалить процесс
                 </Button>
               </Flex>
             </Form>

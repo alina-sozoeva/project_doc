@@ -1,18 +1,47 @@
 import { Form, Input, Select, Row, Col } from "antd";
 import { departments, positions } from "../../constants";
 import styles from "./StepContent.module.scss";
+import { useMemo, useState } from "react";
 
 export const StepContent = ({ count }) => {
   const employeesArr = JSON.parse(localStorage.getItem("employeesArr"));
-
-  const updateEmployeesArr = employeesArr?.map((item) => {
-    return {
-      value: item.id,
-      label: item.fio,
-    };
+  const [filters, setFilters] = useState({
+    departmentId: undefined,
+    positionId: undefined,
   });
 
-  console.log(updateEmployeesArr);
+  const handleChange = (type, value) => {
+    setFilters((prev) => ({ ...prev, [type]: value }));
+  };
+
+  const filteredEmployeesArr = useMemo(() => {
+    const { departmentId, positionId } = filters;
+
+    if (positionId && departmentId) {
+      return employeesArr.filter(
+        (item) =>
+          item.position === positionId && item.department === departmentId
+      );
+    }
+
+    if (departmentId) {
+      return employeesArr.filter((item) => item.department === departmentId);
+    }
+
+    if (positionId) {
+      if (positionId === 1 || positionId === 2) {
+        return employeesArr;
+      }
+      return employeesArr.filter((item) => item.position === positionId);
+    }
+
+    return employeesArr;
+  }, [filters, employeesArr]);
+
+  const updateEmployeesArr = filteredEmployeesArr?.map((item) => ({
+    value: item.id,
+    label: item.fio,
+  }));
 
   return (
     <Row gutter={16}>
@@ -33,6 +62,7 @@ export const StepContent = ({ count }) => {
             placeholder="Выберите отдел"
             optionFilterProp="label"
             options={departments}
+            onChange={(value) => handleChange("departmentId", value)}
           />
         </Form.Item>
       </Col>
@@ -54,6 +84,7 @@ export const StepContent = ({ count }) => {
             placeholder="Выберите должность участника процесса"
             optionFilterProp="label"
             options={positions}
+            onChange={(value) => handleChange("positionId", value)}
           />
         </Form.Item>
       </Col>
@@ -68,7 +99,7 @@ export const StepContent = ({ count }) => {
             showSearch
             placeholder="Выберите ФИО участника процесса"
             optionFilterProp="label"
-            options={updateEmployeesArr || []}
+            options={updateEmployeesArr}
           />
         </Form.Item>
       </Col>
