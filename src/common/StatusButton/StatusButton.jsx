@@ -7,8 +7,8 @@ export const StatusButton = ({
   icon,
   statusFolder,
   source,
+  onClick,
 }) => {
-
   const color = (() => {
     switch (statusFolder) {
       case status.APPROVED:
@@ -33,6 +33,7 @@ export const StatusButton = ({
         variant="filled"
         className={source !== "table" ? styles.btn : styles.btn_table}
         icon={icon}
+        onClick
       >
         {children}
       </Button>

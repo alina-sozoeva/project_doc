@@ -90,7 +90,7 @@ export const HomePage = () => {
               backgroundColor={item.backgroundColor}
               icon={item.icon}
               onClick={() => filteredStatus(item.status)}
-              path={pathname.DOCUMENTS}
+              // path={pathname.DOCUMENTS}
             />
           ))}
         </Flex>

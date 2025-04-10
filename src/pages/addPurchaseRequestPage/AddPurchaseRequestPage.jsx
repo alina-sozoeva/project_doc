@@ -3,7 +3,12 @@ import { useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { Wrapper } from "../../common";
 import { status, pages, pathname } from "../../enums";
-import { employeeInfo, getFolderArr } from "../../utils";
+import {
+  employeeInfo,
+  getFolderArr,
+  getStepDataList,
+  getStepEmployee,
+} from "../../utils";
 import styles from "./AddPurchaseRequestPage.module.scss";
 import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
@@ -16,6 +21,16 @@ export const AddPurchaseRequestPage = () => {
   const [statusFolder, setStatusFolder] = useState(status.IN_PROCESS);
 
   const notifications = useSelector((state) => state.notifications.notifArr);
+
+  const member = getStepDataList();
+
+  const filteredMember = member?.filter(
+    (item) => item.title === "/purchase-request"
+  );
+
+  const firtsMemberId = filteredMember?.length
+  ? getStepEmployee(filteredMember, 0)
+  : null;
 
   useEffect(() => {
     const savedFolderArr = getFolderArr() || [];
@@ -54,6 +69,8 @@ export const AddPurchaseRequestPage = () => {
           status: false,
           comment: "",
           folder_status: statusFolder,
+          member_id: firtsMemberId,
+          step: 1,
         },
       ])
     );

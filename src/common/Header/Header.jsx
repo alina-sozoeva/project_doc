@@ -6,15 +6,22 @@ import { pages, pathname } from "../../enums";
 import { BellOutlined, LogoutOutlined } from "@ant-design/icons";
 import foto from "../../assets/28.jpg";
 import { useSelector } from "react-redux";
-import { employeeInfo, getUserInfo } from "../../utils";
+import { employeeInfo, getEmployeesArr, getUserInfo } from "../../utils";
 
 export const Header = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const [title, setTitle] = useState("Главная");
   const notifications = useSelector((state) => state.notifications.notifArr);
+  const empArr = getEmployeesArr();
 
-  console.log(notifications);
+  const matching = notifications.filter((notif) =>
+    empArr.some((emp) => emp.id === notif.member_id)
+  );
+
+  const message = matching.filter(
+    (item) => item.member_id === employeeInfo()?.id
+  );
 
   useEffect(() => {
     const key = Object.keys(pathname).find(
@@ -35,8 +42,6 @@ export const Header = () => {
     (item) => item.user_id === employeeInfo()?.id
   );
 
-  console.log(test, "test");
-
   return (
     <header className={styles.header}>
       <Flex
@@ -47,8 +52,10 @@ export const Header = () => {
       >
         <Typography.Title level={3}>{title}</Typography.Title>
         <Flex align="center" className={styles.nav_list}>
-          <BellOutlined />
-
+          <div className={styles.bellWrapper}>
+            <BellOutlined />
+            <p className={styles.messageCount}>{message.length}</p>
+          </div>
           <Flex align="center" gap={"small"}>
             <img src={foto} alt="user foto" className={styles.user_foto} />
           </Flex>

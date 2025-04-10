@@ -21,6 +21,15 @@ export const notificationsSlice = createSlice({
       state.notifArr = [...state.notifArr, ...action.payload];
       saveNotifications(state.notifArr);
     },
+    editNotifications: (state, action) => {
+      const updatedNotification = action.payload;
+      state.notifArr = state.notifArr.map((notif) =>
+        notif.doc_id === updatedNotification.doc_id
+          ? updatedNotification
+          : notif
+      );
+      saveNotifications(state.notifArr);
+    },
 
     removeFromNotifications: (state, action) => {},
 
@@ -30,6 +39,7 @@ export const notificationsSlice = createSlice({
 
 export const {
   addToNotifications,
+  editNotifications,
   removeFromNotifications,
   clearNotifications,
 } = notificationsSlice.actions;

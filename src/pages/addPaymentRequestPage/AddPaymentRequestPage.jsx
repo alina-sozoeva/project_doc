@@ -3,23 +3,44 @@ import { useEffect, useState } from "react";
 import { Wrapper } from "../../common";
 import { status, pages, pathname } from "../../enums";
 import styles from "./AddPaymentRequestPage.module.scss";
-import { employeeInfo, getFolderArr } from "../../utils";
+import {
+  employeeInfo,
+  getFolderArr,
+  getStepDataList,
+  getStepEmployee,
+} from "../../utils";
 import { v4 as uuidv4 } from "uuid";
+import { useDispatch } from "react-redux";
+import { addToNotifications } from "../../store";
 
 export const AddPaymentRequestPage = () => {
+  const dispatch = useDispatch();
   const [form] = Form.useForm();
   const [folderArr, setFolderArr] = useState([]);
+  const [statusFolder, setStatusFolder] = useState(status.IN_PROCESS);
 
   useEffect(() => {
     const savedFolderArr = getFolderArr() || [];
     setFolderArr(savedFolderArr);
   }, []);
 
+  const member = getStepDataList();
+
+  const filteredMember = member?.filter(
+    (item) => item.title === "/payment-request"
+  );
+
+  const firtsMemberId = filteredMember?.length
+    ? getStepEmployee(filteredMember, 0)
+    : null;
+
   const onFinish = (values) => {
+    const newGuid = uuidv4();
+
     const newFolderArr = [
       ...folderArr,
       {
-        guid: uuidv4(),
+        guid: newGuid,
         user_foto: "http://docs.icloud.kg/image/avatar/28.jpg",
         user_name: employeeInfo().fio,
         title: pages.CREATE_PAYMENT_REQUEST,
@@ -39,6 +60,22 @@ export const AddPaymentRequestPage = () => {
         employee: { ...employeeInfo() },
       },
     ];
+
+    dispatch(
+      addToNotifications([
+        {
+          id: uuidv4(),
+          user_id: employeeInfo().id,
+          doc_id: newGuid,
+          process: pathname.CREATE_PURCHASE_REQUEST,
+          status: false,
+          comment: "",
+          folder_status: statusFolder,
+          member_id: firtsMemberId,
+          step: 1,
+        },
+      ])
+    );
 
     setFolderArr(newFolderArr);
     localStorage.setItem("folderArr", JSON.stringify(newFolderArr));
@@ -151,7 +188,11 @@ export const AddPaymentRequestPage = () => {
         </Row>
 
         <Flex gap="small" justify="end">
-          <Button type="primary" htmlType="submit">
+          <Button
+            type="primary"
+            htmlType="submit"
+            onClick={() => setStatusFolder(status.IN_PROCESS)}
+          >
             Добавить заявку
           </Button>
         </Flex>
