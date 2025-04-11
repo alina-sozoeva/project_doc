@@ -1,25 +1,18 @@
 import { createSlice } from "@reduxjs/toolkit";
-
-const loadNotifications = () => {
-  const data = localStorage.getItem("notifications");
-  return data ? JSON.parse(data) : [];
-};
-
-const saveNotifications = (notifications) => {
-  localStorage.setItem("notifications", JSON.stringify(notifications));
-};
+import { getStorageData, setStorageData } from "../../utils";
+import { storageKeys } from "../../enums";
 
 const initialState = {
-  notifArr: loadNotifications(),
+  notifArr: getStorageData(storageKeys.NOTIFICATIONS),
 };
 
 export const notificationsSlice = createSlice({
-  name: "notifications",
+  name: storageKeys.NOTIFICATIONS,
   initialState,
   reducers: {
     addToNotifications: (state, action) => {
       state.notifArr = [...state.notifArr, ...action.payload];
-      saveNotifications(state.notifArr);
+      setStorageData(storageKeys.NOTIFICATIONS, state.notifArr);
     },
     editNotifications: (state, action) => {
       const updatedNotification = action.payload;
@@ -28,7 +21,7 @@ export const notificationsSlice = createSlice({
           ? updatedNotification
           : notif
       );
-      saveNotifications(state.notifArr);
+      setStorageData(storageKeys.NOTIFICATIONS, state.notifArr);
     },
 
     removeFromNotifications: (state, action) => {},

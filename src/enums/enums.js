@@ -35,6 +35,11 @@ export const pages = {
   CLOSE_DOCUMENTS: "Закрытие документов",
 };
 
+export const storageKeys = {
+  NOTIFICATIONS: "notifications",
+  EMPLOYEES: "employees",
+};
+
 export const processesMap = {
   "/create-counterparty": "Создание карточки контрагента",
   "/agreement": "Согласование договора",
