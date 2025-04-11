@@ -64,7 +64,7 @@ export const ProcessesPage = () => {
       const newData = [...prev];
       newData[stepIndex] = {
         ...values,
-        documents: [],
+        status: "",
       };
       return newData;
     });

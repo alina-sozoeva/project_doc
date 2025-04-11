@@ -71,7 +71,7 @@ export const DocumemtsPage = () => {
       <Flex gap="small" justify="space-between">
         <Flex gap="small">
           <Button type="primary" onClick={() => handleSetMessageFilter(false)}>
-            Все документы
+            Мои документы
           </Button>
           <Button type="primary" onClick={() => handleSetMessageFilter(true)}>
             Документы на проверку

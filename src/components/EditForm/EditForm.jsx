@@ -35,106 +35,39 @@ export const EditForm = ({ item }) => {
 
   const member = getStepDataList();
 
-  const filteredMember = member?.find(
+  const filteredMember = member?.filter(
     (item) => item.title === "/purchase-request"
   );
-
-  console.log(filteredMember);
-
-  const lastElement =
-    filteredMember?.members[filteredMember?.members.length - 1];
-  console.log(lastElement);
 
   //чекаем документ
   const test = notifications.find((item) => item.doc_id === id);
 
   const updateNotif = () => {
-    if (test.step === 1) {
+    const nextStepMap = {
+      1: 2,
+      2: 3,
+      3: 4,
+      4: 5,
+      5: 6,
+      6: 7,
+      7: 8,
+    };
+
+    const nextStep = nextStepMap[test.step];
+
+    console.log(nextStep);
+
+    if (nextStep) {
       dispatch(
         editNotifications({
           ...test,
-          member_id: getStepEmployee(filteredMember, 1),
-          step: 2,
+          member_id: getStepEmployee(filteredMember, test.step),
+          step: nextStep,
         })
       );
+      toast.success("Вы успешно согласовали документ");
     }
-    if (test.step === 2) {
-      dispatch(
-        editNotifications({
-          ...test,
-          member_id: getStepEmployee(filteredMember, 2),
-          step: 3,
-        })
-      );
-    }
-    if (test.step === 3) {
-      dispatch(
-        editNotifications({
-          ...test,
-          member_id: getStepEmployee(filteredMember, 3),
-          step: 4,
-        })
-      );
-    }
-    if (test.step === 4) {
-      dispatch(
-        editNotifications({
-          ...test,
-          member_id: getStepEmployee(filteredMember, 4),
-          step: 5,
-        })
-      );
-    }
-    if (test.step === 5) {
-      dispatch(
-        editNotifications({
-          ...test,
-          member_id: getStepEmployee(filteredMember, 5),
-          step: 6,
-        })
-      );
-    }
-    if (test.step === 6) {
-      dispatch(
-        editNotifications({
-          ...test,
-          member_id: getStepEmployee(filteredMember, 6),
-          step: 7,
-        })
-      );
-    }
-    // dispatch(
-    //   editNotifications({ ...test, member_id: secondMemberId, step: 2 })
-    // );
-    toast.success("Вы успешно согласовали документ");
   };
-
-  // const updateNotif = () => {
-  //   const nextStepMap = {
-  //     1: 2,
-  //     2: 3,
-  //     3: 4,
-  //     4: 5,
-  //     5: 6,
-  //     6: 7,
-  //     7: 8,
-  //   };
-
-  //   const nextStep = nextStepMap[test.step];
-
-  //   console.log(nextStep);
-
-  //   if (nextStep) {
-  //     dispatch(
-  //       editNotifications({
-  //         ...test,
-  //         member_id: getStepEmployee(filteredMember, test.step),
-  //         step: nextStep,
-  //       })
-  //     );
-  //     toast.success("Вы успешно согласовали документ");
-  //   }
-  // };
 
   return (
     <Wrapper className={styles.content}>

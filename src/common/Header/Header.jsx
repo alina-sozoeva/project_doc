@@ -15,11 +15,11 @@ export const Header = () => {
   const notifications = useSelector((state) => state.notifications.notifArr);
   const empArr = getEmployeesArr();
 
-  const matching = notifications.filter((notif) =>
-    empArr.some((emp) => emp.id === notif.member_id)
+  const matching = notifications?.filter((notif) =>
+    empArr?.some((emp) => emp.id === notif.member_id)
   );
 
-  const message = matching.filter(
+  const message = matching?.filter(
     (item) => item.member_id === employeeInfo()?.id
   );
 
