@@ -1,4 +1,4 @@
-import { useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Menu, Space } from "antd";
 import { useEffect, useMemo } from "react";
 import styles from "./CustomSidebar.module.scss";
@@ -9,7 +9,7 @@ export const CustomSidebar = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const processesArr = useSelector((state) => state.processes.processesArr);
+  const processes = useSelector((state) => state.processes.processes);
 
   const baseMenu = [
     {
@@ -40,7 +40,7 @@ export const CustomSidebar = () => {
         ]
       : [];
 
-  const dynamicMenu = processesArr?.map((item, index) => ({
+  const dynamicMenu = processes?.map((item, index) => ({
     key: `dynamic-${index}`,
     label: item.title,
     path: `${item.slug}`,
@@ -83,9 +83,9 @@ export const CustomSidebar = () => {
           items={menuKeys.map(({ key, label, path }) => ({
             key,
             label: (
-              <a href={path} onClick={() => handleMenuClick()}>
+              <Link to={path} onClick={() => handleMenuClick()}>
                 {label}
-              </a>
+              </Link>
             ),
           }))}
           className={styles.menu}

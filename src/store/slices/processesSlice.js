@@ -3,23 +3,23 @@ import { storageKeys } from "../../enums";
 import { getStorageData, setStorageData } from "../../utils";
 
 const initialState = {
-  processesArr: getStorageData(storageKeys.PROCESSES),
-  processMembersArr: getStorageData(storageKeys.PROCESSES_MEMBERS),
+  processes: getStorageData(storageKeys.PROCESSES),
+  processesMembers: getStorageData(storageKeys.PROCESSES_MEMBERS),
 };
 
 export const processesSlice = createSlice({
   name: storageKeys.PROCESSES,
   initialState,
   reducers: {
-    //processesArr
+    //processes
     addToProcesses: (state, action) => {
-      state.processesArr = [...state.processesArr, ...action.payload];
-      setStorageData(storageKeys.PROCESSES, state.processesArr);
+      state.processes = [...state.processes, ...action.payload];
+      setStorageData(storageKeys.PROCESSES, state.processes);
     },
-    //processMembersArr
+    //processesMembers
     addToProcessesMembers: (state, action) => {
-      state.processMembersArr = [...state.processMembersArr, ...action.payload];
-      setStorageData(storageKeys.PROCESSES_MEMBERS, state.processMembersArr);
+      state.processesMembers = [...state.processesMembers, ...action.payload];
+      setStorageData(storageKeys.PROCESSES_MEMBERS, state.processesMembers);
     },
   },
 });

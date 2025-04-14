@@ -3,26 +3,21 @@ import { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { Wrapper } from "../../common";
 import { status, pages, pathname } from "../../enums";
-import { employeeInfo, getStepDataList, getStepEmployee } from "../../utils";
+import { employeeInfo } from "../../utils";
 import styles from "./AddPurchaseRequestPage.module.scss";
 import { toast } from "react-toastify";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addToDocuments, addToNotifications } from "../../store";
 
 export const AddPurchaseRequestPage = () => {
   const dispatch = useDispatch();
   const [form] = Form.useForm();
   const [statusFolder, setStatusFolder] = useState(status.IN_PROCESS);
-
-  const member = getStepDataList();
-
-  const filteredMember = member?.filter(
-    (item) => item.title === "/purchase-request"
+  const processesMembers = useSelector(
+    (state) => state.processes.processesMembers
   );
 
-  const firtsMemberId = filteredMember?.length
-    ? getStepEmployee(filteredMember, 0)
-    : null;
+  console.log(processesMembers);
 
   const onFinish = (values) => {
     const newGuid = uuidv4();
@@ -53,8 +48,8 @@ export const AddPurchaseRequestPage = () => {
           status: false,
           comment: "",
           folder_status: statusFolder,
-          member_id: firtsMemberId,
-          step: 1,
+          member_id: processesMembers[0]?.employee_id,
+          step: processesMembers[0]?.step_index,
         },
       ])
     );

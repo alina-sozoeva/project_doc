@@ -21,43 +21,15 @@ const items = [
 ];
 
 export const DocumemtsPage = () => {
-  const employeesArr = useSelector((state) => state.emloyees.emloyeesArr);
-  const documentsArr = useSelector((state) => state.documents.documentsArr);
+  const documents = useSelector((state) => state.documents.documents);
   const [open, setOpen] = useState(false);
   const { columns } = useDocumentsColums();
-  const data = documentsArr?.filter(
+  const data = documents?.filter(
     (item) => item?.employee?.email === employeeInfo()?.email
   );
-  const filteredStatus = localStorage.getItem("filteredStatus");
-  const [messageFilter, setMessageFilter] = useState(() => {
-    return localStorage.getItem("messageFilter") === "true";
-  });
 
   const onClose = () => {
     setOpen(false);
-  };
-
-  const filteredData = data?.filter((item) => item.status === filteredStatus);
-
-  const notifications = useSelector((state) => state.notifications.notifArr);
-
-  const matching = notifications.filter((notif) =>
-    employeesArr.some((emp) => emp.id === notif.member_id)
-  );
-
-  const message = matching.filter(
-    (item) => item.member_id === employeeInfo()?.id
-  );
-
-  const matchingTwo = documentsArr?.filter((item) =>
-    message.some((emp) => emp.doc_id === item.guid)
-  );
-
-  const messageFil = JSON.parse(localStorage.getItem("messageFilter"));
-
-  const handleSetMessageFilter = (value) => {
-    setMessageFilter(value);
-    localStorage.setItem("messageFilter", JSON.stringify(value));
   };
 
   return (
@@ -69,12 +41,12 @@ export const DocumemtsPage = () => {
     >
       <Flex gap="small" justify="space-between">
         <Flex gap="small">
-          <Button type="primary" onClick={() => handleSetMessageFilter(false)}>
+          {/* <Button type="primary" onClick={() => handleSetMessageFilter(false)}>
             Мои документы
           </Button>
           <Button type="primary" onClick={() => handleSetMessageFilter(true)}>
             Документы на проверку
-          </Button>
+          </Button> */}
           <Input
             placeholder="Поиск по инициатору"
             prefix={<SearchOutlined />}
@@ -114,7 +86,7 @@ export const DocumemtsPage = () => {
 
       <Col span={24}>
         <Table
-          dataSource={messageFilter ? matchingTwo : data}
+          dataSource={data}
           columns={columns}
           pagination={false}
           className={styles.table}

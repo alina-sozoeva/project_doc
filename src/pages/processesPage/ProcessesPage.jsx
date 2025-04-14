@@ -9,7 +9,7 @@ import { addToProcesses, addToProcessesMembers } from "../../store";
 import { v4 as uuidv4 } from "uuid";
 import styles from "./ProcessesPage.module.scss";
 
-const processesArr = [
+const processes = [
   {
     label: "Создание карточки контрагента",
     value: "/create-counterparty",
@@ -47,7 +47,7 @@ export const ProcessesPage = () => {
   const processId = useRef(uuidv4());
   const [form] = Form.useForm();
   const dispatch = useDispatch();
-  const processesArray = useSelector((state) => state.processes.processesArr);
+  const processesArr = useSelector((state) => state.processes.processes);
   const [current, setCurrent] = useState(0);
   const [openSteps, setOpenSteps] = useState(false);
   const [openModal, setOpenModal] = useState(false);
@@ -58,8 +58,8 @@ export const ProcessesPage = () => {
     setTitle(value);
   };
 
-  const filteredProcessesArr = processesArr?.filter(
-    (item) => !processesArray?.some((p) => p.slug === item.value)
+  const filteredprocesses = processes?.filter(
+    (item) => !processesArr?.some((p) => p.slug === item.value)
   );
 
   const items = steps?.map((item, index) => ({
@@ -72,7 +72,7 @@ export const ProcessesPage = () => {
       addToProcessesMembers([
         {
           process_id: processId.current,
-          step_index: uuidv4(),
+          step_index: current,
           department_id: values.department_id,
           position_id: values.position_id,
           time_limit: values.time_limit,
@@ -158,7 +158,7 @@ export const ProcessesPage = () => {
         <Flex justify="space-between" align="center">
           <Flex gap={"small"} align="center">
             <Typography.Text>Название процесса:</Typography.Text>
-            {filteredProcessesArr.length === 0 ? (
+            {filteredprocesses.length === 0 ? (
               <Typography.Text type="secondary">
                 Все процессы созданы
               </Typography.Text>
@@ -166,7 +166,7 @@ export const ProcessesPage = () => {
               <Select
                 style={{ width: "250px" }}
                 placeholder="Выберите название процесcа"
-                options={filteredProcessesArr}
+                options={filteredprocesses}
                 onChange={handleChange}
                 value={title || undefined}
               />

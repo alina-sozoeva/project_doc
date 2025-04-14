@@ -9,7 +9,7 @@ export const FolderModal = ({ open, onCancel }) => {
   const dispatch = useDispatch();
   const [form] = Form.useForm();
   const currentDate = new Date().toISOString().split("T")[0];
-  const documentsArr = useSelector((state) => state.documents.documentsArr);
+  const documents = useSelector((state) => state.documents.documents);
 
   const onFinish = (values) => {
     const newFolderArr = {

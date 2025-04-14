@@ -5,23 +5,16 @@ import { status, pages, pathname } from "../../enums";
 import styles from "./AddPaymentRequestPage.module.scss";
 import { employeeInfo, getStepDataList, getStepEmployee } from "../../utils";
 import { v4 as uuidv4 } from "uuid";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addToDocuments, addToNotifications } from "../../store";
 
 export const AddPaymentRequestPage = () => {
   const dispatch = useDispatch();
   const [form] = Form.useForm();
   const [statusFolder, setStatusFolder] = useState(status.IN_PROCESS);
-
-  const member = getStepDataList();
-
-  const filteredMember = member?.filter(
-    (item) => item.title === "/payment-request"
+  const processesMembers = useSelector(
+    (state) => state.processes.processesMembers
   );
-
-  const firtsMemberId = filteredMember?.length
-    ? getStepEmployee(filteredMember, 0)
-    : null;
 
   const onFinish = (values) => {
     const newGuid = uuidv4();
@@ -57,7 +50,7 @@ export const AddPaymentRequestPage = () => {
           status: false,
           comment: "",
           folder_status: statusFolder,
-          member_id: firtsMemberId,
+          member_id: processesMembers[0].employee_id,
           step: 1,
         },
       ])

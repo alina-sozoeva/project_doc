@@ -3,7 +3,7 @@ import { getStorageData, setStorageData } from "../../utils";
 import { storageKeys } from "../../enums";
 
 const initialState = {
-  notifArr: getStorageData(storageKeys.NOTIFICATIONS),
+  notifications: getStorageData(storageKeys.NOTIFICATIONS),
 };
 
 export const notificationsSlice = createSlice({
@@ -11,17 +11,17 @@ export const notificationsSlice = createSlice({
   initialState,
   reducers: {
     addToNotifications: (state, action) => {
-      state.notifArr = [...state.notifArr, ...action.payload];
-      setStorageData(storageKeys.NOTIFICATIONS, state.notifArr);
+      state.notifications = [...state.notifications, ...action.payload];
+      setStorageData(storageKeys.NOTIFICATIONS, state.notifications);
     },
     editNotifications: (state, action) => {
       const updatedNotification = action.payload;
-      state.notifArr = state.notifArr.map((notif) =>
+      state.notifications = state.notifications.map((notif) =>
         notif.doc_id === updatedNotification.doc_id
           ? updatedNotification
           : notif
       );
-      setStorageData(storageKeys.NOTIFICATIONS, state.notifArr);
+      setStorageData(storageKeys.NOTIFICATIONS, state.notifications);
     },
 
     removeFromNotifications: (state, action) => {},

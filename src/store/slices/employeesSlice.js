@@ -15,7 +15,7 @@ const defaultEmployees = {
 };
 
 const initialState = {
-  emloyeesArr: getStorageData(storageKeys.EMPLOYEES, defaultEmployees),
+  employees: getStorageData(storageKeys.EMPLOYEES, defaultEmployees),
 };
 
 export const employeesSlice = createSlice({
@@ -23,12 +23,12 @@ export const employeesSlice = createSlice({
   initialState,
   reducers: {
     addToEmployees: (state, action) => {
-      state.emloyeesArr = [...state.emloyeesArr, ...action.payload];
-      setStorageData(storageKeys.EMPLOYEES, state.emloyeesArr);
+      state.employees = [...state.employees, ...action.payload];
+      setStorageData(storageKeys.EMPLOYEES, state.employees);
     },
     editEmployees: (state, action) => {
       const updatedEmployees = action.payload;
-      state.emloyeesArr = state.emloyeesArr.map((item) =>
+      state.employees = state.employees.map((item) =>
         item.doc_id === updatedEmployees.doc_id ? updatedEmployees : item
       );
       setStorageData(storageKeys.EMPLOYEES, state.notifArr);

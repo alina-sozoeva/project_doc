@@ -5,38 +5,40 @@ import styles from "./StepContent.module.scss";
 import { useSelector } from "react-redux";
 
 export const StepContent = () => {
-  const employeesArr = useSelector((state) => state.emloyees.emloyeesArr);
+  const employees = useSelector((state) => state.employees.employees);
   const [filters, setFilters] = useState({
     departmentId: undefined,
     positionId: undefined,
   });
 
+  console.log(employees);
+
   const handleChange = (type, value) => {
     setFilters((prev) => ({ ...prev, [type]: value }));
   };
 
-  const filteredEmployeesArr = useMemo(() => {
+  const filteredemloyees = useMemo(() => {
     const { departmentId, positionId } = filters;
 
     if (positionId && departmentId) {
-      return employeesArr.filter(
+      return employees.filter(
         (item) =>
           item.position === positionId && item.department === departmentId
       );
     }
 
     if (departmentId) {
-      return employeesArr.filter((item) => item.department === departmentId);
+      return employees.filter((item) => item.department === departmentId);
     }
 
     if (positionId) {
-      return employeesArr.filter((item) => item.position === positionId);
+      return employees.filter((item) => item.position === positionId);
     }
 
-    return employeesArr;
-  }, [filters, employeesArr]);
+    return employees;
+  }, [filters, employees]);
 
-  const updateEmployeesArr = filteredEmployeesArr?.map((item) => ({
+  const updateemloyees = filteredemloyees?.map((item) => ({
     value: item.id,
     label: item.fio,
   }));
@@ -97,7 +99,7 @@ export const StepContent = () => {
             showSearch
             placeholder="Выберите ФИО участника процесса"
             optionFilterProp="label"
-            options={updateEmployeesArr}
+            options={updateemloyees}
           />
         </Form.Item>
       </Col>

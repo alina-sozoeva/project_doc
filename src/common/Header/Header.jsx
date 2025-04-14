@@ -13,26 +13,26 @@ export const Header = () => {
   const navigate = useNavigate();
   const [title, setTitle] = useState("Главная");
   const notifications = useSelector((state) => state.notifications.notifArr);
-  const emloyeesArr = useSelector((state) => state.emloyees.emloyeesArr);
+  const employees = useSelector((state) => state.employees.employees);
 
-  console.log(emloyeesArr);
+  console.log(employees);
 
-  const matching = notifications?.filter((notif) =>
-    emloyeesArr?.some((emp) => emp.id === notif.member_id)
-  );
+  // const matching = notifications?.filter((notif) =>
+  //   emloyeesArr?.some((emp) => emp.id === notif.member_id)
+  // );
 
-  const message = matching?.filter(
-    (item) => item.member_id === employeeInfo()?.id
-  );
+  // const message = matching?.filter(
+  //   (item) => item.member_id === employeeInfo()?.id
+  // );
 
-  useEffect(() => {
-    const key = Object.keys(pathname).find(
-      (key) => pathname[key] === location.pathname
-    );
-    if (key) {
-      setTitle(pages[key]);
-    }
-  }, [location]);
+  // useEffect(() => {
+  //   const key = Object.keys(pathname).find(
+  //     (key) => pathname[key] === location.pathname
+  //   );
+  //   if (key) {
+  //     setTitle(pages[key]);
+  //   }
+  // }, [location]);
 
   const logOut = () => {
     localStorage.removeItem("statusCount");
@@ -52,7 +52,7 @@ export const Header = () => {
         <Flex align="center" className={styles.nav_list}>
           <div className={styles.bellWrapper}>
             <BellOutlined />
-            <p className={styles.messageCount}>{message.length}</p>
+            {/* <p className={styles.messageCount}>{message.length}</p> */}
           </div>
           <Flex align="center" gap={"small"}>
             <img src={foto} alt="user foto" className={styles.user_foto} />

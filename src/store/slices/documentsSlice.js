@@ -3,7 +3,7 @@ import { storageKeys } from "../../enums";
 import { getStorageData, setStorageData } from "../../utils";
 
 const initialState = {
-  documentsArr: getStorageData(storageKeys.DOCUMENTS),
+  documents: getStorageData(storageKeys.DOCUMENTS),
 };
 
 export const documentsSlice = createSlice({
@@ -11,8 +11,8 @@ export const documentsSlice = createSlice({
   initialState,
   reducers: {
     addToDocuments: (state, action) => {
-      state.documentsArr = [...state.documentsArr, ...action.payload];
-      setStorageData(storageKeys.DOCUMENTS, state.documentsArr);
+      state.documents = [...state.documents, ...action.payload];
+      setStorageData(storageKeys.DOCUMENTS, state.documents);
     },
   },
 });

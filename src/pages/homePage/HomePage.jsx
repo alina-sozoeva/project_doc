@@ -14,14 +14,14 @@ import { employeeInfo } from "../../utils";
 import { useSelector } from "react-redux";
 
 export const HomePage = () => {
-  const documentsArr = useSelector((state) => state.documents.documentsArr);
+  const documents = useSelector((state) => state.documents.documents);
 
   const [open, setOpen] = useState(false);
   const onClose = () => {
     setOpen(false);
   };
 
-  const data = documentsArr?.filter(
+  const data = documents?.filter(
     (item) => item?.employee?.email === employeeInfo()?.email
   );
 

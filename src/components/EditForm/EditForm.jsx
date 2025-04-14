@@ -16,57 +16,45 @@ import { useState } from "react";
 import logo from "../../assets/logo.png";
 import { useDispatch, useSelector } from "react-redux";
 import { editNotifications } from "../../store";
-import { getStepDataList, getStepEmployee } from "../../utils";
 import { toast } from "react-toastify";
 
 export const EditForm = ({ item }) => {
   const { id, status: stat } = useParams();
   const dispatch = useDispatch();
   const notifications = useSelector((state) => state.notifications.notifArr);
-
+  const processesMembers = useSelector(
+    (state) => state.processes.processesMembers
+  );
   const [documents, setDocuments] = useState([]);
-
-  const objFilter = documents?.find((item) => item.guid === id);
 
   const handleFileUpload = (event) => {
     const files = Array.from(event.target.files);
     setDocuments((prevDocs) => [...prevDocs, ...files]);
   };
 
-  const member = getStepDataList();
-
-  const filteredMember = member?.filter(
-    (item) => item.title === "/purchase-request"
-  );
-
   //чекаем документ
-  const test = notifications.find((item) => item.doc_id === id);
+  const newNotif = notifications.find((item) => item.doc_id === id);
 
-  const updateNotif = () => {
-    const nextStepMap = {
-      1: 2,
-      2: 3,
-      3: 4,
-      4: 5,
-      5: 6,
-      6: 7,
-      7: 8,
-    };
+  const approvedNotif = () => {
+    dispatch(
+      editNotifications({
+        ...newNotif,
+        member_id: processesMembers[1].employee_id,
+        step: processesMembers[1]?.step_index,
+      })
+    );
+    toast.success("Вы успешно согласовали документ");
+  };
 
-    const nextStep = nextStepMap[test.step];
-
-    console.log(nextStep);
-
-    if (nextStep) {
-      dispatch(
-        editNotifications({
-          ...test,
-          member_id: getStepEmployee(filteredMember, test.step),
-          step: nextStep,
-        })
-      );
-      toast.success("Вы успешно согласовали документ");
-    }
+  const revisionNotif = () => {
+    dispatch(
+      editNotifications({
+        ...newNotif,
+        member_id: processesMembers[1].employee_id,
+        step: processesMembers[1]?.step_index,
+      })
+    );
+    toast.success("Вы успешно согласовали документ");
   };
 
   return (
@@ -80,7 +68,7 @@ export const EditForm = ({ item }) => {
                   statusFolder={status.DRAFT}
                   icon={<CheckOutlined />}
                   source="table"
-                  onClick={updateNotif}
+                  onClick={approvedNotif}
                 >
                   Согласовать
                 </Button>
@@ -88,6 +76,7 @@ export const EditForm = ({ item }) => {
                   statusFolder={status.DRAFT}
                   icon={<CloseOutlined />}
                   source="table"
+                  onClick={approvedNotif}
                 >
                   Отказать
                 </StatusButton>
@@ -95,6 +84,7 @@ export const EditForm = ({ item }) => {
                   statusFolder={status.DRAFT}
                   icon={<SyncOutlined />}
                   source="table"
+                  onClick={approvedNotif}
                 >
                   Доработать
                 </StatusButton>

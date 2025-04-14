@@ -9,9 +9,9 @@ import styles from "./Itinerary.module.scss";
 export const Itinerary = () => {
   const { id } = useParams();
   const data = getStepDataList();
-  const documentsArr = useSelector((state) => state.documents.documentsArr);
+  const documents = useSelector((state) => state.documents.documents);
 
-  const objFilter = documentsArr?.find((item) => item.guid === id);
+  const objFilter = documents?.find((item) => item.guid === id);
 
   const filteredData = data?.filter(
     (item) => item.title === objFilter?.process

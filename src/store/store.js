@@ -9,7 +9,7 @@ import {
 export const store = configureStore({
   reducer: {
     notifications: notificationsSlice.reducer,
-    emloyees: employeesSlice.reducer,
+    employees: employeesSlice.reducer,
     documents: documentsSlice.reducer,
     processes: processesSlice.reducer,
   },

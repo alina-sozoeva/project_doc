@@ -8,7 +8,7 @@ import { useSelector } from "react-redux";
 export const EmployeesPage = () => {
   const [openEmployee, setOpenEmployee] = useState(false);
   const [employeeId, setEmployeeId] = useState("");
-  const employeesArr = useSelector((state) => state.emloyees.emloyeesArr);
+  const employees = useSelector((state) => state.emloyees.employees);
 
   const addNewEmployee = (id) => {
     setEmployeeId(id);
@@ -17,14 +17,14 @@ export const EmployeesPage = () => {
 
   const buildTree = (employees, headId = 1) => {
     return employees
-      .filter((employee) => employee.headId === headId)
+      ?.filter((employee) => employee.headId === headId)
       .map((employee) => ({
         ...employee,
         children: buildTree(employees, employee.id),
       }));
   };
 
-  const treeData = buildTree(employeesArr, 1);
+  const treeData = buildTree(employees, 1);
 
   return (
     <div className={styles.content}>
@@ -38,7 +38,7 @@ export const EmployeesPage = () => {
             lineBorderRadius={"10px"}
             label={
               <EmployeeCard
-                item={employeesArr[0]}
+                item={employees[0]}
                 onOpen={() => addNewEmployee(1)}
               />
             }
