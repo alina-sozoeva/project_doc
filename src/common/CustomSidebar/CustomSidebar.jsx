@@ -1,16 +1,15 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import { Menu, Space } from "antd";
 import { useEffect, useMemo } from "react";
-import { processesMap } from "../../enums";
 import styles from "./CustomSidebar.module.scss";
 import logo from "../../assets/logo.png";
-import { getStepDataList } from "../../utils";
+import { useSelector } from "react-redux";
 
 export const CustomSidebar = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const stepDataList = getStepDataList() || [];
+  const processesArr = useSelector((state) => state.processes.processesArr);
 
   const baseMenu = [
     {
@@ -41,10 +40,10 @@ export const CustomSidebar = () => {
         ]
       : [];
 
-  const dynamicMenu = stepDataList?.map((item, index) => ({
+  const dynamicMenu = processesArr?.map((item, index) => ({
     key: `dynamic-${index}`,
-    label: processesMap[item.title] || item.title,
-    path: `${item.title}`,
+    label: item.title,
+    path: `${item.slug}`,
   }));
 
   const menuKeys = [...baseMenu, ...adminOnlyMenu, ...dynamicMenu];

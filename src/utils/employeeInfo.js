@@ -1,8 +1,6 @@
-import { getEmployeesArr, getUserInfo } from "./storageHelpers";
-
 export const employeeInfo = () => {
-  const userInfo = getUserInfo();
-  const employeesArr = getEmployeesArr();
+  const userInfo = JSON.parse(localStorage.getItem("userInfo"));
+  const employeesArr = JSON.parse(localStorage.getItem("employeesArr"));
 
   if (userInfo === "admin@gmail.com") {
     return {

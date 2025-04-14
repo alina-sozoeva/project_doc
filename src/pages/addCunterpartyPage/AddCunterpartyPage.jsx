@@ -1,42 +1,34 @@
 import { Button, Col, Flex, Form, Input, Row, Select } from "antd";
 import { pages, pathname, status } from "../../enums";
 import { v4 as uuidv4 } from "uuid";
-import { useEffect, useState } from "react";
 import { Wrapper } from "../../common";
+import { employeeInfo } from "../../utils";
+import { useDispatch } from "react-redux";
+import { addToDocuments } from "../../store";
 import styles from "./AddCunterpartyPage.module.scss";
-import { employeeInfo, getFolderArr } from "../../utils";
 
 export const AddCunterpartyPage = () => {
   const [form] = Form.useForm();
-  const [folderArr, setFolderArr] = useState([]);
-
-  useEffect(() => {
-    const savedFolderArr = getFolderArr() || [];
-    setFolderArr(savedFolderArr);
-  }, []);
+  const dispatch = useDispatch();
 
   const onFinish = (values) => {
-    const newFolderArr = [
-      ...folderArr,
-      {
-        guid: uuidv4(),
-        user_foto: "http://docs.icloud.kg/image/avatar/28.jpg",
-        user_name: employeeInfo().fio,
-        name: values.name,
-        doc_name: values.title,
-        title: pages.CREATE_COUNTERPARTY,
-        description: values.comment,
-        folder_name: status.IN_PROCESS,
-        count: 12,
-        date: values.end_date,
-        status: status.IN_PROCESS,
-        process: pathname.CREATE_COUNTERPARTY,
-        employee: { ...employeeInfo() },
-      },
-    ];
+    const newFolderArr = {
+      guid: uuidv4(),
+      user_foto: "http://docs.icloud.kg/image/avatar/28.jpg",
+      user_name: employeeInfo().fio,
+      name: values.name,
+      doc_name: values.title,
+      title: pages.CREATE_COUNTERPARTY,
+      description: values.comment,
+      folder_name: status.IN_PROCESS,
+      count: 12,
+      date: values.end_date,
+      status: status.IN_PROCESS,
+      process: pathname.CREATE_COUNTERPARTY,
+      employee: { ...employeeInfo() },
+    };
 
-    setFolderArr(newFolderArr);
-    localStorage.setItem("folderArr", JSON.stringify(newFolderArr));
+    dispatch(addToDocuments([newFolderArr]));
     form.resetFields();
   };
 

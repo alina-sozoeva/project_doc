@@ -15,47 +15,39 @@ import { Wrapper } from "../../common";
 import { pages, pathname, status } from "../../enums";
 import styles from "./CloseDocumentsPage.module.scss";
 import { v4 as uuidv4 } from "uuid";
-import { useEffect, useState } from "react";
-import { employeeInfo, getFolderArr } from "../../utils";
+import { employeeInfo } from "../../utils";
+import { useDispatch } from "react-redux";
+import { addToDocuments } from "../../store";
 
 const { Title } = Typography;
 
 export const CloseDocumentsPage = () => {
   const [form] = Form.useForm();
-  const [folderArr, setFolderArr] = useState([]);
-
-  useEffect(() => {
-    const savedFolderArr = getFolderArr() || [];
-    setFolderArr(savedFolderArr);
-  }, []);
+  const dispatch = useDispatch();
 
   const onFinish = (values) => {
-    const newFolderArr = [
-      ...folderArr,
-      {
-        guid: uuidv4(),
-        user_foto: "http://docs.icloud.kg/image/avatar/28.jpg",
-        user_name: employeeInfo().fio,
-        doc_name: values.title,
-        title: pages.CLOSE_DOCUMENTS,
-        process: pathname.CLOSE_DOCUMENTS,
-        process_name: values.process_name,
-        comments: values.comments,
-        folder_name: status.IN_PROCESS,
-        count: 12,
-        close_date: values.close_date,
-        close_status: values.close_status,
-        process: pathname.CLOSE_DOCUMENTS,
-        status: status.IN_PROCESS,
-        employee: { ...employeeInfo() },
-        basis_document: values.basis_document,
-        closing_documents: values.closing_documents?.fileList || [],
-        cover_sheet: values.cover_sheet?.fileList || [],
-      },
-    ];
+    const newFolderArr = {
+      guid: uuidv4(),
+      user_foto: "http://docs.icloud.kg/image/avatar/28.jpg",
+      user_name: employeeInfo().fio,
+      doc_name: values.title,
+      title: pages.CLOSE_DOCUMENTS,
+      process: pathname.CLOSE_DOCUMENTS,
+      process_name: values.process_name,
+      comments: values.comments,
+      folder_name: status.IN_PROCESS,
+      count: 12,
+      close_date: values.close_date,
+      close_status: values.close_status,
+      process: pathname.CLOSE_DOCUMENTS,
+      status: status.IN_PROCESS,
+      employee: { ...employeeInfo() },
+      basis_document: values.basis_document,
+      closing_documents: values.closing_documents?.fileList || [],
+      cover_sheet: values.cover_sheet?.fileList || [],
+    };
 
-    setFolderArr(newFolderArr);
-    localStorage.setItem("folderArr", JSON.stringify(newFolderArr));
+    dispatch(addToDocuments([newFolderArr]));
     form.resetFields();
   };
 

@@ -74,17 +74,17 @@ export const EditForm = ({ item }) => {
       <Flex vertical justify="space-between" gap="middle">
         <Flex gap="small" justify="space-between" align="center">
           <Flex gap="small">
-            {/* {stat === status.IN_PROCESS && ( */}
-            <>
-              <Button
-                statusFolder={status.DRAFT}
-                icon={<CheckOutlined />}
-                source="table"
-                onClick={updateNotif}
-              >
-                Согласовать
-              </Button>
-              {/* <StatusButton
+            {stat === status.IN_PROCESS && (
+              <>
+                <Button
+                  statusFolder={status.DRAFT}
+                  icon={<CheckOutlined />}
+                  source="table"
+                  onClick={updateNotif}
+                >
+                  Согласовать
+                </Button>
+                <StatusButton
                   statusFolder={status.DRAFT}
                   icon={<CloseOutlined />}
                   source="table"
@@ -97,11 +97,11 @@ export const EditForm = ({ item }) => {
                   source="table"
                 >
                   Доработать
-                </StatusButton> */}
-            </>
-            {/* )} */}
+                </StatusButton>
+              </>
+            )}
 
-            {/* {[status.DRAFT, status.REVISION].includes(stat) && (
+            {[status.DRAFT, status.REVISION].includes(stat) && (
               <StatusButton
                 statusFolder={status.DRAFT}
                 icon={<CloudUploadOutlined />}
@@ -109,9 +109,9 @@ export const EditForm = ({ item }) => {
               >
                 Сохранить
               </StatusButton>
-            )} */}
+            )}
 
-            {/* {stat === status.DRAFT && (
+            {stat === status.DRAFT && (
               <StatusButton
                 statusFolder={status.DRAFT}
                 icon={<EnvironmentOutlined />}
@@ -128,7 +128,7 @@ export const EditForm = ({ item }) => {
               >
                 Удалить
               </StatusButton>
-            )} */}
+            )}
           </Flex>
           <div>
             <div>

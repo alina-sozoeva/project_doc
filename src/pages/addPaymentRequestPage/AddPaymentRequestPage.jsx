@@ -1,28 +1,17 @@
 import { Button, Col, DatePicker, Flex, Form, Input, Row, Select } from "antd";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Wrapper } from "../../common";
 import { status, pages, pathname } from "../../enums";
 import styles from "./AddPaymentRequestPage.module.scss";
-import {
-  employeeInfo,
-  getFolderArr,
-  getStepDataList,
-  getStepEmployee,
-} from "../../utils";
+import { employeeInfo, getStepDataList, getStepEmployee } from "../../utils";
 import { v4 as uuidv4 } from "uuid";
 import { useDispatch } from "react-redux";
-import { addToNotifications } from "../../store";
+import { addToDocuments, addToNotifications } from "../../store";
 
 export const AddPaymentRequestPage = () => {
   const dispatch = useDispatch();
   const [form] = Form.useForm();
-  const [folderArr, setFolderArr] = useState([]);
   const [statusFolder, setStatusFolder] = useState(status.IN_PROCESS);
-
-  useEffect(() => {
-    const savedFolderArr = getFolderArr() || [];
-    setFolderArr(savedFolderArr);
-  }, []);
 
   const member = getStepDataList();
 
@@ -37,29 +26,26 @@ export const AddPaymentRequestPage = () => {
   const onFinish = (values) => {
     const newGuid = uuidv4();
 
-    const newFolderArr = [
-      ...folderArr,
-      {
-        guid: newGuid,
-        user_foto: "http://docs.icloud.kg/image/avatar/28.jpg",
-        user_name: employeeInfo().fio,
-        title: pages.CREATE_PAYMENT_REQUEST,
-        doc_name: values.title,
-        process: pathname.CREATE_PAYMENT_REQUEST,
-        request_name: values.request_name,
-        request_basis: values.request_basis,
-        counterparty: values.counterparty,
-        amount: values.amount,
-        payment_date: values.payment_date,
-        budget_item: values.budget_item,
-        comments: values.comments,
-        folder_name: status.IN_PROCESS,
-        count: 12,
-        date: values.payment_date,
-        status: status.IN_PROCESS,
-        employee: { ...employeeInfo() },
-      },
-    ];
+    const newFolderArr = {
+      guid: newGuid,
+      user_foto: "http://docs.icloud.kg/image/avatar/28.jpg",
+      user_name: employeeInfo().fio,
+      title: pages.CREATE_PAYMENT_REQUEST,
+      doc_name: values.title,
+      process: pathname.CREATE_PAYMENT_REQUEST,
+      request_name: values.request_name,
+      request_basis: values.request_basis,
+      counterparty: values.counterparty,
+      amount: values.amount,
+      payment_date: values.payment_date,
+      budget_item: values.budget_item,
+      comments: values.comments,
+      folder_name: status.IN_PROCESS,
+      count: 12,
+      date: values.payment_date,
+      status: status.IN_PROCESS,
+      employee: { ...employeeInfo() },
+    };
 
     dispatch(
       addToNotifications([
@@ -77,8 +63,7 @@ export const AddPaymentRequestPage = () => {
       ])
     );
 
-    setFolderArr(newFolderArr);
-    localStorage.setItem("folderArr", JSON.stringify(newFolderArr));
+    dispatch(addToDocuments([newFolderArr]));
     form.resetFields();
   };
 

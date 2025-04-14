@@ -10,15 +10,18 @@ import {
   FileTextOutlined,
 } from "@ant-design/icons";
 import { useState } from "react";
-import { employeeInfo, getFolderArr } from "../../utils";
+import { employeeInfo } from "../../utils";
+import { useSelector } from "react-redux";
 
 export const HomePage = () => {
+  const documentsArr = useSelector((state) => state.documents.documentsArr);
+
   const [open, setOpen] = useState(false);
   const onClose = () => {
     setOpen(false);
   };
 
-  const data = getFolderArr()?.filter(
+  const data = documentsArr?.filter(
     (item) => item?.employee?.email === employeeInfo()?.email
   );
 

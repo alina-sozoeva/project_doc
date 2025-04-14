@@ -9,7 +9,7 @@ import { useDocumentsColums } from "./useDocumentsColums";
 import styles from "./DocumentsPage.module.scss";
 import { pages, pathname, status } from "../../enums";
 import { useState } from "react";
-import { employeeInfo, getEmployeesArr, getFolderArr } from "../../utils";
+import { employeeInfo } from "../../utils";
 import { useSelector } from "react-redux";
 
 const items = [
@@ -21,9 +21,11 @@ const items = [
 ];
 
 export const DocumemtsPage = () => {
+  const employeesArr = useSelector((state) => state.emloyees.emloyeesArr);
+  const documentsArr = useSelector((state) => state.documents.documentsArr);
   const [open, setOpen] = useState(false);
   const { columns } = useDocumentsColums();
-  const data = getFolderArr()?.filter(
+  const data = documentsArr?.filter(
     (item) => item?.employee?.email === employeeInfo()?.email
   );
   const filteredStatus = localStorage.getItem("filteredStatus");
@@ -38,23 +40,20 @@ export const DocumemtsPage = () => {
   const filteredData = data?.filter((item) => item.status === filteredStatus);
 
   const notifications = useSelector((state) => state.notifications.notifArr);
-  const empArr = getEmployeesArr();
 
   const matching = notifications.filter((notif) =>
-    empArr.some((emp) => emp.id === notif.member_id)
+    employeesArr.some((emp) => emp.id === notif.member_id)
   );
 
   const message = matching.filter(
     (item) => item.member_id === employeeInfo()?.id
   );
 
-  const matchingTwo = getFolderArr()?.filter((item) =>
+  const matchingTwo = documentsArr?.filter((item) =>
     message.some((emp) => emp.doc_id === item.guid)
   );
 
   const messageFil = JSON.parse(localStorage.getItem("messageFilter"));
-
-  console.log(messageFil);
 
   const handleSetMessageFilter = (value) => {
     setMessageFilter(value);
@@ -76,7 +75,7 @@ export const DocumemtsPage = () => {
           <Button type="primary" onClick={() => handleSetMessageFilter(true)}>
             Документы на проверку
           </Button>
-          {/* <Input
+          <Input
             placeholder="Поиск по инициатору"
             prefix={<SearchOutlined />}
             style={{
@@ -103,13 +102,13 @@ export const DocumemtsPage = () => {
             style={{
               width: "150px",
             }}
-          /> */}
-          {/* <Button type="primary">
+          />
+          <Button type="primary">
             <FilterOutlined />
           </Button>
           <Button type="primary">
             <RedoOutlined />
-          </Button> */}
+          </Button>
         </Flex>
       </Flex>
 

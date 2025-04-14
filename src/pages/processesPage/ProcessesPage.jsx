@@ -1,10 +1,12 @@
-import { useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import { Button, Divider, Flex, Form, Select, Steps, Typography } from "antd";
 import { WarningModal, Wrapper } from "../../common";
-import { pages, pathname } from "../../enums";
+import { pages, pathname, processesMap } from "../../enums";
 import { toast } from "react-toastify";
-import { getStepDataList } from "../../utils";
 import { StepContent } from "../../components";
+import { useDispatch, useSelector } from "react-redux";
+import { addToProcesses, addToProcessesMembers } from "../../store";
+import { v4 as uuidv4 } from "uuid";
 import styles from "./ProcessesPage.module.scss";
 
 const processesArr = [
@@ -30,28 +32,34 @@ const processesArr = [
   },
 ];
 
+const defultSteps = [
+  {
+    title: "Должность/отдел",
+    content: <StepContent />,
+  },
+  {
+    title: "Должность/отдел",
+    content: <StepContent />,
+  },
+];
+
 export const ProcessesPage = () => {
+  const processId = useRef(uuidv4());
   const [form] = Form.useForm();
+  const dispatch = useDispatch();
+  const processesArray = useSelector((state) => state.processes.processesArr);
   const [current, setCurrent] = useState(0);
   const [openSteps, setOpenSteps] = useState(false);
   const [openModal, setOpenModal] = useState(false);
   const [title, setTitle] = useState("");
-  const [stepData, setStepData] = useState([]);
-  const [steps, setSteps] = useState([
-    {
-      title: "Должность/отдел",
-      content: <StepContent count={0} />,
-    },
-    {
-      title: "Должность/отдел",
-      content: <StepContent count={1} />,
-    },
-  ]);
+  const [steps, setSteps] = useState(defultSteps);
 
-  const usedTitles = getStepDataList()?.map((item) => item.title);
+  const handleChange = (value) => {
+    setTitle(value);
+  };
 
   const filteredProcessesArr = processesArr?.filter(
-    (item) => !usedTitles?.includes(item.value)
+    (item) => !processesArray?.some((p) => p.slug === item.value)
   );
 
   const items = steps?.map((item, index) => ({
@@ -59,15 +67,27 @@ export const ProcessesPage = () => {
     title: item.title,
   }));
 
-  const handleStepChange = (stepIndex, values) => {
-    setStepData((prev) => {
-      const newData = [...prev];
-      newData[stepIndex] = {
-        ...values,
-        status: "",
-      };
-      return newData;
-    });
+  const addMembers = (values) => {
+    dispatch(
+      addToProcessesMembers([
+        {
+          process_id: processId.current,
+          step_index: uuidv4(),
+          department_id: values.department_id,
+          position_id: values.position_id,
+          time_limit: values.time_limit,
+          employee_id: values.employee_id,
+          status: values.status,
+        },
+      ])
+    );
+  };
+
+  const clear = () => {
+    setOpenSteps(false);
+    setCurrent(0);
+    setSteps(defultSteps);
+    setTitle("");
   };
 
   const handleSubmit = () => {
@@ -75,18 +95,40 @@ export const ProcessesPage = () => {
       .validateFields()
       .then(() => {
         const values = form.getFieldsValue();
-        handleStepChange(current, values);
+        addMembers(values);
         setCurrent(current + 1);
+        form.resetFields();
       })
       .catch((errorInfo) => {
         console.log("Validation failed:", errorInfo);
       });
   };
 
+  const onConfirm = () => {
+    form.resetFields();
+    setOpenModal(false);
+    clear();
+  };
+
+  const onFinish = (values) => {
+    dispatch(
+      addToProcesses([
+        {
+          id: processId.current,
+          title: processesMap[title],
+          slug: title,
+        },
+      ])
+    );
+    addMembers(values);
+    toast.success("Вы успешно создали процесс");
+    clear();
+  };
+
   const addStep = () => {
     const newIndex = steps.length;
-    setSteps((prevSteps) => [
-      ...prevSteps,
+    setSteps((steps) => [
+      ...steps,
       {
         title: "Должность/отдел ",
         content: <StepContent count={newIndex} />,
@@ -95,63 +137,14 @@ export const ProcessesPage = () => {
   };
 
   const removeStep = () => {
-    if (steps.length <= 1) {
+    if (steps.length <= 2) {
       return;
     }
     setSteps(() => [...steps.slice(0, steps.length - 1)]);
   };
 
-  const onConfirm = () => {
-    form.resetFields();
-    setOpenSteps(false);
-    setOpenModal(false);
-    setCurrent(0);
-    setSteps([
-      {
-        title: "Должность/отдел 1",
-        content: <StepContent count={0} />,
-      },
-      {
-        title: "Должность/отдел 1",
-        content: <StepContent count={1} />,
-      },
-    ]);
-    setTitle("");
-  };
-
-  const onFinish = (values) => {
-    handleStepChange(current, values);
-    toast.success("Вы успешно создали процесс");
-    const newProcess = {
-      title,
-      members: stepData,
-    };
-    const existing = getStepDataList() || [];
-    const updatedList = [...existing, newProcess];
-    localStorage.setItem("stepDataList", JSON.stringify(updatedList));
-    form.resetFields();
-    setOpenSteps(false);
-    setCurrent(0);
-    setStepData([]);
-    setSteps([
-      {
-        title: "Должность/отдел",
-        content: <StepContent count={0} />,
-      },
-      {
-        title: "Должность/отдел",
-        content: <StepContent count={1} />,
-      },
-    ]);
-    setTitle("");
-  };
-
   const prev = () => {
     setCurrent(current - 1);
-  };
-
-  const handleChange = (value) => {
-    setTitle(value);
   };
 
   return (
@@ -175,7 +168,7 @@ export const ProcessesPage = () => {
                 placeholder="Выберите название процесcа"
                 options={filteredProcessesArr}
                 onChange={handleChange}
-                value={title}
+                value={title || undefined}
               />
             )}
           </Flex>
@@ -205,7 +198,7 @@ export const ProcessesPage = () => {
           <>
             <Steps current={current} items={items} />
             <Form form={form} layout="vertical" onFinish={onFinish}>
-              <div>{steps[current].content}</div>
+              <div>{steps[current]?.content}</div>
               <Flex justify="space-between">
                 <Flex gap={"small"}>
                   {current > 0 && <Button onClick={prev}>Назад</Button>}

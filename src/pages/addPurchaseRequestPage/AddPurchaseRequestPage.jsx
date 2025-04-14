@@ -1,26 +1,18 @@
 import { Button, Col, DatePicker, Flex, Form, Input, Row, Select } from "antd";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { Wrapper } from "../../common";
 import { status, pages, pathname } from "../../enums";
-import {
-  employeeInfo,
-  getFolderArr,
-  getStepDataList,
-  getStepEmployee,
-} from "../../utils";
+import { employeeInfo, getStepDataList, getStepEmployee } from "../../utils";
 import styles from "./AddPurchaseRequestPage.module.scss";
 import { toast } from "react-toastify";
-import { useDispatch, useSelector } from "react-redux";
-import { addToNotifications } from "../../store";
+import { useDispatch } from "react-redux";
+import { addToDocuments, addToNotifications } from "../../store";
 
 export const AddPurchaseRequestPage = () => {
   const dispatch = useDispatch();
   const [form] = Form.useForm();
-  const [folderArr, setFolderArr] = useState([]);
   const [statusFolder, setStatusFolder] = useState(status.IN_PROCESS);
-
-  const notifications = useSelector((state) => state.notifications.notifArr);
 
   const member = getStepDataList();
 
@@ -29,35 +21,27 @@ export const AddPurchaseRequestPage = () => {
   );
 
   const firtsMemberId = filteredMember?.length
-  ? getStepEmployee(filteredMember, 0)
-  : null;
-
-  useEffect(() => {
-    const savedFolderArr = getFolderArr() || [];
-    setFolderArr(savedFolderArr);
-  }, []);
+    ? getStepEmployee(filteredMember, 0)
+    : null;
 
   const onFinish = (values) => {
     const newGuid = uuidv4();
 
-    const newFolderArr = [
-      ...folderArr,
-      {
-        guid: newGuid,
-        user_foto: "http://docs.icloud.kg/image/avatar/28.jpg",
-        user_name: employeeInfo().fio,
-        doc_name: values.title,
-        name: values.name,
-        title: pages.CREATE_PURCHASE_REQUEST,
-        process: pathname.CREATE_PURCHASE_REQUEST,
-        description: values.comment,
-        folder_name: status.IN_PROCESS,
-        count: 12,
-        date: values.end_date,
-        status: statusFolder,
-        employee: { ...employeeInfo() },
-      },
-    ];
+    const newFolderArr = {
+      guid: newGuid,
+      user_foto: "http://docs.icloud.kg/image/avatar/28.jpg",
+      user_name: employeeInfo().fio,
+      doc_name: values.title,
+      name: values.name,
+      title: pages.CREATE_PURCHASE_REQUEST,
+      process: pathname.CREATE_PURCHASE_REQUEST,
+      description: values.comment,
+      folder_name: status.IN_PROCESS,
+      count: 12,
+      date: values.end_date,
+      status: statusFolder,
+      employee: { ...employeeInfo() },
+    };
 
     dispatch(
       addToNotifications([
@@ -74,9 +58,8 @@ export const AddPurchaseRequestPage = () => {
         },
       ])
     );
-    setFolderArr(newFolderArr);
-    localStorage.setItem("folderArr", JSON.stringify(newFolderArr));
 
+    dispatch(addToDocuments([newFolderArr]));
     if (statusFolder === status.DRAFT) {
       toast.info("Ваш документ успешно добавлен в черновики");
     } else {

@@ -38,6 +38,9 @@ export const pages = {
 export const storageKeys = {
   NOTIFICATIONS: "notifications",
   EMPLOYEES: "employees",
+  DOCUMENTS: "documents",
+  PROCESSES: "processes",
+  PROCESSES_MEMBERS: "processesMembers",
 };
 
 export const processesMap = {

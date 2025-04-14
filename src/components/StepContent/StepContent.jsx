@@ -1,11 +1,11 @@
 import { Form, Input, Select, Row, Col } from "antd";
 import { departments, positions } from "../../constants";
 import { useMemo, useState } from "react";
-import { getEmployeesArr } from "../../utils/storageHelpers";
 import styles from "./StepContent.module.scss";
+import { useSelector } from "react-redux";
 
-export const StepContent = ({ count }) => {
-  const employeesArr = getEmployeesArr();
+export const StepContent = () => {
+  const employeesArr = useSelector((state) => state.emloyees.emloyeesArr);
   const [filters, setFilters] = useState({
     departmentId: undefined,
     positionId: undefined,
@@ -42,10 +42,10 @@ export const StepContent = ({ count }) => {
   }));
 
   return (
-    <Row gutter={16}>
+    <Row gutter={16} key="step_index">
       <Col span={6}>
         <Form.Item
-          name={`step${count}_department`}
+          name="department_id"
           label="Название отдела"
           className={styles.customFormItem}
           rules={[
@@ -67,7 +67,7 @@ export const StepContent = ({ count }) => {
 
       <Col span={6}>
         <Form.Item
-          name={`step${count}_position`}
+          name="position_id"
           label="Должность участника процесса"
           className={styles.customFormItem}
           rules={[
@@ -89,7 +89,7 @@ export const StepContent = ({ count }) => {
 
       <Col span={6}>
         <Form.Item
-          name={`step${count}_employee`}
+          name="employee_id"
           label="ФИО участника процесса"
           className={styles.customFormItem}
         >
@@ -104,7 +104,7 @@ export const StepContent = ({ count }) => {
 
       <Col span={6}>
         <Form.Item
-          name={`step${count}_time`}
+          name="time_limit"
           label="Cрок рассмотрения (дней)"
           className={styles.customFormItem}
           rules={[

@@ -1,14 +1,15 @@
 import { Button, Flex, Form, Input, Modal, Select, Upload } from "antd";
-import { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import foto from "../../assets/foto.jpg";
 import { departments, positions } from "../../constants";
+import { useDispatch } from "react-redux";
+import { addToEmployees } from "../../store";
 
 const { Dragger } = Upload;
 
-export const EmployeeModal = ({ open, onCancel, headId, add }) => {
+export const EmployeeModal = ({ open, onCancel, headId }) => {
   const [form] = Form.useForm();
-  const [, setEmployeesArr] = useState([]);
+  const dispatch = useDispatch();
 
   const toBase64 = (file) => {
     return new Promise((resolve, reject) => {
@@ -34,8 +35,7 @@ export const EmployeeModal = ({ open, onCancel, headId, add }) => {
       phone_number: values.phone_number,
     };
 
-    setEmployeesArr((prevEmployees) => [...prevEmployees, newEmployee]);
-    add(newEmployee);
+    dispatch(addToEmployees([newEmployee]));
     form.resetFields();
     onCancel();
   };

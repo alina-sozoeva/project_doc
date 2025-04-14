@@ -2,15 +2,16 @@ import { CarryOutOutlined, CommentOutlined } from "@ant-design/icons";
 import { ItineraryCard, Wrapper } from "../../common";
 import { Flex } from "antd";
 import { useParams } from "react-router-dom";
+import { getStepDataList } from "../../utils";
+import { useSelector } from "react-redux";
 import styles from "./Itinerary.module.scss";
-import { getFolderArr, getStepDataList } from "../../utils";
 
 export const Itinerary = () => {
   const { id } = useParams();
   const data = getStepDataList();
-  const obj = getFolderArr();
+  const documentsArr = useSelector((state) => state.documents.documentsArr);
 
-  const objFilter = obj?.find((item) => item.guid === id);
+  const objFilter = documentsArr?.find((item) => item.guid === id);
 
   const filteredData = data?.filter(
     (item) => item.title === objFilter?.process

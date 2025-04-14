@@ -1,44 +1,30 @@
 import { Button, Flex, Form, Input, Modal, Typography, Upload } from "antd";
-import { useState, useEffect } from "react";
 import { status } from "../../enums";
 import { UploadOutlined } from "@ant-design/icons";
-import { getFolderArr } from "../../utils";
+import { useDispatch, useSelector } from "react-redux";
+import { v4 as uuidv4 } from "uuid";
+import { addToDocuments } from "../../store";
 
 export const FolderModal = ({ open, onCancel }) => {
-  const [folderArr, setFolderArr] = useState([]);
-  const [lastGuid, setLastGuid] = useState(0);
+  const dispatch = useDispatch();
   const [form] = Form.useForm();
   const currentDate = new Date().toISOString().split("T")[0];
-
-  useEffect(() => {
-    const savedFolderArr = getFolderArr() || [];
-    const savedLastGuid = Math.max(
-      ...savedFolderArr?.map((item) => item.guid),
-      0
-    );
-    setFolderArr(savedFolderArr);
-    setLastGuid(savedLastGuid);
-  }, []);
+  const documentsArr = useSelector((state) => state.documents.documentsArr);
 
   const onFinish = (values) => {
-    const newFolderArr = [
-      ...folderArr,
-      {
-        guid: lastGuid + 1,
-        user_foto: "http://docs.icloud.kg/image/avatar/28.jpg",
-        user_name: "Leon Kennady",
-        title: values.title,
-        description: values.description,
-        folder_name: values.folder_name ? values.folder_name : status.DRAFT,
-        count: 12,
-        date: currentDate,
-        status: values.folder_name ? values.folder_name : status.DRAFT,
-      },
-    ];
+    const newFolderArr = {
+      id: uuidv4(),
+      user_foto: "http://docs.icloud.kg/image/avatar/28.jpg",
+      user_name: "Leon Kennady",
+      title: values.title,
+      description: values.description,
+      folder_name: values.folder_name ? values.folder_name : status.DRAFT,
+      count: 12,
+      date: currentDate,
+      status: values.folder_name ? values.folder_name : status.DRAFT,
+    };
 
-    setFolderArr(newFolderArr);
-    setLastGuid(lastGuid + 1);
-    localStorage.setItem("folderArr", JSON.stringify(newFolderArr));
+    dispatch(addToDocuments([newFolderArr]));
     form.resetFields();
     onCancel();
   };

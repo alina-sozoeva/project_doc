@@ -7,51 +7,41 @@ import {
   Input,
   Row,
   Select,
-  Typography,
   Upload,
 } from "antd";
-import { useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { Wrapper } from "../../common";
 import { pages, status, pathname } from "../../enums";
 import styles from "./AddAgreementPage.module.scss";
-import { employeeInfo, getFolderArr } from "../../utils";
+import { employeeInfo } from "../../utils";
+import { useDispatch } from "react-redux";
+import { addToDocuments } from "../../store";
 
 export const AddAgreementPage = () => {
   const [form] = Form.useForm();
-  const [agreementArr, setAgreementArr] = useState([]);
-
-  useEffect(() => {
-    const savedFolderArr = getFolderArr() || [];
-    setAgreementArr(savedFolderArr);
-  }, []);
+  const dispatch = useDispatch();
 
   const onFinish = (values) => {
-    const newAgreementArr = [
-      ...agreementArr,
-      {
-        guid: uuidv4(),
-        user_foto: "http://docs.icloud.kg/image/avatar/28.jpg",
-        user_name: employeeInfo().fio,
-        title: pages.CREATE_AGREEMENT,
-        process: pathname.CREATE_AGREEMENT,
-        contract_number: values.contract_number,
-        counterparty: values.counterparty,
-        contract_type: values.contract_type,
-        creation_date: values.creation_date,
-        validity_period: values.validity_period,
-        contract_amount: values.contract_amount,
-        approval_status: values.approval_status,
-        comments: values.comments,
-        folder_name: status.IN_PROCESS,
-        status: status.IN_PROCESS,
-        process: pathname.CREATE_AGREEMENT,
-        employee: { ...employeeInfo() },
-      },
-    ];
-
-    setAgreementArr(newAgreementArr);
-    localStorage.setItem("folderArr", JSON.stringify(newAgreementArr));
+    const newAgreementArr = {
+      guid: uuidv4(),
+      user_foto: "http://docs.icloud.kg/image/avatar/28.jpg",
+      user_name: employeeInfo().fio,
+      title: pages.CREATE_AGREEMENT,
+      process: pathname.CREATE_AGREEMENT,
+      contract_number: values.contract_number,
+      counterparty: values.counterparty,
+      contract_type: values.contract_type,
+      creation_date: values.creation_date,
+      validity_period: values.validity_period,
+      contract_amount: values.contract_amount,
+      approval_status: values.approval_status,
+      comments: values.comments,
+      folder_name: status.IN_PROCESS,
+      status: status.IN_PROCESS,
+      process: pathname.CREATE_AGREEMENT,
+      employee: { ...employeeInfo() },
+    };
+    dispatch(addToDocuments([newAgreementArr]));
     form.resetFields();
   };
 
