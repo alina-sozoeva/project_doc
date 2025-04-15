@@ -17,24 +17,30 @@ export const AddPurchaseRequestPage = () => {
     (state) => state.processes.processesMembers
   );
 
-  console.log(processesMembers);
+  const processes = useSelector((state) => state.processes.processes);
+
+  const filtedArr = processes.find((item) => item.slug === "/purchase-request");
+
+  const filteredProcessesMem = processesMembers.filter(
+    (item) => item.process_id === filtedArr.id
+  );
 
   const onFinish = (values) => {
     const newGuid = uuidv4();
 
     const newFolderArr = {
       guid: newGuid,
-      user_foto: "http://docs.icloud.kg/image/avatar/28.jpg",
-      user_name: employeeInfo().fio,
-      doc_name: values.title,
-      name: values.name,
-      title: pages.CREATE_PURCHASE_REQUEST,
-      process: pathname.CREATE_PURCHASE_REQUEST,
-      description: values.comment,
-      folder_name: status.IN_PROCESS,
-      count: 12,
-      date: values.end_date,
+      data: {
+        user_foto: "http://docs.icloud.kg/image/avatar/28.jpg",
+        user_name: employeeInfo().fio,
+        doc_name: values.title,
+        name: values.name,
+        description: values.comment,
+        folder_name: status.IN_PROCESS,
+        date: values.end_date,
+      },
       status: statusFolder,
+      process_id: filteredProcessesMem[0]?.process_id,
       employee: { ...employeeInfo() },
     };
 
@@ -44,12 +50,14 @@ export const AddPurchaseRequestPage = () => {
           id: uuidv4(),
           user_id: employeeInfo().id,
           doc_id: newGuid,
-          process: pathname.CREATE_PURCHASE_REQUEST,
           status: false,
           comment: "",
           folder_status: statusFolder,
-          member_id: processesMembers[0]?.employee_id,
-          step: processesMembers[0]?.step_index,
+          member_id: filteredProcessesMem[0]?.employee_id,
+          step: filteredProcessesMem[0]?.step_index,
+          department_id: filteredProcessesMem[0]?.department_id,
+          position_id: filteredProcessesMem[0]?.position_id,
+          process_id: filteredProcessesMem[0]?.process_id,
         },
       ])
     );

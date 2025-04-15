@@ -21,16 +21,22 @@ import { toast } from "react-toastify";
 export const EditForm = ({ item }) => {
   const { id, status: stat } = useParams();
   const dispatch = useDispatch();
-  const notifications = useSelector((state) => state.notifications.notifArr);
+  const notifications = useSelector(
+    (state) => state.notifications.notifications
+  );
   const processesMembers = useSelector(
     (state) => state.processes.processesMembers
   );
-  const [documents, setDocuments] = useState([]);
 
-  const handleFileUpload = (event) => {
-    const files = Array.from(event.target.files);
-    setDocuments((prevDocs) => [...prevDocs, ...files]);
-  };
+  const processes = useSelector((state) => state.processes.processes);
+
+  const filtedArr = processes.find((item) => item.slug === "/purchase-request");
+
+  const filteredProcessesMem = processesMembers.filter(
+    (item) => item.process_id === filtedArr.id
+  );
+
+  const [documents, setDocuments] = useState([]);
 
   //чекаем документ
   const newNotif = notifications.find((item) => item.doc_id === id);
@@ -39,8 +45,11 @@ export const EditForm = ({ item }) => {
     dispatch(
       editNotifications({
         ...newNotif,
-        member_id: processesMembers[1].employee_id,
-        step: processesMembers[1]?.step_index,
+        member_id: filteredProcessesMem[1].employee_id,
+        step: filteredProcessesMem[1].step_index,
+        department_id: filteredProcessesMem[1]?.department_id,
+        position_id: filteredProcessesMem[1]?.position_id,
+        process_id: filteredProcessesMem[1]?.process_id,
       })
     );
     toast.success("Вы успешно согласовали документ");
@@ -55,6 +64,11 @@ export const EditForm = ({ item }) => {
       })
     );
     toast.success("Вы успешно согласовали документ");
+  };
+
+  const handleFileUpload = (event) => {
+    const files = Array.from(event.target.files);
+    setDocuments((prevDocs) => [...prevDocs, ...files]);
   };
 
   return (

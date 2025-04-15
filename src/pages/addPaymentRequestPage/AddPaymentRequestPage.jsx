@@ -3,7 +3,7 @@ import { useState } from "react";
 import { Wrapper } from "../../common";
 import { status, pages, pathname } from "../../enums";
 import styles from "./AddPaymentRequestPage.module.scss";
-import { employeeInfo, getStepDataList, getStepEmployee } from "../../utils";
+import { employeeInfo } from "../../utils";
 import { v4 as uuidv4 } from "uuid";
 import { useDispatch, useSelector } from "react-redux";
 import { addToDocuments, addToNotifications } from "../../store";
@@ -16,27 +16,37 @@ export const AddPaymentRequestPage = () => {
     (state) => state.processes.processesMembers
   );
 
+  const processes = useSelector((state) => state.processes.processes);
+
+  const filtedArr = processes.find((item) => item.slug === "/payment-request");
+
+  const filteredProcessesMem = processesMembers.filter(
+    (item) => item.process_id === filtedArr.id
+  );
+
+  console.log(filteredProcessesMem);
+
   const onFinish = (values) => {
     const newGuid = uuidv4();
 
     const newFolderArr = {
       guid: newGuid,
-      user_foto: "http://docs.icloud.kg/image/avatar/28.jpg",
-      user_name: employeeInfo().fio,
-      title: pages.CREATE_PAYMENT_REQUEST,
-      doc_name: values.title,
-      process: pathname.CREATE_PAYMENT_REQUEST,
-      request_name: values.request_name,
-      request_basis: values.request_basis,
-      counterparty: values.counterparty,
-      amount: values.amount,
-      payment_date: values.payment_date,
-      budget_item: values.budget_item,
-      comments: values.comments,
-      folder_name: status.IN_PROCESS,
-      count: 12,
-      date: values.payment_date,
-      status: status.IN_PROCESS,
+      data: {
+        user_foto: "http://docs.icloud.kg/image/avatar/28.jpg",
+        user_name: employeeInfo().fio,
+        doc_name: values.title,
+        request_name: values.request_name,
+        request_basis: values.request_basis,
+        counterparty: values.counterparty,
+        amount: values.amount,
+        payment_date: values.payment_date,
+        budget_item: values.budget_item,
+        comments: values.comments,
+        folder_name: status.IN_PROCESS,
+        date: values.payment_date,
+      },
+      status: statusFolder,
+      process_id: filteredProcessesMem[0]?.process_id,
       employee: { ...employeeInfo() },
     };
 
@@ -46,12 +56,14 @@ export const AddPaymentRequestPage = () => {
           id: uuidv4(),
           user_id: employeeInfo().id,
           doc_id: newGuid,
-          process: pathname.CREATE_PURCHASE_REQUEST,
           status: false,
           comment: "",
           folder_status: statusFolder,
-          member_id: processesMembers[0].employee_id,
-          step: 1,
+          member_id: filteredProcessesMem[0]?.employee_id,
+          step: filteredProcessesMem[0]?.step_index,
+          department_id: filteredProcessesMem[0]?.department_id,
+          position_id: filteredProcessesMem[0]?.position_id,
+          process_id: filteredProcessesMem[0]?.process_id,
         },
       ])
     );

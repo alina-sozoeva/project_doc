@@ -16,36 +16,67 @@ import { pages, pathname, status } from "../../enums";
 import styles from "./CloseDocumentsPage.module.scss";
 import { v4 as uuidv4 } from "uuid";
 import { employeeInfo } from "../../utils";
-import { useDispatch } from "react-redux";
-import { addToDocuments } from "../../store";
+import { useDispatch, useSelector } from "react-redux";
+import { addToDocuments, addToNotifications } from "../../store";
+import { useState } from "react";
 
 const { Title } = Typography;
 
 export const CloseDocumentsPage = () => {
-  const [form] = Form.useForm();
   const dispatch = useDispatch();
+  const [form] = Form.useForm();
+  const [statusFolder, setStatusFolder] = useState(status.IN_PROCESS);
+  const processesMembers = useSelector(
+    (state) => state.processes.processesMembers
+  );
+
+  const processes = useSelector((state) => state.processes.processes);
+
+  const filtedArr = processes.find((item) => item.slug === "/close-documents");
+
+  const filteredProcessesMem = processesMembers.filter(
+    (item) => item.process_id === filtedArr.id
+  );
 
   const onFinish = (values) => {
+    const newGuid = uuidv4();
+
     const newFolderArr = {
-      guid: uuidv4(),
-      user_foto: "http://docs.icloud.kg/image/avatar/28.jpg",
-      user_name: employeeInfo().fio,
-      doc_name: values.title,
-      title: pages.CLOSE_DOCUMENTS,
-      process: pathname.CLOSE_DOCUMENTS,
-      process_name: values.process_name,
-      comments: values.comments,
-      folder_name: status.IN_PROCESS,
-      count: 12,
-      close_date: values.close_date,
-      close_status: values.close_status,
-      process: pathname.CLOSE_DOCUMENTS,
-      status: status.IN_PROCESS,
+      guid: newGuid,
+      data: {
+        user_foto: "http://docs.icloud.kg/image/avatar/28.jpg",
+        user_name: employeeInfo().fio,
+        doc_name: values.title,
+        process_name: values.process_name,
+        comments: values.comments,
+        folder_name: status.IN_PROCESS,
+        close_date: values.close_date,
+        close_status: values.close_status,
+        basis_document: values.basis_document,
+        closing_documents: values.closing_documents?.fileList || [],
+        cover_sheet: values.cover_sheet?.fileList || [],
+      },
+      status: statusFolder,
+      process_id: filteredProcessesMem[0]?.process_id,
       employee: { ...employeeInfo() },
-      basis_document: values.basis_document,
-      closing_documents: values.closing_documents?.fileList || [],
-      cover_sheet: values.cover_sheet?.fileList || [],
     };
+    dispatch(
+      addToNotifications([
+        {
+          id: uuidv4(),
+          user_id: employeeInfo().id,
+          doc_id: newGuid,
+          status: false,
+          comment: "",
+          folder_status: statusFolder,
+          member_id: filteredProcessesMem[0]?.employee_id,
+          step: filteredProcessesMem[0]?.step_index,
+          department_id: filteredProcessesMem[0]?.department_id,
+          position_id: filteredProcessesMem[0]?.position_id,
+          process_id: filteredProcessesMem[0]?.process_id,
+        },
+      ])
+    );
 
     dispatch(addToDocuments([newFolderArr]));
     form.resetFields();

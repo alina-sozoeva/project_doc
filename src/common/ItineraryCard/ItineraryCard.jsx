@@ -73,12 +73,8 @@ export const ItineraryCard = ({ key, item, index }) => {
         {icon}
         <img src={foto} alt="user foto" className={styles.img} />
         <Flex vertical gap={"small"} align="center">
-          <Typography.Text>
-            {positionMap[item[`step${index}_position`]]}
-          </Typography.Text>
-          <Typography.Text>
-            {departmentMap[item[`step${index}_department`]]}
-          </Typography.Text>
+          <Typography.Text>{positionMap[item.department_id]}</Typography.Text>
+          <Typography.Text>{departmentMap[item.position_id]}</Typography.Text>
         </Flex>
       </Flex>
       <Drawer title="Комметарий" onClose={onClose} open={open}></Drawer>

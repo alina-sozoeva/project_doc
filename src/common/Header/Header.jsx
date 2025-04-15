@@ -15,24 +15,28 @@ export const Header = () => {
   const notifications = useSelector((state) => state.notifications.notifArr);
   const employees = useSelector((state) => state.employees.employees);
 
-  console.log(employees);
+  console.log(employees, "employees");
 
-  // const matching = notifications?.filter((notif) =>
-  //   emloyeesArr?.some((emp) => emp.id === notif.member_id)
-  // );
+  const matching = notifications?.filter((notif) =>
+    employees?.some((emp) => emp.id === notif.member_id)
+  );
 
-  // const message = matching?.filter(
-  //   (item) => item.member_id === employeeInfo()?.id
-  // );
+  const message = matching?.filter(
+    (item) => item.member_id === employeeInfo()?.id
+  );
 
-  // useEffect(() => {
-  //   const key = Object.keys(pathname).find(
-  //     (key) => pathname[key] === location.pathname
-  //   );
-  //   if (key) {
-  //     setTitle(pages[key]);
-  //   }
-  // }, [location]);
+  useEffect(() => {
+    const key = Object.keys(pathname).find(
+      (key) => pathname[key] === location.pathname
+    );
+    if (key) {
+      setTitle(pages[key]);
+    }
+  }, [location]);
+
+  console.log(matching, "matching");
+
+  console.log(message, "message");
 
   const logOut = () => {
     localStorage.removeItem("statusCount");

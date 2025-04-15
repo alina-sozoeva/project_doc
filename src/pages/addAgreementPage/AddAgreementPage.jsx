@@ -14,33 +14,66 @@ import { Wrapper } from "../../common";
 import { pages, status, pathname } from "../../enums";
 import styles from "./AddAgreementPage.module.scss";
 import { employeeInfo } from "../../utils";
-import { useDispatch } from "react-redux";
-import { addToDocuments } from "../../store";
+import { useDispatch, useSelector } from "react-redux";
+import { addToDocuments, addToNotifications } from "../../store";
+import { useState } from "react";
 
 export const AddAgreementPage = () => {
-  const [form] = Form.useForm();
   const dispatch = useDispatch();
+  const [form] = Form.useForm();
+  const [statusFolder, setStatusFolder] = useState(status.IN_PROCESS);
+  const processesMembers = useSelector(
+    (state) => state.processes.processesMembers
+  );
+
+  const processes = useSelector((state) => state.processes.processes);
+
+  const filtedArr = processes.find((item) => item.slug === "/purchase-request");
+
+  const filteredProcessesMem = processesMembers.filter(
+    (item) => item.process_id === filtedArr.id
+  );
 
   const onFinish = (values) => {
+    const newGuid = uuidv4();
+
     const newAgreementArr = {
-      guid: uuidv4(),
-      user_foto: "http://docs.icloud.kg/image/avatar/28.jpg",
-      user_name: employeeInfo().fio,
-      title: pages.CREATE_AGREEMENT,
-      process: pathname.CREATE_AGREEMENT,
-      contract_number: values.contract_number,
-      counterparty: values.counterparty,
-      contract_type: values.contract_type,
-      creation_date: values.creation_date,
-      validity_period: values.validity_period,
-      contract_amount: values.contract_amount,
-      approval_status: values.approval_status,
-      comments: values.comments,
-      folder_name: status.IN_PROCESS,
-      status: status.IN_PROCESS,
-      process: pathname.CREATE_AGREEMENT,
+      guid: newGuid,
+      data: {
+        user_foto: "http://docs.icloud.kg/image/avatar/28.jpg",
+        user_name: employeeInfo().fio,
+        contract_number: values.contract_number,
+        counterparty: values.counterparty,
+        contract_type: values.contract_type,
+        creation_date: values.creation_date,
+        validity_period: values.validity_period,
+        contract_amount: values.contract_amount,
+        approval_status: values.approval_status,
+        comments: values.comments,
+        folder_name: status.IN_PROCESS,
+      },
+      status: statusFolder,
+      process_id: filteredProcessesMem[0]?.process_id,
       employee: { ...employeeInfo() },
     };
+
+    dispatch(
+      addToNotifications([
+        {
+          id: uuidv4(),
+          user_id: employeeInfo().id,
+          doc_id: newGuid,
+          status: false,
+          comment: "",
+          folder_status: statusFolder,
+          member_id: filteredProcessesMem[0]?.employee_id,
+          step: filteredProcessesMem[0]?.step_index,
+          department_id: filteredProcessesMem[0]?.department_id,
+          position_id: filteredProcessesMem[0]?.position_id,
+          process_id: filteredProcessesMem[0]?.process_id,
+        },
+      ])
+    );
     dispatch(addToDocuments([newAgreementArr]));
     form.resetFields();
   };

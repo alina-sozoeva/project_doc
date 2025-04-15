@@ -2,20 +2,23 @@ import { CarryOutOutlined, CommentOutlined } from "@ant-design/icons";
 import { ItineraryCard, Wrapper } from "../../common";
 import { Flex } from "antd";
 import { useParams } from "react-router-dom";
-import { getStepDataList } from "../../utils";
 import { useSelector } from "react-redux";
 import styles from "./Itinerary.module.scss";
 
 export const Itinerary = () => {
   const { id } = useParams();
-  const data = getStepDataList();
+  const processesMembers = useSelector(
+    (state) => state.processes.processesMembers
+  );
   const documents = useSelector((state) => state.documents.documents);
 
   const objFilter = documents?.find((item) => item.guid === id);
 
-  const filteredData = data?.filter(
-    (item) => item.title === objFilter?.process
+  const filteredData = processesMembers?.filter(
+    (item) => item.process_id === objFilter?.process_id
   );
+
+  console.log(filteredData);
 
   return (
     <Wrapper className={styles.content}>
@@ -33,7 +36,7 @@ export const Itinerary = () => {
       <div className={styles.scrollContainer}>
         <Flex vertical gap={"middle"}>
           {filteredData &&
-            filteredData[0]?.members?.map((item, index) => {
+            filteredData?.map((item, index) => {
               return <ItineraryCard key={item.id} item={item} index={index} />;
             })}
         </Flex>
