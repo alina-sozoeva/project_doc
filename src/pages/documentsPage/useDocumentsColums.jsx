@@ -24,22 +24,27 @@ export const useDocumentsColums = () => {
     },
     {
       title: "Инициатор",
-      dataIndex: "user_name",
+      dataIndex: "data",
       align: "center",
-      key: "user_name",
-      render: (user_name, record) => (
-        <div className={styles.table_user_info}>
-          <img
-            src={record.user_foto}
-            alt="product"
-            className={styles.cart_img}
-          />
-          <div>
-            <h2>{user_name}</h2>
-            <p>{record.doc_name}</p>
+      key: "data",
+      render: (_, record) => {
+        console.log(record);
+
+        return (
+          <div className={styles.table_user_info}>
+            <img
+              src={record.data.user_foto}
+              alt="product"
+              className={styles.cart_img}
+            />
+            <div>
+              <h2>{record.data.user_name}</h2>
+              <p>{record.data.doc_name}</p>
+            </div>
           </div>
-        </div>
-      ),
+        );
+      },
+
       width: 100,
     },
     {
@@ -55,7 +60,7 @@ export const useDocumentsColums = () => {
       key: "date",
       align: "center",
       width: 100,
-      render: (text) => dayjs(text).format("DD.MM.YYYY"),
+      render: (_, record) => dayjs(record.date).format("DD.MM.YYYY"),
     },
     {
       title: "Мартшрут",
@@ -63,6 +68,7 @@ export const useDocumentsColums = () => {
       key: "folder_name",
       align: "center",
       width: 100,
+      render: (_, record) => record.folder_name,
     },
     {
       title: "Статус",

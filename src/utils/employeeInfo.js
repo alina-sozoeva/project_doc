@@ -1,6 +1,6 @@
 export const employeeInfo = () => {
   const userInfo = JSON.parse(localStorage.getItem("userInfo"));
-  const emloyees = JSON.parse(localStorage.getItem("emloyees"));
+  const emloyees = JSON.parse(localStorage.getItem("employees"));
 
   if (userInfo === "admin@gmail.com") {
     return {

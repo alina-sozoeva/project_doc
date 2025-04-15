@@ -50,20 +50,40 @@ export const EditForm = ({ item }) => {
         department_id: filteredProcessesMem[1]?.department_id,
         position_id: filteredProcessesMem[1]?.position_id,
         process_id: filteredProcessesMem[1]?.process_id,
+        folder_status: status.IN_PROCESS,
       })
     );
     toast.success("Вы успешно согласовали документ");
+  };
+
+  const rejectedNotif = () => {
+    dispatch(
+      editNotifications({
+        ...newNotif,
+        member_id: filteredProcessesMem[0].employee_id,
+        step: filteredProcessesMem[0].step_index,
+        department_id: filteredProcessesMem[0]?.department_id,
+        position_id: filteredProcessesMem[0]?.position_id,
+        process_id: filteredProcessesMem[0]?.process_id,
+        folder_status: status.REJECTED,
+      })
+    );
+    toast.error("Отказано в рассмотрении документа");
   };
 
   const revisionNotif = () => {
     dispatch(
       editNotifications({
         ...newNotif,
-        member_id: processesMembers[1].employee_id,
-        step: processesMembers[1]?.step_index,
+        member_id: filteredProcessesMem[0].employee_id,
+        step: filteredProcessesMem[0].step_index,
+        department_id: filteredProcessesMem[0]?.department_id,
+        position_id: filteredProcessesMem[0]?.position_id,
+        process_id: filteredProcessesMem[0]?.process_id,
+        folder_status: status.IN_PROCESS,
       })
     );
-    toast.success("Вы успешно согласовали документ");
+    toast.warning("Документ отправлен на доработку");
   };
 
   const handleFileUpload = (event) => {
@@ -90,7 +110,7 @@ export const EditForm = ({ item }) => {
                   statusFolder={status.DRAFT}
                   icon={<CloseOutlined />}
                   source="table"
-                  onClick={approvedNotif}
+                  onClick={rejectedNotif}
                 >
                   Отказать
                 </StatusButton>
@@ -98,7 +118,7 @@ export const EditForm = ({ item }) => {
                   statusFolder={status.DRAFT}
                   icon={<SyncOutlined />}
                   source="table"
-                  onClick={approvedNotif}
+                  onClick={revisionNotif}
                 >
                   Доработать
                 </StatusButton>

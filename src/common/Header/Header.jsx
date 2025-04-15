@@ -12,10 +12,10 @@ export const Header = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const [title, setTitle] = useState("Главная");
-  const notifications = useSelector((state) => state.notifications.notifArr);
+  const notifications = useSelector(
+    (state) => state.notifications.notifications
+  );
   const employees = useSelector((state) => state.employees.employees);
-
-  console.log(employees, "employees");
 
   const matching = notifications?.filter((notif) =>
     employees?.some((emp) => emp.id === notif.member_id)
@@ -33,10 +33,6 @@ export const Header = () => {
       setTitle(pages[key]);
     }
   }, [location]);
-
-  console.log(matching, "matching");
-
-  console.log(message, "message");
 
   const logOut = () => {
     localStorage.removeItem("statusCount");
@@ -56,7 +52,7 @@ export const Header = () => {
         <Flex align="center" className={styles.nav_list}>
           <div className={styles.bellWrapper}>
             <BellOutlined />
-            {/* <p className={styles.messageCount}>{message.length}</p> */}
+            <p className={styles.messageCount}>{message?.length}</p>
           </div>
           <Flex align="center" gap={"small"}>
             <img src={foto} alt="user foto" className={styles.user_foto} />

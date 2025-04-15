@@ -8,7 +8,7 @@ import { useSelector } from "react-redux";
 export const EmployeesPage = () => {
   const [openEmployee, setOpenEmployee] = useState(false);
   const [employeeId, setEmployeeId] = useState("");
-  const employees = useSelector((state) => state.emloyees.employees);
+  const employees = useSelector((state) => state.employees.employees);
 
   const addNewEmployee = (id) => {
     setEmployeeId(id);

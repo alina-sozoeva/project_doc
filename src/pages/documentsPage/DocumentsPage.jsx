@@ -24,13 +24,33 @@ export const DocumemtsPage = () => {
   const documents = useSelector((state) => state.documents.documents);
   const [open, setOpen] = useState(false);
   const { columns } = useDocumentsColums();
+  const [all, setAll] = useState(false);
   const data = documents?.filter(
     (item) => item?.employee?.email === employeeInfo()?.email
+  );
+
+  const notifications = useSelector(
+    (state) => state.notifications.notifications
+  );
+  const employees = useSelector((state) => state.employees.employees);
+
+  const matching = notifications?.filter((notif) =>
+    employees?.some((emp) => emp.id === notif.member_id)
+  );
+
+  const message = matching?.filter(
+    (item) => item.member_id === employeeInfo()?.id
   );
 
   const onClose = () => {
     setOpen(false);
   };
+
+  const handleSetMessageFilter = (value) => {
+    setAll(value);
+  };
+
+  console.log(message, data);
 
   return (
     <Wrapper
@@ -41,12 +61,6 @@ export const DocumemtsPage = () => {
     >
       <Flex gap="small" justify="space-between">
         <Flex gap="small">
-          {/* <Button type="primary" onClick={() => handleSetMessageFilter(false)}>
-            Мои документы
-          </Button>
-          <Button type="primary" onClick={() => handleSetMessageFilter(true)}>
-            Документы на проверку
-          </Button> */}
           <Input
             placeholder="Поиск по инициатору"
             prefix={<SearchOutlined />}
@@ -80,6 +94,14 @@ export const DocumemtsPage = () => {
           </Button>
           <Button type="primary">
             <RedoOutlined />
+          </Button>
+        </Flex>
+        <Flex gap="small">
+          <Button type="primary" onClick={() => handleSetMessageFilter(false)}>
+            Мои документы
+          </Button>
+          <Button type="primary" onClick={() => handleSetMessageFilter(true)}>
+            Документы на проверку
           </Button>
         </Flex>
       </Flex>
