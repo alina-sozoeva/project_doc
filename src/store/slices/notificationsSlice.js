@@ -24,7 +24,14 @@ export const notificationsSlice = createSlice({
       setStorageData(storageKeys.NOTIFICATIONS, state.notifications);
     },
 
-    removeFromNotifications: (state, action) => {},
+    removeFromNotifications: (state, action) => {
+      console.log(action.payload);
+
+      state.notifications = state.notifications.filter(
+        (item) => item.doc_id !== action.payload
+      );
+      setStorageData(storageKeys.NOTIFICATIONS, state.notifications);
+    },
 
     clearNotifications: (state) => {},
   },

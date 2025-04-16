@@ -5,7 +5,7 @@ export const getStorageData = (key, defultObj) => {
     if (data) {
       return JSON.parse(data);
     }
-    return defultObj !== undefined ? [defultObj] : [];
+    return defultObj !== undefined ? defultObj : [];
   } catch (error) {
     console.error(`Ошибка при загрузке данных из localStorage: ${error}`);
     return [];

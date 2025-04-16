@@ -3,19 +3,10 @@ import { getStorageData, setStorageData } from "../../utils";
 import { storageKeys } from "../../enums";
 import { v4 as uuidv4 } from "uuid";
 import foto from "../../assets/foto.jpg";
-
-const defaultEmployees = {
-  id: uuidv4(),
-  fio: "Generalnyi Director",
-  email: "generalnyi.director@company.com",
-  position: 9,
-  department: "CEO",
-  photo: foto,
-  phone_number: "+(996)700-00-00-00",
-};
+import { employeesArray } from "../../constants";
 
 const initialState = {
-  employees: getStorageData(storageKeys.EMPLOYEES, defaultEmployees),
+  employees: getStorageData(storageKeys.EMPLOYEES, employeesArray),
 };
 
 export const employeesSlice = createSlice({

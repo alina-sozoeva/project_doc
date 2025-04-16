@@ -21,9 +21,19 @@ export const processesSlice = createSlice({
       state.processesMembers = [...state.processesMembers, ...action.payload];
       setStorageData(storageKeys.PROCESSES_MEMBERS, state.processesMembers);
     },
+    editProcessesMembers: (state, action) => {
+      const updatedProcessesMembers = action.payload;
+      state.processesMembers = state.processesMembers.map((item) =>
+        item.doc_id === updatedProcessesMembers.doc_id
+          ? updatedProcessesMembers
+          : item
+      );
+      setStorageData(storageKeys.PROCESSES_MEMBERS, state.processesMembers);
+    },
   },
 });
 
-export const { addToProcesses, addToProcessesMembers } = processesSlice.actions;
+export const { addToProcesses, addToProcessesMembers, editProcessesMembers } =
+  processesSlice.actions;
 
 export default processesSlice.reducer;

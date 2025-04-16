@@ -8,6 +8,8 @@ export const EmployeeCard = ({ onOpen, item }) => {
   return (
     <Flex vertical className={styles.content}>
       <Flex className={styles.info} align="center" gap={"large"}>
+        <img src={item.photo} alt="" className={styles.img} />
+
         <Flex vertical align="center">
           <Flex gap={"small"} justify="center">
             <Input
@@ -27,22 +29,17 @@ export const EmployeeCard = ({ onOpen, item }) => {
             defaultValue={positionMap[item.position] || item.position}
           />
         </Flex>
-        <img src={item.photo} alt="" className={styles.img} />
       </Flex>
       <Flex>
-        <Tooltip title={item.email}>
-          <div
-            className={styles.contact}
-            style={{ borderRight: "1px solid #2c3443" }}
-          >
-            <MailOutlined /> Email
-          </div>
-        </Tooltip>
-        <Tooltip title={item.phone_number}>
-          <div className={styles.contact}>
-            <PhoneOutlined /> Телефон
-          </div>
-        </Tooltip>
+        <div
+          className={styles.contact}
+          style={{ borderRight: "1px solid #2c3443" }}
+        >
+          {item.email}
+        </div>
+        <div className={styles.contact}>
+          <PhoneOutlined /> {item.phone_number}
+        </div>
       </Flex>
       <Button className={styles.btn_add} onClick={onOpen}>
         <PlusOutlined />

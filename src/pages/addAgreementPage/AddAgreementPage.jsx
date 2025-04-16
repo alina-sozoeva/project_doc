@@ -17,6 +17,7 @@ import { employeeInfo } from "../../utils";
 import { useDispatch, useSelector } from "react-redux";
 import { addToDocuments, addToNotifications } from "../../store";
 import { useState } from "react";
+import { toast } from "react-toastify";
 
 export const AddAgreementPage = () => {
   const dispatch = useDispatch();
@@ -37,6 +38,12 @@ export const AddAgreementPage = () => {
   const onFinish = (values) => {
     const newGuid = uuidv4();
 
+    if (statusFolder === status.DRAFT) {
+      toast.info("Ваш документ успешно добавлен в черновики");
+    } else {
+      toast.success("Ваш документ успешно отправлен на проверку");
+    }
+
     const newAgreementArr = {
       guid: newGuid,
       data: {
@@ -51,29 +58,32 @@ export const AddAgreementPage = () => {
         approval_status: values.approval_status,
         comments: values.comments,
         folder_name: status.IN_PROCESS,
+        title: pages.CREATE_AGREEMENT,
       },
       status: statusFolder,
       process_id: filteredProcessesMem[0]?.process_id,
       employee: { ...employeeInfo() },
     };
 
-    dispatch(
-      addToNotifications([
-        {
-          id: uuidv4(),
-          user_id: employeeInfo().id,
-          doc_id: newGuid,
-          status: false,
-          comment: "",
-          folder_status: statusFolder,
-          member_id: filteredProcessesMem[0]?.employee_id,
-          step: filteredProcessesMem[0]?.step_index,
-          department_id: filteredProcessesMem[0]?.department_id,
-          position_id: filteredProcessesMem[0]?.position_id,
-          process_id: filteredProcessesMem[0]?.process_id,
-        },
-      ])
-    );
+    if (statusFolder !== status.DRAFT) {
+      dispatch(
+        addToNotifications([
+          {
+            id: uuidv4(),
+            user_id: employeeInfo().id,
+            doc_id: newGuid,
+            status: false,
+            comment: "",
+            folder_status: statusFolder,
+            member_id: filteredProcessesMem[0]?.employee_id,
+            step: filteredProcessesMem[0]?.step_index,
+            department_id: filteredProcessesMem[0]?.department_id,
+            position_id: filteredProcessesMem[0]?.position_id,
+            process_id: filteredProcessesMem[0]?.process_id,
+          },
+        ])
+      );
+    }
     dispatch(addToDocuments([newAgreementArr]));
     form.resetFields();
   };
@@ -198,8 +208,11 @@ export const AddAgreementPage = () => {
         </Row>
 
         <Flex gap="small" justify="end">
-          <Button type="default" onClick={() => form.resetFields()}>
-            Отмена
+          <Button
+            htmlType="submit"
+            onClick={() => setStatusFolder(status.DRAFT)}
+          >
+            Сохранить в черновики
           </Button>
           <Button type="primary" htmlType="submit">
             Добавить договор

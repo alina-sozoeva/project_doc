@@ -14,9 +14,18 @@ export const documentsSlice = createSlice({
       state.documents = [...state.documents, ...action.payload];
       setStorageData(storageKeys.DOCUMENTS, state.documents);
     },
+    editDocuments: (state, action) => {
+      const updatedDocuments = action.payload;
+      console.log(updatedDocuments);
+
+      state.documents = state.documents.map((item) =>
+        item.guid === updatedDocuments.guid ? updatedDocuments : item
+      );
+      setStorageData(storageKeys.DOCUMENTS, state.documents);
+    },
   },
 });
 
-export const { addToDocuments } = documentsSlice.actions;
+export const { addToDocuments, editDocuments } = documentsSlice.actions;
 
 export default documentsSlice.reducer;

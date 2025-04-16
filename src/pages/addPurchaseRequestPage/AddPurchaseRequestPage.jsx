@@ -28,6 +28,12 @@ export const AddPurchaseRequestPage = () => {
   const onFinish = (values) => {
     const newGuid = uuidv4();
 
+    if (statusFolder === status.DRAFT) {
+      toast.info("Ваш документ успешно добавлен в черновики");
+    } else {
+      toast.success("Ваш документ успешно отправлен на проверку");
+    }
+
     const newFolderArr = {
       guid: newGuid,
       data: {
@@ -38,36 +44,33 @@ export const AddPurchaseRequestPage = () => {
         description: values.comment,
         folder_name: status.IN_PROCESS,
         date: values.end_date,
+        title: pages.CREATE_PURCHASE_REQUEST,
       },
       status: statusFolder,
       process_id: filteredProcessesMem[0]?.process_id,
       employee: { ...employeeInfo() },
     };
-
-    dispatch(
-      addToNotifications([
-        {
-          id: uuidv4(),
-          user_id: employeeInfo().id,
-          doc_id: newGuid,
-          status: false,
-          comment: "",
-          folder_status: statusFolder,
-          member_id: filteredProcessesMem[0]?.employee_id,
-          step: filteredProcessesMem[0]?.step_index,
-          department_id: filteredProcessesMem[0]?.department_id,
-          position_id: filteredProcessesMem[0]?.position_id,
-          process_id: filteredProcessesMem[0]?.process_id,
-        },
-      ])
-    );
+    if (statusFolder !== status.DRAFT) {
+      dispatch(
+        addToNotifications([
+          {
+            id: uuidv4(),
+            user_id: employeeInfo().id,
+            doc_id: newGuid,
+            status: false,
+            comment: "",
+            folder_status: statusFolder,
+            member_id: filteredProcessesMem[0]?.employee_id,
+            step: filteredProcessesMem[0]?.step_index,
+            department_id: filteredProcessesMem[0]?.department_id,
+            position_id: filteredProcessesMem[0]?.position_id,
+            process_id: filteredProcessesMem[0]?.process_id,
+          },
+        ])
+      );
+    }
 
     dispatch(addToDocuments([newFolderArr]));
-    if (statusFolder === status.DRAFT) {
-      toast.info("Ваш документ успешно добавлен в черновики");
-    } else {
-      toast.success("Ваш документ успешно отправлен на проверку");
-    }
     form.resetFields();
   };
 

@@ -3,7 +3,7 @@ import styles from "./Header.module.scss";
 import { useEffect, useState } from "react";
 import { Button, Flex, Typography } from "antd";
 import { pages, pathname } from "../../enums";
-import { BellOutlined, LogoutOutlined } from "@ant-design/icons";
+import { BellOutlined, PoweroffOutlined } from "@ant-design/icons";
 import foto from "../../assets/28.jpg";
 import { useSelector } from "react-redux";
 import { employeeInfo } from "../../utils";
@@ -57,12 +57,8 @@ export const Header = () => {
           <Flex align="center" gap={"small"}>
             <img src={foto} alt="user foto" className={styles.user_foto} />
           </Flex>
-          <Button
-            type="primary"
-            className={`${styles.logout}`}
-            onClick={() => logOut()}
-          >
-            <LogoutOutlined className={styles.out} /> Выход
+          <Button className={`${styles.logout}`} onClick={() => logOut()}>
+            <PoweroffOutlined className={styles.out} />
           </Button>
         </Flex>
       </Flex>

@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { addToDocuments, addToNotifications } from "../../store";
 import styles from "./AddCunterpartyPage.module.scss";
 import { useState } from "react";
+import { toast } from "react-toastify";
 
 export const AddCunterpartyPage = () => {
   const dispatch = useDispatch();
@@ -31,9 +32,14 @@ export const AddCunterpartyPage = () => {
   const onFinish = (values) => {
     const newGuid = uuidv4();
 
+    if (statusFolder === status.DRAFT) {
+      toast.info("Ваш документ успешно добавлен в черновики");
+    } else {
+      toast.success("Ваш документ успешно отправлен на проверку");
+    }
+
     const newFolderArr = {
       guid: newGuid,
-
       data: {
         user_foto: "http://docs.icloud.kg/image/avatar/28.jpg",
         user_name: employeeInfo().fio,
@@ -42,29 +48,32 @@ export const AddCunterpartyPage = () => {
         description: values.comment,
         folder_name: status.IN_PROCESS,
         date: values.end_date,
+        title: pages.CREATE_COUNTERPARTY,
       },
       status: statusFolder,
       process_id: filteredProcessesMem[0]?.process_id,
       employee: { ...employeeInfo() },
     };
 
-    dispatch(
-      addToNotifications([
-        {
-          id: uuidv4(),
-          user_id: employeeInfo().id,
-          doc_id: newGuid,
-          status: false,
-          comment: "",
-          folder_status: statusFolder,
-          member_id: filteredProcessesMem[0]?.employee_id,
-          step: filteredProcessesMem[0]?.step_index,
-          department_id: filteredProcessesMem[0]?.department_id,
-          position_id: filteredProcessesMem[0]?.position_id,
-          process_id: filteredProcessesMem[0]?.process_id,
-        },
-      ])
-    );
+    if (statusFolder !== status.DRAFT) {
+      dispatch(
+        addToNotifications([
+          {
+            id: uuidv4(),
+            user_id: employeeInfo().id,
+            doc_id: newGuid,
+            status: false,
+            comment: "",
+            folder_status: statusFolder,
+            member_id: filteredProcessesMem[0]?.employee_id,
+            step: filteredProcessesMem[0]?.step_index,
+            department_id: filteredProcessesMem[0]?.department_id,
+            position_id: filteredProcessesMem[0]?.position_id,
+            process_id: filteredProcessesMem[0]?.process_id,
+          },
+        ])
+      );
+    }
 
     dispatch(addToDocuments([newFolderArr]));
     form.resetFields();
@@ -188,7 +197,12 @@ export const AddCunterpartyPage = () => {
         </Row>
 
         <Flex gap="small" justify="end">
-          {/* <Button type="default">Отмена</Button> */}
+          <Button
+            htmlType="submit"
+            onClick={() => setStatusFolder(status.DRAFT)}
+          >
+            Сохранить в черновики
+          </Button>
           <Button type="primary" htmlType="submit">
             Добавить
           </Button>

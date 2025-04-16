@@ -94,6 +94,12 @@ export const StepContent = () => {
           name="employee_id"
           label="ФИО участника процесса"
           className={styles.customFormItem}
+          rules={[
+            {
+              required: true,
+              message: `Это обязательное поле для заполнения.`,
+            },
+          ]}
         >
           <Select
             showSearch

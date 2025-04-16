@@ -11,6 +11,7 @@ import { pages, pathname, status } from "../../enums";
 import { useState } from "react";
 import { employeeInfo } from "../../utils";
 import { useSelector } from "react-redux";
+import { useMessageColums } from "./useMessageColums";
 
 const items = [
   { value: "1", label: status.APPROVED },
@@ -24,6 +25,8 @@ export const DocumemtsPage = () => {
   const documents = useSelector((state) => state.documents.documents);
   const [open, setOpen] = useState(false);
   const { columns } = useDocumentsColums();
+  const { columnsMessage } = useMessageColums();
+
   const [all, setAll] = useState(false);
   const data = documents?.filter(
     (item) => item?.employee?.email === employeeInfo()?.email
@@ -107,14 +110,25 @@ export const DocumemtsPage = () => {
       </Flex>
 
       <Col span={24}>
-        <Table
-          dataSource={data}
-          columns={columns}
-          pagination={false}
-          className={styles.table}
-          bordered
-          scroll={{ y: 480 }}
-        />
+        {!all ? (
+          <Table
+            dataSource={data}
+            columns={columns}
+            pagination={false}
+            className={styles.table}
+            bordered
+            scroll={{ y: 480 }}
+          />
+        ) : (
+          <Table
+            dataSource={message}
+            columns={columnsMessage}
+            pagination={false}
+            className={styles.table}
+            bordered
+            scroll={{ y: 480 }}
+          />
+        )}
       </Col>
       <FolderModal open={open} onCancel={onClose} />
     </Wrapper>

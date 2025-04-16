@@ -19,6 +19,7 @@ import { employeeInfo } from "../../utils";
 import { useDispatch, useSelector } from "react-redux";
 import { addToDocuments, addToNotifications } from "../../store";
 import { useState } from "react";
+import { toast } from "react-toastify";
 
 const { Title } = Typography;
 
@@ -41,6 +42,12 @@ export const CloseDocumentsPage = () => {
   const onFinish = (values) => {
     const newGuid = uuidv4();
 
+    if (statusFolder === status.DRAFT) {
+      toast.info("Ваш документ успешно добавлен в черновики");
+    } else {
+      toast.success("Ваш документ успешно отправлен на проверку");
+    }
+
     const newFolderArr = {
       guid: newGuid,
       data: {
@@ -55,28 +62,32 @@ export const CloseDocumentsPage = () => {
         basis_document: values.basis_document,
         closing_documents: values.closing_documents?.fileList || [],
         cover_sheet: values.cover_sheet?.fileList || [],
+        title: pages.CLOSE_DOCUMENTS,
       },
       status: statusFolder,
       process_id: filteredProcessesMem[0]?.process_id,
       employee: { ...employeeInfo() },
     };
-    dispatch(
-      addToNotifications([
-        {
-          id: uuidv4(),
-          user_id: employeeInfo().id,
-          doc_id: newGuid,
-          status: false,
-          comment: "",
-          folder_status: statusFolder,
-          member_id: filteredProcessesMem[0]?.employee_id,
-          step: filteredProcessesMem[0]?.step_index,
-          department_id: filteredProcessesMem[0]?.department_id,
-          position_id: filteredProcessesMem[0]?.position_id,
-          process_id: filteredProcessesMem[0]?.process_id,
-        },
-      ])
-    );
+
+    if (statusFolder !== status.DRAFT) {
+      dispatch(
+        addToNotifications([
+          {
+            id: uuidv4(),
+            user_id: employeeInfo().id,
+            doc_id: newGuid,
+            status: false,
+            comment: "",
+            folder_status: statusFolder,
+            member_id: filteredProcessesMem[0]?.employee_id,
+            step: filteredProcessesMem[0]?.step_index,
+            department_id: filteredProcessesMem[0]?.department_id,
+            position_id: filteredProcessesMem[0]?.position_id,
+            process_id: filteredProcessesMem[0]?.process_id,
+          },
+        ])
+      );
+    }
 
     dispatch(addToDocuments([newFolderArr]));
     form.resetFields();
@@ -202,8 +213,11 @@ export const CloseDocumentsPage = () => {
         </Row>
 
         <Flex gap="small" justify="end" style={{ marginTop: "20px" }}>
-          <Button type="default" onClick={() => form.resetFields()}>
-            Отмена
+          <Button
+            htmlType="submit"
+            onClick={() => setStatusFolder(status.DRAFT)}
+          >
+            Сохранить в черновики
           </Button>
           <Button type="primary" htmlType="submit">
             Инициировать закрытие

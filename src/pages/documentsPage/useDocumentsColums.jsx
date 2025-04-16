@@ -4,6 +4,7 @@ import { StatusButton } from "../../common";
 import { Button } from "antd";
 import { useNavigate } from "react-router-dom";
 import dayjs from "dayjs";
+import { status } from "../../enums";
 
 export const useDocumentsColums = () => {
   const navigate = useNavigate();
@@ -12,6 +13,8 @@ export const useDocumentsColums = () => {
     console.log(record);
     navigate(`/edit-folder/${record.guid}/${record.status}`);
   };
+
+  const userInfo = JSON.parse(localStorage.getItem("userInfo"));
 
   const columns = [
     {
@@ -28,8 +31,6 @@ export const useDocumentsColums = () => {
       align: "center",
       key: "data",
       render: (_, record) => {
-        console.log(record);
-
         return (
           <div className={styles.table_user_info}>
             <img
@@ -49,10 +50,11 @@ export const useDocumentsColums = () => {
     },
     {
       title: "Название процесса",
-      dataIndex: "title",
-      key: "title",
+      dataIndex: "data",
+      key: "data",
       align: "center",
       width: 150,
+      render: (_, record) => record.data.title,
     },
     {
       title: "Дата",
@@ -62,14 +64,14 @@ export const useDocumentsColums = () => {
       width: 100,
       render: (_, record) => dayjs(record.date).format("DD.MM.YYYY"),
     },
-    {
-      title: "Мартшрут",
-      dataIndex: "folder_name",
-      key: "folder_name",
-      align: "center",
-      width: 100,
-      render: (_, record) => record.folder_name,
-    },
+    // {
+    //   title: "Мартшрут",
+    //   dataIndex: "folder_name",
+    //   key: "folder_name",
+    //   align: "center",
+    //   width: 100,
+    //   render: (_, record) => record.folder_name,
+    // },
     {
       title: "Статус",
       dataIndex: "status",
@@ -84,7 +86,7 @@ export const useDocumentsColums = () => {
     },
     {
       title: "...",
-      key: "guid",
+      key: "record",
       align: "center",
       width: 50,
       render: (record) => (
@@ -93,7 +95,11 @@ export const useDocumentsColums = () => {
           icon={false}
           source={"table"}
           type="primary"
-          onClick={() => onStatus(record)}
+          onClick={() => onStatus(record.guid)}
+          disabled={
+            record.status === status.IN_PROCESS &&
+            record.employee.email === userInfo
+          }
         >
           <EditOutlined />
         </Button>
