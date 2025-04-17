@@ -1,18 +1,20 @@
-import { Modal } from "antd";
+import { Button, Modal } from "antd";
 
-export const WarningModal = ({ open, onCancel, onConfirm }) => {
+export const WarningModal = ({ open, onCancel, onConfirm, modalText }) => {
   return (
     <Modal
-      title="Подтвердите удаление"
+      title={`Потвердите ${modalText.title}`}
       centered
       open={open}
       onCancel={onCancel}
-      onOk={onConfirm}
-      okText="Удалить"
-      cancelText="Отмена"
+      footer={[
+        <Button key="ok" danger type="primary" onClick={onConfirm}>
+          {modalText.btn}
+        </Button>,
+      ]}
       okButtonProps={{ danger: true }}
     >
-      <p>Вы уверены, что хотите завершить процесс все данные будут удалены?</p>
+      <p>Вы уверены, что хотите {modalText.text}?</p>
     </Modal>
   );
 };

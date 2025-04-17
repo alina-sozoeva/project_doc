@@ -7,3 +7,5 @@ export * from "./FolderModal";
 export * from "./MainLayout";
 export * from "./ItineraryCard";
 export * from "./WarningModal";
+export * from "./AddProcessesModal";
+export * from "./RouteButton";

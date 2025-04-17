@@ -1,10 +1,11 @@
 import { Form, Input, Select, Row, Col } from "antd";
-import { departments, positions } from "../../constants";
+import { departments } from "../../constants";
 import { useMemo, useState } from "react";
 import styles from "./StepContent.module.scss";
 import { useSelector } from "react-redux";
+import { positionMap } from "../../enums";
 
-export const StepContent = () => {
+export const StepContent = ({ form }) => {
   const employees = useSelector((state) => state.employees.employees);
   const [filters, setFilters] = useState({
     departmentId: undefined,
@@ -13,9 +14,54 @@ export const StepContent = () => {
 
   console.log(employees);
 
+  const positions = employees.map((item) => ({
+    value: item.position,
+    label: positionMap[item.position],
+    department: item.department,
+  }));
+
   const handleChange = (type, value) => {
-    setFilters((prev) => ({ ...prev, [type]: value }));
+    setFilters((prev) => {
+      if (type === "departmentId") {
+        return {
+          departmentId: value,
+          positionId: undefined,
+        };
+      }
+
+      return { ...prev, [type]: value };
+    });
+
+    if (type === "departmentId") {
+      form.setFieldsValue({
+        position_id: undefined,
+        employee_id: undefined,
+      });
+    }
+
+    if (type === "positionId") {
+      form.setFieldsValue({
+        employee_id: undefined,
+      });
+    }
   };
+
+  const filteredPosition = useMemo(() => {
+    const { departmentId } = filters;
+
+    const filtered = departmentId
+      ? positions.filter((item) => item.department === departmentId)
+      : positions;
+
+    const uniquePositions = filtered.filter(
+      (item, index, self) =>
+        index === self.findIndex((pos) => pos.value === item.value)
+    );
+
+    return uniquePositions;
+  }, [filters, positions]);
+
+  console.log(filteredPosition);
 
   const filteredemloyees = useMemo(() => {
     const { departmentId, positionId } = filters;
@@ -38,6 +84,8 @@ export const StepContent = () => {
     return employees;
   }, [filters, employees]);
 
+  console.log(filteredemloyees);
+
   const updateemloyees = filteredemloyees?.map((item) => ({
     value: item.id,
     label: item.fio,
@@ -49,18 +97,16 @@ export const StepContent = () => {
         <Form.Item
           name="department_id"
           label="Название отдела"
-          className={styles.customFormItem}
           rules={[
             {
               required: true,
-              message: `Это обязательное поле для заполнения. Если нет отдела выберите пункт "Нет отдела"`,
+              message: `Это обязательное поле для заполнения.`,
             },
           ]}
         >
           <Select
             showSearch
             placeholder="Выберите отдел"
-            optionFilterProp="label"
             options={departments}
             onChange={(value) => handleChange("departmentId", value)}
           />
@@ -75,7 +121,7 @@ export const StepContent = () => {
           rules={[
             {
               required: true,
-              message: `Это обязательное поле для заполнения. Если нет должности выберите пункт "Нет должности"`,
+              message: `Это обязательное поле для заполнения.`,
             },
           ]}
         >
@@ -83,8 +129,9 @@ export const StepContent = () => {
             showSearch
             placeholder="Выберите должность участника процесса"
             optionFilterProp="label"
-            options={positions}
+            options={filteredPosition}
             onChange={(value) => handleChange("positionId", value)}
+            disabled={!filters.departmentId}
           />
         </Form.Item>
       </Col>
@@ -106,6 +153,7 @@ export const StepContent = () => {
             placeholder="Выберите ФИО участника процесса"
             optionFilterProp="label"
             options={updateemloyees}
+            disabled={!filters.positionId}
           />
         </Form.Item>
       </Col>
@@ -123,7 +171,7 @@ export const StepContent = () => {
           ]}
         >
           <Input
-            style={{ width: "100%" }}
+            style={{ width: "180px" }}
             type="number"
             placeholder="Введите количество дней"
           />

@@ -35,7 +35,7 @@ export const MainLayout = () => {
         </Layout.Sider>
       )}
 
-      <Layout style={{ marginLeft: !isAuthPage ? 220 : 0 }}>
+      <Layout style={{ marginLeft: !isAuthPage ? 200 : 0 }}>
         {!isAuthPage && (
           <Layout.Header
             style={{

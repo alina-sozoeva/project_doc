@@ -4,6 +4,8 @@ import { useEffect, useMemo } from "react";
 import styles from "./CustomSidebar.module.scss";
 import logo from "../../assets/logo.png";
 import { useSelector } from "react-redux";
+import { SettingOutlined } from "@ant-design/icons";
+import { dataDocument } from "../../data";
 
 export const CustomSidebar = () => {
   const location = useLocation();
@@ -18,9 +20,9 @@ export const CustomSidebar = () => {
       path: "/",
     },
     {
-      key: "2",
-      label: "Все документы",
-      path: "/documents",
+      key: "3",
+      label: "Структура организации",
+      path: "/employees",
     },
   ];
 
@@ -28,25 +30,24 @@ export const CustomSidebar = () => {
     JSON.parse(localStorage.getItem("userInfo")) === "admin@gmail.com"
       ? [
           {
-            key: "3",
-            label: "Структура организации",
-            path: "/employees",
-          },
-          {
             key: "4",
-            label: "Справочник процессов",
+            label: (
+              <>
+                <SettingOutlined /> Процессы
+              </>
+            ),
             path: "/processes",
           },
         ]
       : [];
 
-  const dynamicMenu = processes?.map((item, index) => ({
+  const dynamicMenu = dataDocument?.map((item, index) => ({
     key: `dynamic-${index}`,
     label: item.title,
-    path: `${item.slug}`,
+    path: "./documents",
   }));
 
-  const menuKeys = [...baseMenu, ...adminOnlyMenu, ...dynamicMenu];
+  const menuKeys = [...baseMenu, ...dynamicMenu, ...adminOnlyMenu];
 
   const selectedKey = useMemo(() => {
     const currentMenuItem = menuKeys.find(

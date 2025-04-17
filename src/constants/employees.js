@@ -1,5 +1,4 @@
 export const departments = [
-  { value: 0, label: "Нет отдела" },
   { value: 1, label: "Юридический отдел" },
   { value: 2, label: "Служба безопасности" },
   { value: 3, label: "Финансовый отдел" },
@@ -8,7 +7,6 @@ export const departments = [
 ];
 
 export const positions = [
-  { value: 0, label: "Нет должности" },
   { value: 1, label: "Исполнитель" },
   { value: 2, label: "Юрист" },
   { value: 3, label: "Бухгалтер" },

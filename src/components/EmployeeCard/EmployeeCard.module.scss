@@ -1,65 +1,84 @@
 .content {
+  width: 250px;
   background-color: #101828;
   border-radius: 10px;
   color: white;
   position: relative;
   border-left: 3px solid red;
   display: inline-block;
+  padding: 10px;
+
+  p {
+    max-width: 180px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 12px;
+  }
 }
 
 .info {
-  padding: 20px;
+  padding: 10px;
 
-  input {
-    background-color: transparent;
-    color: white;
-    border: none;
-
-    &::placeholder {
-      color: white;
-    }
-
-    &:hover {
-      background-color: transparent;
-      border: none;
-      box-shadow: none;
-    }
-
-    &:active {
-      background-color: transparent;
-      border: none;
-      box-shadow: none;
-    }
-
-    &:focus {
-      background-color: transparent;
-      border: none;
-      box-shadow: none;
-    }
+  p {
+    max-width: 50px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
+
+  // input {
+  //   background-color: transparent;
+  //   color: white;
+  //   border: none;
+
+  //   &::placeholder {
+  //     color: white;
+  //   }
+
+  //   &:hover {
+  //     background-color: transparent;
+  //     border: none;
+  //     box-shadow: none;
+  //   }
+
+  //   &:active {
+  //     background-color: transparent;
+  //     border: none;
+  //     box-shadow: none;
+  //   }
+
+  //   &:focus {
+  //     background-color: transparent;
+  //     border: none;
+  //     box-shadow: none;
+  //   }
+  // }
 }
 
 .imp_depart {
   background-color: #0a2328 !important;
-  border-radius: 20px;
-  color: #3fc374 !important;
-  text-align: center;
+  border-radius: 10px;
+  padding: 5px;
+  color: #3fc374;
+}
 
-  &::placeholder {
-    color: #3fc374 !important;
-    text-align: center;
-  }
+.imp_posit {
+  background-color: #0a1528 !important;
+  border-radius: 10px;
+  padding: 5px;
+  color: #3f53c3;
 }
 
 .img {
-  width:60px;
+  width: 40px;
   border-radius: 20%;
 }
 
 .contact {
-  width: 100%;
-  padding: 15px;
+  padding: 10px 1px;
   border-top: 1px solid #2c3443;
+  word-wrap: break-word;
 }
 
 .btn_add {

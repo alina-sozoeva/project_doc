@@ -1,10 +1,12 @@
 import { EditOutlined } from "@ant-design/icons";
 import styles from "./DocumentsPage.module.scss";
-import { StatusButton } from "../../common";
-import { Button } from "antd";
-import { useNavigate } from "react-router-dom";
+import { RouteButton, StatusButton } from "../../common";
+import { Button, Tooltip } from "antd";
+import { Link, useNavigate } from "react-router-dom";
 import dayjs from "dayjs";
-import { status } from "../../enums";
+import { pathname, status } from "../../enums";
+import React from "react";
+import foto from "../../assets/28.jpg";
 
 export const useDocumentsColums = () => {
   const navigate = useNavigate();
@@ -22,39 +24,39 @@ export const useDocumentsColums = () => {
       dataIndex: "index",
       key: "index",
       align: "center",
-      width: 30,
+      width: 20,
       render: (_text, _record, index) => index + 1,
     },
     {
       title: "Инициатор",
       dataIndex: "data",
-      align: "center",
       key: "data",
       render: (_, record) => {
         return (
           <div className={styles.table_user_info}>
-            <img
-              src={record.data.user_foto}
-              alt="product"
-              className={styles.cart_img}
-            />
+            <img src={foto} alt="product" className={styles.cart_img} />
             <div>
-              <h2>{record.data.user_name}</h2>
-              <p>{record.data.doc_name}</p>
+              <p>Testov Test</p>
+              <p>testov@gmail.com</p>
             </div>
           </div>
         );
       },
-
       width: 100,
     },
     {
-      title: "Название процесса",
+      title: "Название документа",
       dataIndex: "data",
       key: "data",
-      align: "center",
       width: 150,
-      render: (_, record) => record.data.title,
+      render: (_, record) => record.data.doc_name,
+    },
+    {
+      title: "Контрагент",
+      dataIndex: "data",
+      key: "data",
+      width: 150,
+      render: (_, record) => record.data.contract_number,
     },
     {
       title: "Дата",
@@ -62,27 +64,28 @@ export const useDocumentsColums = () => {
       key: "date",
       align: "center",
       width: 100,
-      render: (_, record) => dayjs(record.date).format("DD.MM.YYYY"),
+      render: (_, record) => dayjs(record.date).format("DD.MM.YYYY HH:mm"),
     },
-    // {
-    //   title: "Мартшрут",
-    //   dataIndex: "folder_name",
-    //   key: "folder_name",
-    //   align: "center",
-    //   width: 100,
-    //   render: (_, record) => record.folder_name,
-    // },
     {
-      title: "Статус",
-      dataIndex: "status",
-      key: "status",
+      title: "Маршрут",
+      dataIndex: "data",
+      key: "data",
       align: "center",
-      render: (record) => (
-        <StatusButton icon={false} statusFolder={record} source={"table"}>
-          {record}
-        </StatusButton>
+      width: 200,
+      render: (_, record) => (
+        <div className={styles.chain_container}>
+          {record.record.map((step, index) => (
+            <React.Fragment key={index}>
+              <RouteButton statusFolder={step.status} item={record}>
+                {step.step}
+              </RouteButton>
+              {index < record.record.length - 1 && (
+                <div className={styles.line} />
+              )}
+            </React.Fragment>
+          ))}
+        </div>
       ),
-      width: 80,
     },
     {
       title: "...",
@@ -90,19 +93,22 @@ export const useDocumentsColums = () => {
       align: "center",
       width: 50,
       render: (record) => (
-        <Button
-          className={styles.btn}
-          icon={false}
-          source={"table"}
-          type="primary"
-          onClick={() => onStatus(record.guid)}
-          disabled={
-            record.status === status.IN_PROCESS &&
-            record.employee.email === userInfo
-          }
-        >
-          <EditOutlined />
-        </Button>
+        <>
+          {record.data.doc_name === "Договор 004" ||
+          record.data.doc_name === "Договор 005" ? (
+            <Button
+              type="primary"
+              className={styles.btn}
+              // onClick={() => onStatus(record.guid)}
+            >
+              Утвердить
+            </Button>
+          ) : (
+            <Button type="primary" className={styles.btn}>
+              <Link to={`/edit-folder/${1}/${"статус"}`}>В работу</Link>
+            </Button>
+          )}
+        </>
       ),
     },
   ];

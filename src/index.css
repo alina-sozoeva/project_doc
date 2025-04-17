@@ -2,9 +2,8 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-size: 16px;
+
   font-family: "Manrope", Arial, sans-serif;
-  font-size: 14px
 }
 
 .container {
@@ -41,4 +40,19 @@ li {
 
 .ant-modal .ant-modal-title {
   font-size: 24px;
+}
+
+:where(.css-dev-only-do-not-override-240cud).ant-table-wrapper
+  .ant-table-tbody
+  > tr
+  > td {
+  padding: 2px !important;
+}
+
+:where(.css-dev-only-do-not-override-240cud).ant-table-wrapper .ant-table-cell,
+:where(.css-dev-only-do-not-override-240cud).ant-table-wrapper
+  .ant-table-thead
+  > tr
+  > th {
+  padding: 2px !important;
 }

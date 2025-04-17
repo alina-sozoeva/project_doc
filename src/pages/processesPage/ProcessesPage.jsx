@@ -1,13 +1,16 @@
-import { useMemo, useRef, useState } from "react";
-import { Button, Divider, Flex, Form, Select, Steps, Typography } from "antd";
+import { useRef, useState } from "react";
+import { Button, Divider, Flex, Form, Steps, Table } from "antd";
 import { WarningModal, Wrapper } from "../../common";
-import { pages, pathname, processesMap } from "../../enums";
+import { pages, pathname, processesMap, status } from "../../enums";
 import { toast } from "react-toastify";
 import { StepContent } from "../../components";
 import { useDispatch, useSelector } from "react-redux";
 import { addToProcesses, addToProcessesMembers } from "../../store";
 import { v4 as uuidv4 } from "uuid";
 import styles from "./ProcessesPage.module.scss";
+import { PlusOutlined } from "@ant-design/icons";
+import { useProcessesColumns } from "./useProcessesColumns";
+import { dataDocument } from "../../data";
 
 const processes = [
   {
@@ -32,20 +35,20 @@ const processes = [
   },
 ];
 
-const defultSteps = [
-  {
-    title: "Должность/отдел",
-    content: <StepContent />,
-  },
-  {
-    title: "Должность/отдел",
-    content: <StepContent />,
-  },
-];
-
 export const ProcessesPage = () => {
   const processId = useRef(uuidv4());
   const [form] = Form.useForm();
+
+  const defultSteps = [
+    {
+      title: "Должность/отдел",
+      content: <StepContent form={form} />,
+    },
+    {
+      title: "Должность/отдел",
+      content: <StepContent form={form} />,
+    },
+  ];
   const dispatch = useDispatch();
   const processesArr = useSelector((state) => state.processes.processes);
   const [current, setCurrent] = useState(0);
@@ -53,9 +56,16 @@ export const ProcessesPage = () => {
   const [openModal, setOpenModal] = useState(false);
   const [title, setTitle] = useState("");
   const [steps, setSteps] = useState(defultSteps);
+  const [formData, setFormData] = useState({});
+  const [modalType, setModalType] = useState(null);
+  const [modalText, setModalText] = useState({});
 
   const handleChange = (value) => {
     setTitle(value);
+  };
+
+  const handleOpenStep = () => {
+    setOpenSteps(true);
   };
 
   const filteredprocesses = processes?.filter(
@@ -93,11 +103,21 @@ export const ProcessesPage = () => {
   const handleSubmit = () => {
     form
       .validateFields()
-      .then(() => {
-        const values = form.getFieldsValue();
+      .then((values) => {
         addMembers(values);
-        setCurrent(current + 1);
+
+        setFormData((prev) => ({
+          ...prev,
+          [current]: values,
+        }));
+
         form.resetFields();
+
+        const next = current + 1;
+        setCurrent(next);
+        if (formData[next]) {
+          form.setFieldsValue(formData[next]);
+        }
       })
       .catch((errorInfo) => {
         console.log("Validation failed:", errorInfo);
@@ -107,7 +127,16 @@ export const ProcessesPage = () => {
   const onConfirm = () => {
     form.resetFields();
     setOpenModal(false);
-    clear();
+
+    if (modalType === "cancel") {
+      clear();
+    }
+
+    if (modalType === "removeStep") {
+      removeStep();
+    }
+
+    setModalType(null);
   };
 
   const onFinish = (values) => {
@@ -131,7 +160,7 @@ export const ProcessesPage = () => {
       ...steps,
       {
         title: "Должность/отдел ",
-        content: <StepContent count={newIndex} />,
+        content: <StepContent form={form} />,
       },
     ]);
   };
@@ -141,11 +170,19 @@ export const ProcessesPage = () => {
       return;
     }
     setSteps(() => [...steps.slice(0, steps.length - 1)]);
+    setOpenModal(false);
   };
 
   const prev = () => {
-    setCurrent(current - 1);
+    const prevStep = current - 1;
+    setCurrent(prevStep);
+
+    if (formData[prevStep]) {
+      form.setFieldsValue(formData[prevStep]);
+    }
   };
+
+  const { columns } = useProcessesColumns(handleOpenStep);
 
   return (
     <Wrapper
@@ -156,7 +193,7 @@ export const ProcessesPage = () => {
     >
       <Flex gap={"large"} vertical justify="center">
         <Flex justify="space-between" align="center">
-          <Flex gap={"small"} align="center">
+          {/* <Flex gap={"small"} align="center">
             <Typography.Text>Название процесса:</Typography.Text>
             {filteredprocesses.length === 0 ? (
               <Typography.Text type="secondary">
@@ -171,64 +208,109 @@ export const ProcessesPage = () => {
                 value={title || undefined}
               />
             )}
-          </Flex>
+          </Flex> */}
 
-          {openSteps ? (
-            <Flex gap={"small"}>
+          {/* <Flex gap={"small"}>
               <Button type="primary" onClick={addStep}>
                 Добавить участника
               </Button>
               <Button danger onClick={removeStep}>
                 Удалить участника
               </Button>
-            </Flex>
-          ) : (
-            <Button
-              type="primary"
-              onClick={() => setOpenSteps(true)}
-              disabled={!title}
-            >
-              Создать процесс
-            </Button>
-          )}
+            </Flex> */}
+
+          <Button
+            type="primary"
+            // onClick={() => setOpenSteps(true)}
+            // disabled={!title}
+          >
+            <PlusOutlined /> Создать процесс
+          </Button>
         </Flex>
         <Divider style={{ margin: "10px 0" }} />
 
-        {openSteps && (
-          <>
-            <Steps current={current} items={items} />
-            <Form form={form} layout="vertical" onFinish={onFinish}>
-              <div>{steps[current]?.content}</div>
-              <Flex justify="space-between">
-                <Flex gap={"small"}>
-                  {current > 0 && <Button onClick={prev}>Назад</Button>}
-                  {current < steps.length - 1 && (
-                    <Button type="primary" onClick={handleSubmit}>
-                      Вперед
-                    </Button>
-                  )}
-                  {current === steps.length - 1 && (
-                    <Button type="primary" htmlType="submit">
-                      Создать
-                    </Button>
-                  )}
-                </Flex>
+        <>
+          <Table
+            dataSource={dataDocument}
+            columns={columns}
+            pagination={false}
+            className={styles.table}
+            bordered
+            scroll={{ y: 480 }}
+          />
+          <Divider style={{ margin: "10px 0" }} />
+          {openSteps && (
+            <>
+              <Flex gap={"small"} justify="end">
+                <Button type="primary" onClick={addStep}>
+                  Добавить участника
+                </Button>
                 <Button
-                  type="primary"
                   danger
-                  onClick={() => setOpenModal(true)}
+                  onClick={() => {
+                    setModalType("removeStep");
+                    setOpenModal(true);
+                    setModalText({
+                      title: "удаление участника",
+                      btn: "Удалить",
+                      text: "удалить участника процесса",
+                    });
+                  }}
                 >
-                  Удалить процесс
+                  Удалить участника
                 </Button>
               </Flex>
-            </Form>
-          </>
-        )}
+              <Steps current={current} items={items} />
+              <Form
+                initialValues={{
+                  time_limit: 1,
+                }}
+                form={form}
+                layout="vertical"
+                onFinish={onFinish}
+              >
+                <div>{steps[current]?.content}</div>
+                <Flex justify="space-between">
+                  <Flex gap={"small"}>
+                    {current > 0 && <Button onClick={prev}>Назад</Button>}
+                    {current < steps.length - 1 && (
+                      <Button type="primary" onClick={handleSubmit}>
+                        Вперед
+                      </Button>
+                    )}
+                    {current === steps.length - 1 && (
+                      <Button type="primary" htmlType="submit">
+                        Создать
+                      </Button>
+                    )}
+                  </Flex>
+
+                  <Button
+                    type="primary"
+                    danger
+                    onClick={() => {
+                      setModalType("cancel");
+                      setOpenModal(true);
+                      setModalText({
+                        title: "действие",
+                        btn: "Отменить",
+                        text: "отменить изменения все данные будут удалены",
+                      });
+                    }}
+                  >
+                    Отменить изменения
+                  </Button>
+                </Flex>
+              </Form>
+            </>
+          )}
+        </>
       </Flex>
       <WarningModal
         open={openModal}
         onCancel={() => setOpenModal(false)}
         onConfirm={onConfirm}
+        modalText={modalText}
       />
     </Wrapper>
   );

@@ -2,13 +2,7 @@ import styles from "./StatusButton.module.scss";
 import { Button } from "antd";
 import { status } from "../../enums";
 
-export const StatusButton = ({
-  children,
-  icon,
-  statusFolder,
-  source,
-  onClick,
-}) => {
+export const StatusButton = ({ children, icon, statusFolder, source }) => {
   const color = (() => {
     switch (statusFolder) {
       case status.APPROVED:
@@ -33,7 +27,6 @@ export const StatusButton = ({
         variant="filled"
         className={source !== "table" ? styles.btn : styles.btn_table}
         icon={icon}
-        onClick
       >
         {children}
       </Button>

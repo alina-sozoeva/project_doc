@@ -48,7 +48,7 @@ export const Header = () => {
         className={`${styles.nav} container`}
         style={{ height: "100%" }}
       >
-        <Typography.Title level={3}>{title}</Typography.Title>
+        <Typography.Title level={4}>{title}</Typography.Title>
         <Flex align="center" className={styles.nav_list}>
           <div className={styles.bellWrapper}>
             <BellOutlined />
@@ -56,6 +56,7 @@ export const Header = () => {
           </div>
           <Flex align="center" gap={"small"}>
             <img src={foto} alt="user foto" className={styles.user_foto} />
+            <p>Testov Test</p>
           </Flex>
           <Button className={`${styles.logout}`} onClick={() => logOut()}>
             <PoweroffOutlined className={styles.out} />

@@ -5,3 +5,25 @@
 .contentStyle {
   width: 100%;
 }
+
+.chain_container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.line {
+  width: 40px;
+  height: 2px;
+  background-color: #1677ff;
+  margin: 0 8px;
+}
+
+.btn {
+  padding: 2px 5px;
+  height: 24px;
+
+  svg {
+    font-size: 12px;
+  }
+}

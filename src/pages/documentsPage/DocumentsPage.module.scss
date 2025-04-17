@@ -15,7 +15,30 @@
 }
 
 .cart_img {
-  width: 50px;
+  width: 40px;
   border-radius: 10px;
   object-fit: cover;
+}
+
+.chain_container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.line {
+  width: 40px;
+  height: 2px;
+  background-color: #1677ff;
+  margin: 0 8px;
+}
+
+.btn {
+  padding: 2px 5px;
+  height: 24px;
+  font-size: 12px !important;
+
+  svg {
+    font-size: 12px;
+  }
 }

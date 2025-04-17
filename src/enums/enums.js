@@ -52,7 +52,6 @@ export const processesMap = {
 };
 
 export const departmentMap = {
-  0: "Нет отдела",
   1: "Юридический отдел",
   2: "Служба безопасности",
   3: "Финансовый отдел",
@@ -61,7 +60,6 @@ export const departmentMap = {
 };
 
 export const positionMap = {
-  0: "Нет должности",
   1: "Исполнитель",
   2: "Юрист",
   3: "Бухгалтер",
