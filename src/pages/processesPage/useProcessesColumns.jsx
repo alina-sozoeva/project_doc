@@ -2,8 +2,9 @@ import { DeleteOutlined } from "@ant-design/icons";
 import styles from "./ProcessesPage.module.scss";
 import { Button } from "antd";
 import { RouteButton } from "../../common";
+import { processesMap } from "../../enums";
 
-export const useProcessesColumns = (handleOpenStep) => {
+export const useProcessesColumns = () => {
   const columns = [
     {
       title: "№",
@@ -21,9 +22,10 @@ export const useProcessesColumns = (handleOpenStep) => {
     },
     {
       title: "Название основного процесса",
-      dataIndex: "processName",
-      key: "processName",
+      dataIndex: "process_name",
+      key: "process_name",
       width: 120,
+      render: (text) => processesMap[text],
     },
     {
       title: "Маршрут",
@@ -32,18 +34,15 @@ export const useProcessesColumns = (handleOpenStep) => {
       align: "center",
       width: 200,
       render: (record) => (
-        <div
-          className={styles.chain_container}
-          onClick={() => handleOpenStep()}
-        >
+        <div className="chain_container">
           <RouteButton>1</RouteButton>
-          <div className={styles.line} />
+          <div className="line" />
           <RouteButton>2</RouteButton>
-          {/* <div className={styles.line} />
+          {/* <div className="line" />
           <RouteButton>3</RouteButton>
-          <div className={styles.line} />
+          <div className="line" />
           <RouteButton>4</RouteButton>
-          <div className={styles.line} />
+          <div className="line" />
           <RouteButton>5</RouteButton> */}
         </div>
       ),

@@ -3,7 +3,7 @@ import { Button, Divider, Flex, Form, Steps, Table } from "antd";
 import { WarningModal, Wrapper } from "../../common";
 import { pages, pathname, processesMap, status } from "../../enums";
 import { toast } from "react-toastify";
-import { StepContent } from "../../components";
+import { AddProcessesModal, StepContent } from "../../components";
 import { useDispatch, useSelector } from "react-redux";
 import { addToProcesses, addToProcessesMembers } from "../../store";
 import { v4 as uuidv4 } from "uuid";
@@ -49,8 +49,8 @@ export const ProcessesPage = () => {
       content: <StepContent form={form} />,
     },
   ];
+
   const dispatch = useDispatch();
-  const processesArr = useSelector((state) => state.processes.processes);
   const [current, setCurrent] = useState(0);
   const [openSteps, setOpenSteps] = useState(false);
   const [openModal, setOpenModal] = useState(false);
@@ -59,18 +59,12 @@ export const ProcessesPage = () => {
   const [formData, setFormData] = useState({});
   const [modalType, setModalType] = useState(null);
   const [modalText, setModalText] = useState({});
-
-  const handleChange = (value) => {
-    setTitle(value);
-  };
+  const [openProcessesModal, setOpenProcessesModal] = useState(false);
+  const processes = useSelector((state) => state.processes.processes);
 
   const handleOpenStep = () => {
     setOpenSteps(true);
   };
-
-  const filteredprocesses = processes?.filter(
-    (item) => !processesArr?.some((p) => p.slug === item.value)
-  );
 
   const items = steps?.map((item, index) => ({
     key: `step${index}`,
@@ -155,7 +149,6 @@ export const ProcessesPage = () => {
   };
 
   const addStep = () => {
-    const newIndex = steps.length;
     setSteps((steps) => [
       ...steps,
       {
@@ -193,50 +186,23 @@ export const ProcessesPage = () => {
     >
       <Flex gap={"large"} vertical justify="center">
         <Flex justify="space-between" align="center">
-          {/* <Flex gap={"small"} align="center">
-            <Typography.Text>Название процесса:</Typography.Text>
-            {filteredprocesses.length === 0 ? (
-              <Typography.Text type="secondary">
-                Все процессы созданы
-              </Typography.Text>
-            ) : (
-              <Select
-                style={{ width: "250px" }}
-                placeholder="Выберите название процесcа"
-                options={filteredprocesses}
-                onChange={handleChange}
-                value={title || undefined}
-              />
-            )}
-          </Flex> */}
-
-          {/* <Flex gap={"small"}>
-              <Button type="primary" onClick={addStep}>
-                Добавить участника
-              </Button>
-              <Button danger onClick={removeStep}>
-                Удалить участника
-              </Button>
-            </Flex> */}
-
-          <Button
-            type="primary"
-            // onClick={() => setOpenSteps(true)}
-            // disabled={!title}
-          >
+          <Button type="primary" onClick={() => setOpenProcessesModal(true)}>
             <PlusOutlined /> Создать процесс
           </Button>
         </Flex>
         <Divider style={{ margin: "10px 0" }} />
-
         <>
           <Table
-            dataSource={dataDocument}
+            dataSource={processes}
             columns={columns}
             pagination={false}
             className={styles.table}
             bordered
             scroll={{ y: 480 }}
+            onRow={() => ({
+              onClick: () => handleOpenStep(),
+            })}
+            rowClassName={() => styles.clickableRow}
           />
           <Divider style={{ margin: "10px 0" }} />
           {openSteps && (
@@ -311,6 +277,11 @@ export const ProcessesPage = () => {
         onCancel={() => setOpenModal(false)}
         onConfirm={onConfirm}
         modalText={modalText}
+      />
+      <AddProcessesModal
+        open={openProcessesModal}
+        onCancel={() => setOpenProcessesModal(false)}
+        processId={processId}
       />
     </Wrapper>
   );

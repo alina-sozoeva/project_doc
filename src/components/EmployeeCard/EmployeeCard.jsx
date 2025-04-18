@@ -47,7 +47,12 @@ export const EmployeeCard = ({ onOpen, item }) => {
           <PhoneOutlined /> {item.phone_number}
         </Col>
       </Row> */}
-      <Button className={styles.btn_add} onClick={onOpen}>
+      <Button
+        className={
+          item.department === "CEO" ? styles.btn_add_ceo : styles.btn_add
+        }
+        onClick={onOpen}
+      >
         <PlusOutlined />
       </Button>
     </Flex>

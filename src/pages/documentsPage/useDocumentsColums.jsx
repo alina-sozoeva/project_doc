@@ -73,15 +73,13 @@ export const useDocumentsColums = () => {
       align: "center",
       width: 200,
       render: (_, record) => (
-        <div className={styles.chain_container}>
+        <div className="chain_container">
           {record.record.map((step, index) => (
             <React.Fragment key={index}>
               <RouteButton statusFolder={step.status} item={record}>
                 {step.step}
               </RouteButton>
-              {index < record.record.length - 1 && (
-                <div className={styles.line} />
-              )}
+              {index < record.record.length - 1 && <div className="line" />}
             </React.Fragment>
           ))}
         </div>
@@ -105,7 +103,7 @@ export const useDocumentsColums = () => {
             </Button>
           ) : (
             <Button type="primary" className={styles.btn}>
-              <Link to={`/edit-folder/${1}/${"статус"}`}>В работу</Link>
+              В работу
             </Button>
           )}
         </>

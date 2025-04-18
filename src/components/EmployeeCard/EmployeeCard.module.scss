@@ -81,6 +81,21 @@
   word-wrap: break-word;
 }
 
+.btn_add_ceo {
+  position: absolute;
+  width: 15px;
+  height: 15px;
+  right: -5px;
+  top: 30px;
+  padding: 0;
+  border-radius: 3px;
+
+  svg {
+    font-size: 10px;
+    padding: 0;
+  }
+}
+
 .btn_add {
   position: absolute;
   width: 15px;

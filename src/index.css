@@ -56,3 +56,16 @@ li {
   > th {
   padding: 2px !important;
 }
+
+.chain_container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.line {
+  width: 40px;
+  height: 2px;
+  background-color: #1677ff;
+  margin: 0 8px;
+}

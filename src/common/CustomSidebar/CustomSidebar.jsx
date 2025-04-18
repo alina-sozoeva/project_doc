@@ -41,10 +41,10 @@ export const CustomSidebar = () => {
         ]
       : [];
 
-  const dynamicMenu = dataDocument?.map((item, index) => ({
+  const dynamicMenu = processes?.map((item, index) => ({
     key: `dynamic-${index}`,
     label: item.title,
-    path: "./documents",
+    path: `/documents?process_name=${item.process_name}`, // можно item.title, но id — надёжнее
   }));
 
   const menuKeys = [...baseMenu, ...dynamicMenu, ...adminOnlyMenu];

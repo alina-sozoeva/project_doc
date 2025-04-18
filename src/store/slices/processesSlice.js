@@ -3,6 +3,7 @@ import { storageKeys } from "../../enums";
 import { getStorageData, setStorageData } from "../../utils";
 
 const initialState = {
+  selectedProcess: null,
   processes: getStorageData(storageKeys.PROCESSES),
   processesMembers: getStorageData(storageKeys.PROCESSES_MEMBERS),
 };
@@ -30,10 +31,18 @@ export const processesSlice = createSlice({
       );
       setStorageData(storageKeys.PROCESSES_MEMBERS, state.processesMembers);
     },
+    //selectedProcess
+    setSelectedProcess(state, action) {
+      state.selectedProcess = action.payload;
+    },
   },
 });
 
-export const { addToProcesses, addToProcessesMembers, editProcessesMembers } =
-  processesSlice.actions;
+export const {
+  addToProcesses,
+  addToProcessesMembers,
+  editProcessesMembers,
+  setSelectedProcess,
+} = processesSlice.actions;
 
 export default processesSlice.reducer;

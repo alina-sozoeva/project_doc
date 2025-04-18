@@ -16,6 +16,16 @@ import { useMessageColums } from "./useMessageColums";
 import { documentsArr } from "../../data";
 import foto from "../../assets/28.jpg";
 import dayjs from "dayjs";
+import { DocumentsTable } from "./DocumentsTable";
+import { AddAgreementModal } from "../../components";
+import {
+  AgreementTable,
+  CloseDocumentsTable,
+  CounterpartyTable,
+  PaymentRequestTable,
+  PurchaseRequestTable,
+} from "../../modules";
+import { useLocation } from "react-router-dom";
 
 const items = [
   { value: "1", label: status.APPROVED },
@@ -27,7 +37,9 @@ const items = [
 
 export const DocumemtsPage = () => {
   const [form] = Form.useForm();
-
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const processName = searchParams.get("process_name");
   const documents = useSelector((state) => state.documents.documents);
   const [open, setOpen] = useState(false);
   // const { columns } = useDocumentsColums();
@@ -145,15 +157,13 @@ export const DocumemtsPage = () => {
       align: "center",
       width: 200,
       render: (_, record) => (
-        <div className={styles.chain_container}>
+        <div className="chain_container">
           {record.record.map((step, index) => (
             <React.Fragment key={index}>
               <RouteButton statusFolder={step.status} item={record}>
                 {step.step}
               </RouteButton>
-              {index < record.record.length - 1 && (
-                <div className={styles.line} />
-              )}
+              {index < record.record.length - 1 && <div className="line" />}
             </React.Fragment>
           ))}
         </div>
@@ -171,7 +181,7 @@ export const DocumemtsPage = () => {
             <Button
               type="primary"
               className={styles.btn}
-              onClick={() => showApproveModal(record)} // Вызов функции открытия модалки для утверждения
+              onClick={() => showApproveModal(record)}
             >
               Утвердить
             </Button>
@@ -179,7 +189,7 @@ export const DocumemtsPage = () => {
             <Button
               type="primary"
               className={styles.btn}
-              onClick={showWorkWarning} // Вызов предупреждения
+              onClick={showWorkWarning}
             >
               В работу
             </Button>
@@ -190,6 +200,31 @@ export const DocumemtsPage = () => {
   ];
   console.log(message, data);
 
+  const getTableComponent = (processName) => {
+    switch (processName) {
+      case "/create-counterparty":
+        return <CounterpartyTable />;
+
+      case "/agreement":
+        return <AgreementTable />;
+
+      case "/purchase-request":
+        return <PurchaseRequestTable />;
+
+      case "/payment-request":
+        return <PaymentRequestTable />;
+
+      case "/close-documents":
+        return <CloseDocumentsTable />;
+
+      default:
+        console.log("Неизвестный процесс");
+        return null; // Возвращаем null, если процесс не найден
+    }
+  };
+
+  const table = getTableComponent(processName);
+
   return (
     <Wrapper
       className={styles.content}
@@ -197,181 +232,52 @@ export const DocumemtsPage = () => {
       title={pages.DOCUMENTS}
       page={true}
     >
-      <Flex gap="small" justify="space-between">
-        <Flex gap="small">
-          <Input
-            placeholder="Поиск по инициатору"
-            prefix={<SearchOutlined />}
-            style={{
-              width: "200px",
-            }}
-          />
-          <Select
-            placeholder="Год"
-            options={items}
-            style={{
-              width: "80px",
-            }}
-          />
-          <Select
-            placeholder="Месяц"
-            options={items}
-            style={{
-              width: "100px",
-            }}
-          />
-          <Select
-            placeholder="Статус документа"
-            options={items}
-            style={{
-              width: "150px",
-            }}
-          />
-          <Button>
-            <FilterOutlined />
-          </Button>
-          <Button>
-            <RedoOutlined />
-          </Button>
-        </Flex>
-        <Button type="primary" onClick={() => setOpen(true)}>
-          <PlusOutlined /> Добавить документ
-        </Button>
-      </Flex>
-
-      <Col span={24}>
-        <Table
-          dataSource={documentsArr}
-          columns={columns}
-          pagination={false}
-          className={styles.table}
-          bordered
-          scroll={{ y: 480, x: 1400 }}
-        />
-      </Col>
-      <FolderModal open={open} onCancel={onClose} />
-
-      <Modal
-        width={400}
-        centered
-        open={open}
-        onCancel={onClose}
-        footer={false}
-        title="Добавить документ"
-        bodyStyle={{ maxHeight: 480, overflowY: "auto" }}
-      >
-        <Form
-          form={form}
-          layout="vertical"
-          // onFinish={onFinish}
-          style={{ marginRight: "20px" }}
-          initialValues={{ remember: true }}
-        >
-          <Form.Item
-            label="Название документа"
-            name="title"
-            rules={[
-              {
-                required: true,
-                message: "Это обязательное поле для заполнения",
-              },
-            ]}
-          >
-            <Input type="text" placeholder="Введите название документа " />
-          </Form.Item>
-          <Form.Item
-            label="Юридическое наименование компании"
-            name="company_name"
-            rules={[
-              {
-                required: true,
-                message: "Это обязательное поле для заполнения",
-              },
-            ]}
-          >
-            <Input placeholder="Введите юридическое наименование компании" />
-          </Form.Item>
-
-          <Form.Item label="ИНН" name="inn">
-            <Input placeholder="Введите ИНН" type="number" />
-          </Form.Item>
-
-          <Form.Item label="Юридический адрес" name="legal_address">
-            <Input placeholder="Введите юридический адрес" />
-          </Form.Item>
-
-          <Form.Item label="Фактический адрес" name="actual_address">
-            <Input placeholder="Введите фактический адрес" />
-          </Form.Item>
-
-          <Form.Item
-            label="Контактное лицо"
-            name="contact_person"
-            rules={[
-              {
-                required: true,
-                message: "Это обязательное поле для заполнения",
-              },
-            ]}
-          >
-            <Input placeholder="Введите ФИО контактного лица" />
-          </Form.Item>
-          <Form.Item
-            label="Номер телефона"
-            name="phone"
-            rules={[{ required: true, message: "Введите номер телефона" }]}
-          >
-            <Input placeholder="Введите номер телефона" />
-          </Form.Item>
-
-          <Form.Item
-            label="Email"
-            name="email"
-            rules={[{ type: "email", message: "Введите корректный email" }]}
-          >
-            <Input placeholder="Введите email" />
-          </Form.Item>
-
-          <Form.Item
-            label="Банковские реквизиты"
-            name="bank_details"
-            rules={[
-              {
-                required: true,
-                message: "Это обязательное поле для заполнения",
-              },
-            ]}
-          >
-            <Input placeholder="Введите банковские реквизиты" />
-          </Form.Item>
-
-          <Form.Item
-            label="Статус проверки"
-            name="verification_status"
-            rules={[
-              {
-                required: true,
-                message: "Это обязательное поле для заполнения",
-              },
-            ]}
-          >
-            <Select
-              placeholder="Выберите статус проверки"
-              options={[
-                { value: "jack", label: "ожидание" },
-                { value: "lucy", label: "проверено" },
-                { value: "Yiminghe", label: "отклонено" },
-              ]}
+      <Flex vertical gap="small">
+        <Flex gap="small" justify="space-between">
+          <Flex gap="small">
+            <Input
+              placeholder="Поиск по инициатору"
+              prefix={<SearchOutlined />}
+              style={{
+                width: "200px",
+              }}
             />
-          </Form.Item>
-
-          <Flex gap="small" justify="end">
-            <Button type="primary" htmlType="submit">
-              Добавить
+            <Select
+              placeholder="Год"
+              // options={items}
+              style={{
+                width: "80px",
+              }}
+            />
+            <Select
+              placeholder="Месяц"
+              // options={items}
+              style={{
+                width: "100px",
+              }}
+            />
+            <Select
+              placeholder="Статус документа"
+              // options={items}
+              style={{
+                width: "150px",
+              }}
+            />
+            <Button>
+              <FilterOutlined />
+            </Button>
+            <Button>
+              <RedoOutlined />
             </Button>
           </Flex>
-        </Form>
-      </Modal>
+          <Button type="primary" onClick={() => setOpen(true)}>
+            <PlusOutlined /> Добавить документ
+          </Button>
+        </Flex>
+        {table}
+      </Flex>
+      <AddAgreementModal open={open} onCancel={() => setOpen(false)} />
+
       <Modal
         centered
         width={400}
@@ -411,22 +317,6 @@ export const DocumemtsPage = () => {
             Доработать
           </Button>
         </Flex>
-      </Modal>
-
-      {/* Предупреждение для "В работу" */}
-      <Modal
-        centered
-        width={400}
-        open={openWorkWarning}
-        title="Предупреждение"
-        onCancel={handleWorkWarningCancel}
-        footer={[
-          <Button key="submit" type="primary" onClick={handleWorkWarningOk}>
-            Отправить в работу
-          </Button>,
-        ]}
-      >
-        <p>Документ будет отправлен в работу. Вы уверены?</p>
       </Modal>
     </Wrapper>
   );
