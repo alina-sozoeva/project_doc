@@ -1,10 +1,14 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { Menu, Space } from "antd";
+import { Flex, Menu, Space } from "antd";
 import { useEffect, useMemo } from "react";
 import styles from "./CustomSidebar.module.scss";
 import logo from "../../assets/logo.png";
 import { useSelector } from "react-redux";
-import { SettingOutlined } from "@ant-design/icons";
+import {
+  ClusterOutlined,
+  HomeOutlined,
+  SettingOutlined,
+} from "@ant-design/icons";
 import { dataDocument } from "../../data";
 
 export const CustomSidebar = () => {
@@ -16,12 +20,20 @@ export const CustomSidebar = () => {
   const baseMenu = [
     {
       key: "1",
-      label: "Главная",
+      label: (
+        <>
+          <HomeOutlined /> Главная
+        </>
+      ),
       path: "/",
     },
     {
       key: "3",
-      label: "Структура организации",
+      label: (
+        <>
+          <ClusterOutlined /> Структура организации
+        </>
+      ),
       path: "/employees",
     },
   ];
@@ -43,7 +55,12 @@ export const CustomSidebar = () => {
 
   const dynamicMenu = processes?.map((item, index) => ({
     key: `dynamic-${index}`,
-    label: item.title,
+    label: (
+      <Flex align="center" gap={"small"}>
+        <span style={{ fontSize: "20px" }}>•</span>
+        {item.title}
+      </Flex>
+    ),
     path: `/documents?process_name=${item.process_name}`, // можно item.title, но id — надёжнее
   }));
 
@@ -84,7 +101,11 @@ export const CustomSidebar = () => {
           items={menuKeys.map(({ key, label, path }) => ({
             key,
             label: (
-              <Link to={path} onClick={() => handleMenuClick()}>
+              <Link
+                style={{ fontWeight: 600 }}
+                to={path}
+                onClick={() => handleMenuClick()}
+              >
                 {label}
               </Link>
             ),

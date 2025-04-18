@@ -134,17 +134,17 @@ export const ProcessesPage = () => {
   };
 
   const onFinish = (values) => {
-    dispatch(
-      addToProcesses([
-        {
-          id: processId.current,
-          title: processesMap[title],
-          slug: title,
-        },
-      ])
-    );
+    // dispatch(
+    //   addToProcesses([
+    //     {
+    //       id: processId.current,
+    //       title: processesMap[title],
+    //       slug: title,
+    //     },
+    //   ])
+    // );
     addMembers(values);
-    toast.success("Вы успешно создали процесс");
+    // toast.success("Вы успешно создали процесс");
     clear();
   };
 

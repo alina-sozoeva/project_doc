@@ -21,13 +21,19 @@
 }
 
 .user_foto {
-  width: 45px;
-  border-radius: 5px;
+  width: 35px;
+  border-radius: 50%;
 }
 
-.out {
+.logout {
+  color: #1677ff;
+  cursor: pointer;
   svg {
-    font-size: 18px;
+    font-size: 22px;
+  }
+
+  &:hover {
+    color: #4096ff;
   }
 }
 
@@ -40,7 +46,7 @@
   position: absolute;
   top: -5px;
   right: -5px;
-  background-color: red;
+  background-color: #1677ff;
   color: white;
   border-radius: 50%;
   width: 20px;

@@ -58,9 +58,9 @@ export const Header = () => {
             <img src={foto} alt="user foto" className={styles.user_foto} />
             <p>Testov Test</p>
           </Flex>
-          <Button className={`${styles.logout}`} onClick={() => logOut()}>
+          <div className={`${styles.logout}`} onClick={() => logOut()}>
             <PoweroffOutlined className={styles.out} />
-          </Button>
+          </div>
         </Flex>
       </Flex>
     </header>
