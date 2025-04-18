@@ -14,8 +14,7 @@
   }
 }
 :global {
-  :where(.css-dev-only-do-not-override-240cud).ant-upload-wrapper
-    .ant-upload-list {
+  .ant-upload-wrapper .ant-upload-list {
     margin-top: 5px;
     display: flex;
     gap: 5px;
