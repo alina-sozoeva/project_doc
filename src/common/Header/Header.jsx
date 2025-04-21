@@ -1,7 +1,7 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import styles from "./Header.module.scss";
 import { useEffect, useState } from "react";
-import { Button, Flex, Typography } from "antd";
+import { Flex, Typography } from "antd";
 import { pages, pathname } from "../../enums";
 import { BellOutlined, PoweroffOutlined } from "@ant-design/icons";
 import foto from "../../assets/28.jpg";

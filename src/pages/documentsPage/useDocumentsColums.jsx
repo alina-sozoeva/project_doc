@@ -53,8 +53,8 @@ export const useDocumentsColums = () => {
     },
     {
       title: "Контрагент",
-      dataIndex: "data",
-      key: "data",
+      dataIndex: "contragent",
+      key: "contragent",
       width: 150,
       render: (_, record) => record.data.contract_number,
     },

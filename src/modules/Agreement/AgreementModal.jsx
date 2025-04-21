@@ -64,7 +64,7 @@ export const AgreementModal = ({ open, onCancel }) => {
 
           <Form.Item
             label="Контрагент"
-            name="counterparty"
+            name="contragent"
             rules={[
               {
                 required: true,
@@ -131,7 +131,7 @@ export const AgreementModal = ({ open, onCancel }) => {
 
           <Form.Item
             label="Сумма договора"
-            name="contract_amount"
+            name="sum"
             rules={[
               {
                 required: true,

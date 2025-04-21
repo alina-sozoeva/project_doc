@@ -1,7 +1,7 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
-export const newsApi = createApi({
-  reducerPath: "employees",
+export const employeesApi = createApi({
+  reducerPath: "employeesApi",
   baseQuery: fetchBaseQuery({ baseUrl: process.env.REACT_APP_MAIN_URL }),
   tagTypes: ["EmployeesList"],
   endpoints: (builder) => ({
@@ -12,5 +12,15 @@ export const newsApi = createApi({
       }),
       providesTags: ["EmployeesList"],
     }),
+    addEmployees: builder.mutation({
+      query: (newEmployees) => ({
+        url: "/add_employees",
+        method: "POST",
+        body: newEmployees,
+      }),
+      invalidatesTags: ["EmployeesList"],
+    }),
   }),
 });
+
+export const { useGetEmployeesQuery, useAddEmployeesMutation } = employeesApi;

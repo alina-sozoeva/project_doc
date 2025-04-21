@@ -39,7 +39,7 @@ export const CloseDocumentsModal = ({ open, onCancel }) => {
           </Typography.Title>
           <Form.Item
             label="Наименование процесса"
-            name="process_name"
+            name="name"
             rules={[
               {
                 required: true,

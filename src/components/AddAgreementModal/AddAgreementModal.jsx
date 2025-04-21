@@ -105,7 +105,7 @@ export const AddAgreementModal = ({ open, onCancel }) => {
 
             <Form.Item
               label="Контрагент"
-              name="counterparty"
+              name="contragent"
               rules={[
                 {
                   required: true,

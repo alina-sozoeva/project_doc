@@ -5,7 +5,7 @@ import { pages, pathname, processesMap, status } from "../../enums";
 import { toast } from "react-toastify";
 import { AddProcessesModal, StepContent } from "../../components";
 import { useDispatch, useSelector } from "react-redux";
-import { addToProcesses, addToProcessesMembers } from "../../store";
+import { addToProcessesMembers, useGetProcessesQuery } from "../../store";
 import { v4 as uuidv4 } from "uuid";
 import styles from "./ProcessesPage.module.scss";
 import { PlusOutlined } from "@ant-design/icons";
@@ -61,6 +61,7 @@ export const ProcessesPage = () => {
   const [modalText, setModalText] = useState({});
   const [openProcessesModal, setOpenProcessesModal] = useState(false);
   const processes = useSelector((state) => state.processes.processes);
+  const { data } = useGetProcessesQuery();
 
   const handleOpenStep = () => {
     setOpenSteps(true);

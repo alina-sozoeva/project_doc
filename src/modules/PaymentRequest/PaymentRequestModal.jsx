@@ -59,7 +59,7 @@ export const PaymentRequestTable = ({ open, onCancel }) => {
             />
           </Form.Item>
 
-          <Form.Item label="Контрагент" name="counterparty">
+          <Form.Item label="Контрагент" name="contragent">
             <Select
               placeholder="Выберите контрагента"
               options={[
@@ -72,7 +72,7 @@ export const PaymentRequestTable = ({ open, onCancel }) => {
 
           <Form.Item
             label="Сумма заявки"
-            name="amount"
+            name="sum"
             rules={[
               {
                 required: true,
@@ -98,7 +98,7 @@ export const PaymentRequestTable = ({ open, onCancel }) => {
 
           <Form.Item
             label="Статья бюджета"
-            name="budget_item"
+            name="budget"
             rules={[
               {
                 required: true,

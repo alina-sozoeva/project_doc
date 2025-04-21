@@ -136,7 +136,7 @@ export const AddAgreementPage = () => {
 
             <Form.Item
               label="Контрагент"
-              name="counterparty"
+              name="contragent"
               rules={[{ required: true, message: "Это обязательное поле" }]}
             >
               <Input placeholder="Введите контрагента" />

@@ -44,11 +44,11 @@ export const storageKeys = {
 };
 
 export const processesMap = {
-  "/create-counterparty": "Создание карточки контрагента",
-  "/agreement": "Согласование договора",
-  "/purchase-request": "Формирование заявок на закуп",
-  "/payment-request": "Формирование заявок на выплату",
-  "/close-documents": "Закрытие документов",
+  contragent: "Создание карточки контрагента",
+  soglosovanie: "Согласование договора",
+  zakup: "Формирование заявок на закуп",
+  vyplata: "Формирование заявок на выплату",
+  close: "Закрытие документов",
 };
 
 export const departmentMap = {

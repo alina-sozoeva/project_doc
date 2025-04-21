@@ -36,8 +36,8 @@ export const usePaymentRequestColumns = (handleOpenWarn) => {
     },
     {
       title: "Контрагент",
-      dataIndex: "counterparty",
-      key: "counterparty",
+      dataIndex: "contragent",
+      key: "contragent",
       width: 100,
       //   render: (_, record) => dayjs(record.date).format("DD.MM.YYYY HH:mm"),
     },

@@ -23,8 +23,8 @@ export const useCloseDocumentsColumns = (handleOpenWarn) => {
     },
     {
       title: "Наименование процесса",
-      dataIndex: "process_name",
-      key: "process_name",
+      dataIndex: "name",
+      key: "name",
       width: 100,
     },
     {

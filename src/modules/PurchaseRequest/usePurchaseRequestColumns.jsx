@@ -23,8 +23,8 @@ export const usePurchaseRequestColumns = (handleOpenWarn) => {
     },
     {
       title: "Название документа",
-      dataIndex: "doc_name",
-      key: "doc_name",
+      dataIndex: "name",
+      key: "name",
       width: 100,
     },
     {
@@ -36,8 +36,8 @@ export const usePurchaseRequestColumns = (handleOpenWarn) => {
     },
     {
       title: "Контрагент",
-      dataIndex: "counterparty",
-      key: "counterparty",
+      dataIndex: "contragent",
+      key: "contragent",
       width: 100,
       //   render: (_, record) => dayjs(record.date).format("DD.MM.YYYY HH:mm"),
     },

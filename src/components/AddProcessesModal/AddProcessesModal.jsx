@@ -12,29 +12,29 @@ import { status } from "../../enums";
 import { UploadOutlined } from "@ant-design/icons";
 import { useDispatch, useSelector } from "react-redux";
 import { v4 as uuidv4 } from "uuid";
-import { addToDocuments, addToProcesses } from "../../store";
+import { addToProcesses, useAddProcessesMutation } from "../../store";
 import { useState } from "react";
 
 const processes = [
   {
     label: "Создание карточки контрагента",
-    value: "/create-counterparty",
+    value: "contragent",
   },
   {
     label: "Согласование договора",
-    value: "/agreement",
+    value: "soglosovanie",
   },
   {
     label: "Формирование заявок на закуп",
-    value: "/purchase-request",
+    value: "zakup",
   },
   {
     label: "Формирование заявок на выплату",
-    value: "/payment-request",
+    value: "vyplata",
   },
   {
     label: "Закрытие документов",
-    value: "/close-documents",
+    value: "close-documents",
   },
 ];
 
@@ -42,6 +42,7 @@ export const AddProcessesModal = ({ open, onCancel, processId }) => {
   const dispatch = useDispatch();
   const [form] = Form.useForm();
   const [title, setTitle] = useState("");
+  const [addProcesses] = useAddProcessesMutation();
 
   const onFinish = (values) => {
     dispatch(
@@ -53,6 +54,10 @@ export const AddProcessesModal = ({ open, onCancel, processId }) => {
         },
       ])
     );
+    addProcesses({
+      name: values.title,
+      basic_processes: values.process_name,
+    });
     form.resetFields();
     onCancel();
   };

@@ -44,8 +44,8 @@ export const useCounterpartyColums = (handleOpenWarn) => {
 
     {
       title: "Контактное лицо",
-      dataIndex: "contact_person",
-      key: "contact_person",
+      dataIndex: "fio",
+      key: "fio",
       width: 100,
       //   render: (_, record) => dayjs(record.date).format("DD.MM.YYYY HH:mm"),
     },

@@ -78,8 +78,8 @@ export const PurchaseRequestModal = ({ open, onCancel }) => {
             Добавить заявокe на закуп
           </Typography.Title>
           <Form.Item
-            label="Название документа"
-            name="doc_name"
+            label="Наименование запускаемого процесса"
+            name="name"
             rules={[
               {
                 required: true,
@@ -87,9 +87,8 @@ export const PurchaseRequestModal = ({ open, onCancel }) => {
               },
             ]}
           >
-            <Input placeholder="Введите название документа " />
+            <Input placeholder="Введите наименование " />
           </Form.Item>
-
           <Form.Item
             label="Основание заявки"
             name="application"
@@ -105,7 +104,7 @@ export const PurchaseRequestModal = ({ open, onCancel }) => {
 
           <Form.Item
             label="Сумма заявки"
-            name="application_amount"
+            name="sum"
             rules={[
               {
                 required: true,
@@ -136,21 +135,8 @@ export const PurchaseRequestModal = ({ open, onCancel }) => {
           </Form.Item>
 
           <Form.Item
-            label="Наименование запускаемого процесса"
-            name="name"
-            rules={[
-              {
-                required: true,
-                message: "Это обязательное поле для заполнения",
-              },
-            ]}
-          >
-            <Input placeholder="Введите наименование " />
-          </Form.Item>
-
-          <Form.Item
             label="Контрагент"
-            name="counterparty"
+            name="contragent"
             rules={[
               {
                 required: true,

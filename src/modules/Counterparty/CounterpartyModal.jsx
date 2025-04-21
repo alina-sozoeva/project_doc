@@ -52,7 +52,7 @@ export const CunterpartyModal = ({ open, onCancel }) => {
           </Form.Item>
           <Form.Item
             label="Контактное лицо"
-            name="contact_person"
+            name="fio"
             rules={[
               {
                 required: true,
@@ -107,9 +107,9 @@ export const CunterpartyModal = ({ open, onCancel }) => {
               placeholder="Введите cтатус проверки"
               //   onChange={handleChange}
               options={[
-                { value: "jack", label: "ожидание" },
-                { value: "lucy", label: "проверено" },
-                { value: "Yiminghe", label: "отклонено" },
+                { value: "pending", label: "ожидание" },
+                { value: "approved", label: "проверено" },
+                { value: "rejected", label: "отклонено" },
               ]}
             />
           </Form.Item>
