@@ -1,17 +1,5 @@
-import {
-  Button,
-  Flex,
-  Form,
-  Input,
-  Modal,
-  Select,
-  Typography,
-  Upload,
-} from "antd";
-import { status } from "../../enums";
-import { UploadOutlined } from "@ant-design/icons";
-import { useDispatch, useSelector } from "react-redux";
-import { v4 as uuidv4 } from "uuid";
+import { Button, Flex, Form, Input, Modal, Select, Typography } from "antd";
+import { useDispatch } from "react-redux";
 import { addToProcesses, useAddProcessesMutation } from "../../store";
 import { useState } from "react";
 

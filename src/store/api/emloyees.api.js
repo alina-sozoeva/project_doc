@@ -7,7 +7,7 @@ export const employeesApi = createApi({
   endpoints: (builder) => ({
     getEmployees: builder.query({
       query: () => ({
-        url: "/employees",
+        url: "/get_emloyees",
         method: "GET",
       }),
       providesTags: ["EmployeesList"],

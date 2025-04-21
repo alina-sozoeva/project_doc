@@ -125,7 +125,7 @@ export const PaymentRequestModal = ({ open, onCancel }) => {
           </Row>
 
           <Button type="primary" htmlType="submit">
-            Отправить на согласование
+            Добавить в черновики
           </Button>
         </Flex>
       </Form>

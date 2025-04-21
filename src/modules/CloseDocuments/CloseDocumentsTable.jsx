@@ -13,6 +13,7 @@ import {
   SearchOutlined,
 } from "@ant-design/icons";
 import { CloseDocumentsModal } from "./CloseDocumentsModal";
+import { useGetDocumentsQuery } from "../../store";
 
 const closeDocumentsData = [
   {
@@ -63,18 +64,20 @@ const closeDocumentsData = [
       { step: 5, status: status.PENDING },
     ],
   },
-  // Добавь ещё записи по аналогии
 ];
 
 export const CloseDocumentsTable = () => {
   const [open, setOpen] = useState(false);
   const [openWarn, setOpenWarn] = useState(false);
 
+  const { data } = useGetDocumentsQuery("close");
+
   const handleOpenWarn = () => {
     setOpenWarn(true);
   };
 
   const { columns } = useCloseDocumentsColumns(handleOpenWarn);
+
   return (
     <Flex vertical gap="small">
       <Flex gap="small" justify="space-between">
@@ -120,7 +123,7 @@ export const CloseDocumentsTable = () => {
       </Flex>
       <Col span={24}>
         <Table
-          dataSource={closeDocumentsData}
+          dataSource={data ? data?.data : closeDocumentsData}
           columns={columns}
           pagination={false}
           className={styles.table}

@@ -10,12 +10,33 @@ import {
   Typography,
 } from "antd";
 import styles from "./CounterpartyTable.module.scss";
+import { useDispatch } from "react-redux";
+import { useAddDocumentMutation, useGetDocumentsQuery } from "../../store";
 
 export const CunterpartyModal = ({ open, onCancel }) => {
   const [form] = Form.useForm();
+  const dispatch = useDispatch();
 
-  const onFinish = () => {
-    console.log("1");
+  const [addDocs] = useAddDocumentMutation();
+
+
+  const onFinish = (values) => {
+    const newDoc = {
+      company_name: values.company_name,
+      inn: values.inn,
+      legal_address: values.legal_address,
+      actual_address: values.actual_address,
+      fio: values.fio,
+      phone: values.phone,
+      email: values.email,
+      bank_details: values.bank_details,
+      verification_status: values.verification_status,
+    };
+
+    // addDocs({ docType: "contragent", newDoc: newDoc });
+
+    form.resetFields();
+    onCancel();
   };
 
   return (
@@ -131,7 +152,7 @@ export const CunterpartyModal = ({ open, onCancel }) => {
           </Row>
         </Flex>
         <Button type="primary" htmlType="submit">
-          Добавить
+          Добавить в черновики
         </Button>
       </Form>
     </Modal>

@@ -14,6 +14,7 @@ import {
 import { UploadOutlined } from "@ant-design/icons";
 import styles from "./CloseDocumentsTable.module.scss";
 import { DocUploaded } from "../../common";
+import { useGetDocumentsQuery } from "../../store";
 
 export const CloseDocumentsModal = ({ open, onCancel }) => {
   const [form] = Form.useForm();
@@ -142,7 +143,7 @@ export const CloseDocumentsModal = ({ open, onCancel }) => {
           </Row>
 
           <Button type="primary" htmlType="submit">
-            Инициировать закрытие
+            Добавить в черновики
           </Button>
         </Flex>
       </Form>

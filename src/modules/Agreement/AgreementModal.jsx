@@ -175,7 +175,7 @@ export const AgreementModal = ({ open, onCancel }) => {
         </Flex>
         <Flex justify="start">
           <Button type="primary" htmlType="submit">
-            Отправить на согласование
+            Добавить в черновики
           </Button>
         </Flex>
       </Form>

@@ -41,7 +41,7 @@ export const DocUploaded = ({ value = [], onChange }) => {
   return (
     <Upload
       {...props}
-      itemRender={(originNode, file, fileList, actions) => (
+      itemRender={(file, actions) => (
         <span className={styles.customUploadItem}>
           <span>{file.name}</span>
           <p onClick={() => actions.remove?.()}>X</p>

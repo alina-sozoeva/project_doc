@@ -12,6 +12,7 @@ import { status } from "../../enums";
 import { useState } from "react";
 import { InWorkModal } from "../../components";
 import { PurchaseRequestModal } from "./PurchaseRequestModal";
+import { useGetDocumentsQuery } from "../../store";
 
 const purchaseRequestData = [
   {
@@ -70,6 +71,8 @@ export const PurchaseRequestTable = () => {
 
   const [openWarn, setOpenWarn] = useState(false);
 
+  const { data } = useGetDocumentsQuery("zakup");
+
   const handleOpenWarn = () => {
     setOpenWarn(true);
   };
@@ -120,7 +123,7 @@ export const PurchaseRequestTable = () => {
       </Flex>
       <Col span={24}>
         <Table
-          dataSource={purchaseRequestData}
+          dataSource={data ? data?.data : purchaseRequestData}
           columns={columns}
           pagination={false}
           className={styles.table}

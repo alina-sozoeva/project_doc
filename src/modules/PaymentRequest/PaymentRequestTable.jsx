@@ -12,6 +12,7 @@ import { status } from "../../enums";
 import { useState } from "react";
 import { InWorkModal } from "../../components";
 import { PaymentRequestModal } from "./PaymentRequestModal";
+import { useGetDocumentsQuery } from "../../store";
 
 const paymentRequestData = [
   {
@@ -71,6 +72,7 @@ const paymentRequestData = [
 export const PaymentRequestTable = () => {
   const [open, setOpen] = useState(false);
   const [openWarn, setOpenWarn] = useState(false);
+  const { data } = useGetDocumentsQuery("vyplata");
 
   const handleOpenWarn = () => {
     setOpenWarn(true);
@@ -121,7 +123,7 @@ export const PaymentRequestTable = () => {
       </Flex>
       <Col span={24}>
         <Table
-          dataSource={paymentRequestData}
+          dataSource={data ? data?.data : paymentRequestData}
           columns={columns}
           pagination={false}
           className={styles.table}

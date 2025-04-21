@@ -5,5 +5,4 @@ export * from "./StepContent";
 export * from "./EmployeeModal";
 export * from "./TreeComponent";
 export * from "./AddProcessesModal";
-export * from "./AddAgreementModal";
 export * from "./InWorkModal";

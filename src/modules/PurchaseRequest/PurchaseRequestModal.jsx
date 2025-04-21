@@ -171,7 +171,7 @@ export const PurchaseRequestModal = ({ open, onCancel }) => {
           </Row>
 
           <Button type="primary" htmlType="submit">
-            Добавить
+            Добавить в черновики
           </Button>
         </Flex>
       </Form>

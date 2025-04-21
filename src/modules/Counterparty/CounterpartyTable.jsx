@@ -12,6 +12,7 @@ import { status } from "../../enums";
 import { InWorkModal } from "../../components";
 import { useState } from "react";
 import { CunterpartyModal } from "./CounterpartyModal";
+import { useGetDocumentsQuery } from "../../store";
 
 const counterpartyData = [
   {
@@ -68,6 +69,7 @@ const counterpartyData = [
 export const CounterpartyTable = () => {
   const [open, setOpen] = useState(false);
   const [openWarn, setOpenWarn] = useState(false);
+  const { data } = useGetDocumentsQuery("contragent");
 
   const handleOpenWarn = () => {
     setOpenWarn(true);
@@ -120,7 +122,7 @@ export const CounterpartyTable = () => {
       </Flex>
       <Col span={24}>
         <Table
-          dataSource={counterpartyData}
+          dataSource={data ? data?.data : counterpartyData}
           columns={columns}
           pagination={false}
           className={styles.table}

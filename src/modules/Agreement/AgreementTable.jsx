@@ -13,6 +13,7 @@ import { AgreementModal } from "./AgreementModal";
 import { InWorkModal } from "../../components";
 import { status } from "../../enums";
 import dayjs from "dayjs";
+import { useGetDocumentsQuery } from "../../store";
 
 const agreementData = [
   {
@@ -77,6 +78,7 @@ export default agreementData;
 export const AgreementTable = () => {
   const [open, setOpen] = useState(false);
   const [openWarn, setOpenWarn] = useState(false);
+  const { data } = useGetDocumentsQuery("soglosovanie");
 
   const handleOpenWarn = () => {
     setOpenWarn(true);
@@ -129,7 +131,7 @@ export const AgreementTable = () => {
       </Flex>
       <Col span={24}>
         <Table
-          dataSource={agreementData}
+          dataSource={data ? data?.data : agreementData}
           columns={columns}
           pagination={false}
           className={styles.table}
