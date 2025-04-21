@@ -10,10 +10,12 @@ import {
   SettingOutlined,
 } from "@ant-design/icons";
 import { dataDocument } from "../../data";
+import { useGetProcessesQuery } from "../../store";
 
 export const CustomSidebar = () => {
   const location = useLocation();
   const navigate = useNavigate();
+  const { data } = useGetProcessesQuery();
 
   const processes = useSelector((state) => state.processes.processes);
 
@@ -53,16 +55,27 @@ export const CustomSidebar = () => {
         ]
       : [];
 
-  const dynamicMenu = processes?.map((item, index) => ({
-    key: `dynamic-${index}`,
-    label: (
-      <Flex align="center" gap={"small"}>
-        <span style={{ fontSize: "20px" }}>•</span>
-        {item.title}
-      </Flex>
-    ),
-    path: `/documents?process_name=${item.process_name}`, // можно item.title, но id — надёжнее
-  }));
+  const dynamicMenu = data
+    ? data.data?.map((item, index) => ({
+        key: `dynamic-${index}`,
+        label: (
+          <Flex align="center" gap={"small"}>
+            <span style={{ fontSize: "20px" }}>•</span>
+            {item.name}
+          </Flex>
+        ),
+        path: `/documents?process_name=${item.basic_processes}`,
+      }))
+    : processes?.map((item, index) => ({
+        key: `dynamic-${index}`,
+        label: (
+          <Flex align="center" gap={"small"}>
+            <span style={{ fontSize: "20px" }}>•</span>
+            {item.title}
+          </Flex>
+        ),
+        path: `/documents?process_name=${item.process_name}`,
+      }));
 
   const menuKeys = [...baseMenu, ...dynamicMenu, ...adminOnlyMenu];
 

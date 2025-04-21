@@ -16,7 +16,6 @@ import styles from "./PurchaseRequestTable.module.scss";
 
 export const PurchaseRequestModal = ({ open, onCancel }) => {
   const [form] = Form.useForm();
-
   const [folderArr, setFolderArr] = useState([]);
   const [lastGuid, setLastGuid] = useState(0);
 
@@ -60,15 +59,14 @@ export const PurchaseRequestModal = ({ open, onCancel }) => {
   };
 
   return (
-    <Modal width={600} centered open={open} onCancel={onCancel} footer={false}>
+    <Modal width={850} centered open={open} onCancel={onCancel} footer={false}>
       <Form
         form={form}
         layout="vertical"
         onFinish={onFinish}
         initialValues={{ remember: true }}
         style={{
-          maxHeight: "400px",
-          overflowY: "auto",
+          maxHeight: "700px",
           paddingRight: "10px",
           marginTop: "20px",
         }}
@@ -77,95 +75,100 @@ export const PurchaseRequestModal = ({ open, onCancel }) => {
           <Typography.Title level={4}>
             Добавить заявокe на закуп
           </Typography.Title>
-          <Form.Item
-            label="Наименование запускаемого процесса"
-            name="name"
-            rules={[
-              {
-                required: true,
-                message: "Это обязательное поле для заполнения",
-              },
-            ]}
-          >
-            <Input placeholder="Введите наименование " />
-          </Form.Item>
-          <Form.Item
-            label="Основание заявки"
-            name="application"
-            rules={[
-              {
-                required: true,
-                message: "Это обязательное поле для заполнения",
-              },
-            ]}
-          >
-            <Input placeholder="Введите основание заявки" />
-          </Form.Item>
+          <Row gutter={24}>
+            <Col span={12}>
+              <Form.Item
+                label="Наименование запускаемого процесса"
+                name="name"
+                rules={[
+                  {
+                    required: true,
+                    message: "Это обязательное поле для заполнения",
+                  },
+                ]}
+              >
+                <Input placeholder="Введите наименование " />
+              </Form.Item>
 
-          <Form.Item
-            label="Сумма заявки"
-            name="sum"
-            rules={[
-              {
-                required: true,
-                message: "Это обязательное поле для заполнения",
-              },
-            ]}
-          >
-            <Input type="number" placeholder="Введите сумму заявки" />
-          </Form.Item>
+              <Form.Item
+                label="Основание заявки"
+                name="application"
+                rules={[
+                  {
+                    required: true,
+                    message: "Это обязательное поле для заполнения",
+                  },
+                ]}
+              >
+                <Input placeholder="Введите основание заявки" />
+              </Form.Item>
 
-          <Form.Item
-            label="Бюджетная статья"
-            name="budget"
-            rules={[
-              {
-                required: true,
-                message: "Это обязательное поле для заполнения",
-              },
-            ]}
-          >
-            <Select
-              placeholder="Выберите бюджетную статью"
-              options={[
-                { value: "true", label: "Бюджет" },
-                { value: "false", label: "Вне бюджета" },
-              ]}
-            />
-          </Form.Item>
+              <Form.Item
+                label="Сумма заявки"
+                name="sum"
+                rules={[
+                  {
+                    required: true,
+                    message: "Это обязательное поле для заполнения",
+                  },
+                ]}
+              >
+                <Input type="number" placeholder="Введите сумму заявки" />
+              </Form.Item>
 
-          <Form.Item
-            label="Контрагент"
-            name="contragent"
-            rules={[
-              {
-                required: true,
-                message: "Это обязательное поле для заполнения",
-              },
-            ]}
-          >
-            <Input placeholder="Введите контрагент" />
-          </Form.Item>
-
-          <Form.Item
-            label="Крайний срок проведения"
-            name="end_date"
-            rules={[
-              {
-                required: true,
-                message: "Это обязательное поле для заполнения",
-              },
-            ]}
-          >
-            <DatePicker
-              style={{ width: "100%" }}
-              placeholder="Введите крайний срок проведения"
-            />
-          </Form.Item>
-
-          <Form.Item label="Комментарии" name="comment">
-            <Input placeholder="Введите комментарий" />
-          </Form.Item>
+              <Form.Item
+                label="Бюджетная статья"
+                name="budget"
+                rules={[
+                  {
+                    required: true,
+                    message: "Это обязательное поле для заполнения",
+                  },
+                ]}
+              >
+                <Select
+                  placeholder="Выберите бюджетную статью"
+                  options={[
+                    { value: "true", label: "Бюджет" },
+                    { value: "false", label: "Вне бюджета" },
+                  ]}
+                />
+              </Form.Item>
+            </Col>
+            <Col span={12}>
+              {" "}
+              <Form.Item
+                label="Контрагент"
+                name="contragent"
+                rules={[
+                  {
+                    required: true,
+                    message: "Это обязательное поле для заполнения",
+                  },
+                ]}
+              >
+                <Input placeholder="Введите контрагент" />
+              </Form.Item>
+              <Form.Item
+                label="Крайний срок проведения"
+                name="end_date"
+                rules={[
+                  {
+                    required: true,
+                    message: "Это обязательное поле для заполнения",
+                  },
+                ]}
+              >
+                <DatePicker
+                  style={{ width: "100%" }}
+                  placeholder="Введите крайний срок проведения"
+                />
+              </Form.Item>
+              <Form.Item label="Комментарии" name="comment">
+                <Input placeholder="Введите комментарий" />
+              </Form.Item>
+            </Col>
+          </Row>
 
           <Button type="primary" htmlType="submit">
             Добавить

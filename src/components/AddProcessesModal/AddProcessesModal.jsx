@@ -49,8 +49,8 @@ export const AddProcessesModal = ({ open, onCancel, processId }) => {
       addToProcesses([
         {
           id: processId.current,
-          title: values.title,
-          process_name: values.process_name,
+          name: values.title,
+          basic_processes: values.process_name,
         },
       ])
     );
@@ -77,7 +77,7 @@ export const AddProcessesModal = ({ open, onCancel, processId }) => {
           <Typography.Title level={4}>Добавить процесс</Typography.Title>
           <Form.Item
             label="Название процесса"
-            name="title"
+            name="name"
             rules={[
               {
                 required: true,
@@ -89,7 +89,7 @@ export const AddProcessesModal = ({ open, onCancel, processId }) => {
           </Form.Item>
           <Form.Item
             label="Название основного процесса"
-            name="process_name"
+            name="basic_processes"
             rules={[
               {
                 required: true,

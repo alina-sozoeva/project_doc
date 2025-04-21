@@ -6,49 +6,18 @@ import {
   Modal,
   Select,
   DatePicker,
-  Upload,
   Typography,
   Row,
   Col,
-  message,
 } from "antd";
 import styles from "./AddAgreementModal.module.scss";
-import { MinusCircleFilled, MinusCircleOutlined } from "@ant-design/icons";
+import { DocUploaded } from "../../common";
 
 export const AddAgreementModal = ({ open, onCancel }) => {
   const [form] = Form.useForm();
 
-  const onFinish = () => {
-    console.log("1");
-  };
-
-  const blockExtensions = [
-    ".exe",
-    ".bat",
-    ".cmd",
-    ".sh",
-    ".js",
-    ".msi",
-    ".vbs",
-  ];
-  const isSafeExtension = (file) => {
-    const name = file.name.toLowerCase();
-    return !blockExtensions.some((ext) => name.endsWith(ext));
-  };
-
-  const customBeforeUpload = (file) => {
-    if (!isSafeExtension(file)) {
-      message.error(`${file.name} — не верный формат.`);
-      return Upload.LIST_IGNORE;
-    }
-
-    return true;
-  };
-
-  const props = {
-    multiple: true,
-    beforeUpload: customBeforeUpload,
-    showUploadList: true,
+  const onFinish = (values) => {
+    console.log(values.contract_file);
   };
 
   const onClose = () => {
@@ -217,24 +186,7 @@ export const AddAgreementModal = ({ open, onCancel }) => {
               ]}
               className={styles.uploadArea}
             >
-              <Upload
-                {...props}
-                showUploadList={{
-                  showRemoveIcon: true,
-                  showPreviewIcon: false,
-                }}
-                itemRender={(originNode, file, fileList, actions) => {
-                  return (
-                    <span className={styles.customUploadItem}>
-                      <span>{file.name}</span>
-                      <p onClick={() => actions.remove?.()}>X</p>
-                    </span>
-                  );
-                }}
-                className={styles.uploadArea}
-              >
-                <Button>Загрузить файл</Button>
-              </Upload>
+              <DocUploaded />
             </Form.Item>
           </Col>
         </Row>

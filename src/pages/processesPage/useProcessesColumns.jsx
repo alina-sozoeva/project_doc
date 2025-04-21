@@ -16,14 +16,14 @@ export const useProcessesColumns = () => {
     },
     {
       title: "Название процесса",
-      dataIndex: "title",
-      key: "title",
+      dataIndex: "name",
+      key: "name",
       width: 80,
     },
     {
       title: "Название основного процесса",
-      dataIndex: "process_name",
-      key: "process_name",
+      dataIndex: "basic_processes",
+      key: "basic_processes",
       width: 120,
       render: (text) => processesMap[text],
     },

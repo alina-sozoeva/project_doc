@@ -8,3 +8,4 @@ export * from "./MainLayout";
 export * from "./ItineraryCard";
 export * from "./WarningModal";
 export * from "./RouteButton";
+export * from "./DocUploaded";

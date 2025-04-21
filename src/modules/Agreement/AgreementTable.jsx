@@ -86,7 +86,7 @@ export const AgreementTable = () => {
 
   return (
     <Flex vertical gap="small">
-      {/* <Flex gap="small" justify="space-between">
+      <Flex gap="small" justify="space-between">
         <Flex gap="small">
           <Input
             placeholder="Поиск по инициатору"
@@ -126,7 +126,7 @@ export const AgreementTable = () => {
         <Button type="primary" onClick={() => setOpen(true)}>
           <PlusOutlined /> Добавить документ
         </Button>
-      </Flex> */}
+      </Flex>
       <Col span={24}>
         <Table
           dataSource={agreementData}

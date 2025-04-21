@@ -194,7 +194,7 @@ export const ProcessesPage = () => {
         <Divider style={{ margin: "10px 0" }} />
         <>
           <Table
-            dataSource={processes}
+            dataSource={data ? data?.data : processes}
             columns={columns}
             pagination={false}
             className={styles.table}

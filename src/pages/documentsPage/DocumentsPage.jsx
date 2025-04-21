@@ -202,24 +202,27 @@ export const DocumemtsPage = () => {
 
   const getTableComponent = (processName) => {
     switch (processName) {
-      case "/create-counterparty":
+      case "contragent":
         return <CounterpartyTable />;
 
-      case "/agreement":
+      case "soglosovanie":
         return <AgreementTable />;
 
-      case "/purchase-request":
+      case "zakup":
         return <PurchaseRequestTable />;
 
-      case "/payment-request":
+      case "vyplata":
         return <PaymentRequestTable />;
 
-      case "/close-documents":
+      case "close":
         return <CloseDocumentsTable />;
 
       default:
-        console.log("Неизвестный процесс");
-        return null; // Возвращаем null, если процесс не найден
+        return (
+          <>
+            <div>Нет данных</div>
+          </>
+        );
     }
   };
 
@@ -233,7 +236,7 @@ export const DocumemtsPage = () => {
       page={true}
     >
       <Flex vertical gap="small">
-        <Flex gap="small" justify="space-between">
+        {/* <Flex gap="small" justify="space-between">
           <Flex gap="small">
             <Input
               placeholder="Поиск по инициатору"
@@ -273,7 +276,7 @@ export const DocumemtsPage = () => {
           <Button type="primary" onClick={() => setOpen(true)}>
             <PlusOutlined /> Добавить документ
           </Button>
-        </Flex>
+        </Flex> */}
         {table}
       </Flex>
       <AddAgreementModal open={open} onCancel={() => setOpen(false)} />
