@@ -58,15 +58,15 @@ export const usePaymentRequestColumns = (handleOpenWarn) => {
     },
     {
       title: "Статья бюджета",
-      dataIndex: "budget_item",
-      key: "budget_item",
+      dataIndex: "budget",
+      key: "budget",
       width: 100,
       //   render: (_, record) => dayjs(record.date).format("DD.MM.YYYY HH:mm"),
     },
     {
       title: "Комментарии",
-      dataIndex: "comment",
-      key: "comment",
+      dataIndex: "comments",
+      key: "comments",
       width: 100,
       //   render: (_, record) => dayjs(record.date).format("DD.MM.YYYY HH:mm"),
     },
@@ -76,18 +76,19 @@ export const usePaymentRequestColumns = (handleOpenWarn) => {
       key: "data",
       align: "center",
       width: 200,
-      // render: (_, record) => (
-      //   <div className="chain_container">
-      //     {record.record.map((step, index) => (
-      //       <React.Fragment key={index}>
-      //         <RouteButton statusFolder={step.status} item={record}>
-      //           {step.step}
-      //         </RouteButton>
-      //         {index < record.record.length - 1 && <div className="line" />}
-      //       </React.Fragment>
-      //     ))}
-      //   </div>
-      // ),
+      render: (record) => (
+        <div className="chain_container">
+          <RouteButton>1</RouteButton>
+          <div className="line" />
+          <RouteButton>2</RouteButton>
+          <div className="line" />
+          <RouteButton>3</RouteButton>
+          <div className="line" />
+          <RouteButton>4</RouteButton>
+          <div className="line" />
+          <RouteButton>5</RouteButton>
+        </div>
+      ),
     },
     {
       title: "...",

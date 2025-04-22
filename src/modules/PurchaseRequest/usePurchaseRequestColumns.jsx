@@ -39,7 +39,7 @@ export const usePurchaseRequestColumns = (handleOpenWarn) => {
       dataIndex: "budget",
       key: "budget",
       width: 150,
-      //   render: (_, record) => record.data.contract_number,
+      render: (_, record) => (record.budget ? "Бюджет" : "Вне бюджета"),
     },
     {
       title: "Контрагент",
@@ -58,8 +58,8 @@ export const usePurchaseRequestColumns = (handleOpenWarn) => {
     },
     {
       title: "Комментарии",
-      dataIndex: "comment",
-      key: "comment",
+      dataIndex: "comments",
+      key: "comments",
       width: 100,
       //   render: (_, record) => dayjs(record.date).format("DD.MM.YYYY HH:mm"),
     },
@@ -69,18 +69,19 @@ export const usePurchaseRequestColumns = (handleOpenWarn) => {
       key: "data",
       align: "center",
       width: 200,
-      // render: (_, record) => (
-      //   <div className="chain_container">
-      //     {record.record.map((step, index) => (
-      //       <React.Fragment key={index}>
-      //         <RouteButton statusFolder={step.status} item={record}>
-      //           {step.step}
-      //         </RouteButton>
-      //         {index < record.record.length - 1 && <div className="line" />}
-      //       </React.Fragment>
-      //     ))}
-      //   </div>
-      // ),
+      render: (record) => (
+        <div className="chain_container">
+          <RouteButton>1</RouteButton>
+          <div className="line" />
+          <RouteButton>2</RouteButton>
+          <div className="line" />
+          <RouteButton>3</RouteButton>
+          <div className="line" />
+          <RouteButton>4</RouteButton>
+          <div className="line" />
+          <RouteButton>5</RouteButton>
+        </div>
+      ),
     },
     {
       title: "...",

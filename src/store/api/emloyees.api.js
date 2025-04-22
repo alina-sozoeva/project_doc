@@ -7,14 +7,14 @@ export const employeesApi = createApi({
   endpoints: (builder) => ({
     getEmployees: builder.query({
       query: () => ({
-        url: "/get_emloyees",
+        url: "/get_employees",
         method: "GET",
       }),
       providesTags: ["EmployeesList"],
     }),
     addEmployees: builder.mutation({
       query: (newEmployees) => ({
-        url: "/add_employees",
+        url: "/add_employee",
         method: "POST",
         body: newEmployees,
       }),

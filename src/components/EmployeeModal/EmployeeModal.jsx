@@ -1,41 +1,45 @@
 import { Button, Flex, Form, Input, Modal, Select, Upload } from "antd";
-import { v4 as uuidv4 } from "uuid";
-import foto from "../../assets/foto.jpg";
 import { departments, positions } from "../../constants";
-import { useDispatch } from "react-redux";
-import { addToEmployees } from "../../store";
+import { useAddEmployeesMutation, useUploadFileMutation } from "../../store";
+import { useState } from "react";
 
 const { Dragger } = Upload;
 
 export const EmployeeModal = ({ open, onCancel, headId }) => {
   const [form] = Form.useForm();
-  const dispatch = useDispatch();
+  const [addEmployee] = useAddEmployeesMutation();
+  const [uploaded] = useUploadFileMutation();
+  const [files, setFiles] = useState("");
 
-  const toBase64 = (file) => {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = () => resolve(reader.result);
-      reader.onerror = (error) => reject(error);
-    });
+  console.log(files);
+
+  const handleFileUpload = async (uploadedFiles) => {
+    const uploadedFileUrls = [];
+    try {
+      for (const file of uploadedFiles) {
+        const formData = new FormData();
+        formData.append("file", file.originFileObj);
+        const uploadResponse = await uploaded(formData).unwrap();
+        uploadedFileUrls.push(uploadResponse.filesInfo[0].name);
+      }
+      setFiles(uploadedFileUrls[0]);
+    } catch (err) {
+      console.error("Ошибка при загрузке файлов", err);
+    }
   };
 
   const onFinish = async (values) => {
-    const photo = values.photo?.fileList?.[0]?.originFileObj;
-    const base64 = photo ? await toBase64(photo) : foto;
-
     const newEmployee = {
-      id: uuidv4(),
       fio: values.fio,
       email: values.email,
       position: values.position,
       department: values.department,
       headId,
-      photo: base64,
+      photo: "",
       phone_number: values.phone_number,
     };
 
-    dispatch(addToEmployees([newEmployee]));
+    addEmployee(newEmployee);
     form.resetFields();
     onCancel();
   };
@@ -145,6 +149,12 @@ export const EmployeeModal = ({ open, onCancel, headId }) => {
               accept="image/*"
               maxCount={1}
               beforeUpload={() => false}
+              onChange={(info) => {
+                const { fileList } = info;
+                if (fileList.length) {
+                  handleFileUpload(fileList);
+                }
+              }}
             >
               <div className="flex justify-center items-center gap-[11px] h-[88px]">
                 <p className="ant-upload-hint">

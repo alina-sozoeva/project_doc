@@ -46,7 +46,7 @@ export const PurchaseRequestModal = ({ open, onCancel }) => {
       budget: values.budget,
       contragent: values.contragent,
       end_date: values.end_date,
-      comment: values.comment,
+      comments: values.comments,
       doc_id: 1,
     };
 
@@ -105,7 +105,7 @@ export const PurchaseRequestModal = ({ open, onCancel }) => {
                 <Input placeholder="Введите основание заявки" />
               </Form.Item>
 
-              <Form.Item label="Комментарии" name="comment">
+              <Form.Item label="Комментарии" name="comments">
                 <Input.TextArea placeholder="Введите комментарий" />
               </Form.Item>
             </Col>

@@ -61,7 +61,7 @@ export const ProcessesPage = () => {
   const [modalText, setModalText] = useState({});
   const [openProcessesModal, setOpenProcessesModal] = useState(false);
   const processes = useSelector((state) => state.processes.processes);
-  const { data } = useGetProcessesQuery();
+  const { data, isLoading } = useGetProcessesQuery();
 
   const handleOpenStep = () => {
     setOpenSteps(true);
@@ -194,6 +194,7 @@ export const ProcessesPage = () => {
         <Divider style={{ margin: "10px 0" }} />
         <>
           <Table
+            loading={isLoading}
             dataSource={data ? data?.data : processes}
             columns={columns}
             pagination={false}
