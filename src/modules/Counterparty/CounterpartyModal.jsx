@@ -11,17 +11,16 @@ import {
 } from "antd";
 import styles from "./CounterpartyTable.module.scss";
 import { useDispatch } from "react-redux";
-import { useAddDocumentMutation, useGetDocumentsQuery } from "../../store";
+import { useAddDocsContragentMutation } from "../../store";
 
 export const CunterpartyModal = ({ open, onCancel }) => {
   const [form] = Form.useForm();
   const dispatch = useDispatch();
-
-  const [addDocs] = useAddDocumentMutation();
-
+  const [addDocs] = useAddDocsContragentMutation();
 
   const onFinish = (values) => {
     const newDoc = {
+      nameid_contragent: "",
       company_name: values.company_name,
       inn: values.inn,
       legal_address: values.legal_address,
@@ -31,10 +30,10 @@ export const CunterpartyModal = ({ open, onCancel }) => {
       email: values.email,
       bank_details: values.bank_details,
       verification_status: values.verification_status,
+      doc_id: 1,
     };
 
-    // addDocs({ docType: "contragent", newDoc: newDoc });
-
+    addDocs(newDoc);
     form.resetFields();
     onCancel();
   };
@@ -102,7 +101,7 @@ export const CunterpartyModal = ({ open, onCancel }) => {
                 name="phone"
                 rules={[{ required: true, message: "Введите номер телефона" }]}
               >
-                <Input type="number" placeholder="Введите номер телефона" />
+                <Input type="phone" placeholder="Введите номер телефона" />
               </Form.Item>
               <Form.Item
                 label="Email"

@@ -14,17 +14,68 @@ import {
 import { UploadOutlined } from "@ant-design/icons";
 import styles from "./CloseDocumentsTable.module.scss";
 import { DocUploaded } from "../../common";
-import { useGetDocumentsQuery } from "../../store";
+import { useAddDocsCloseMutation } from "../../store";
+import { useState } from "react";
 
 export const CloseDocumentsModal = ({ open, onCancel }) => {
   const [form] = Form.useForm();
+  const [addDocs] = useAddDocsCloseMutation();
+  const [filesClosing, setFilesClosing] = useState([]);
+  const [filesCover, setFilesCover] = useState([]);
 
-  const onFinish = () => {
-    console.log("Процесс закрытия документов запущен");
+  const handleFileUploadClosing = async (uploadedFiles) => {
+    console.log(uploadedFiles);
+
+    const uploadedFileUrls = [];
+    try {
+      for (const file of uploadedFiles) {
+        const formData = new FormData();
+        formData.append("closing_documents", file.originFileObj);
+        // const uploadResponse = await uploaded(formData).unwrap();
+        // uploadedFileUrls.push(uploadResponse.filesInfo[0].name);
+      }
+      setFilesClosing(uploadedFileUrls);
+    } catch (err) {
+      console.error("Ошибка при загрузке файлов", err);
+    }
+  };
+
+  const handleFileUploadCover = async (uploadedFiles) => {
+    console.log(uploadedFiles);
+
+    const uploadedFileUrls = [];
+    try {
+      for (const file of uploadedFiles) {
+        const formData = new FormData();
+        formData.append("cover_sheet", file.originFileObj);
+        // const uploadResponse = await uploaded(formData).unwrap();
+        // uploadedFileUrls.push(uploadResponse.filesInfo[0].name);
+      }
+      setFilesCover(uploadedFileUrls);
+    } catch (err) {
+      console.error("Ошибка при загрузке файлов", err);
+    }
+  };
+
+  const onFinish = (values) => {
+    const newDoc = {
+      name: values.name,
+      basis_document: values.basis_document,
+      close_date: values.close_date,
+      close_status: values.close_status,
+      closing_documents: "test",
+      comments: values.comments,
+      cover_sheet: "test",
+      doc_id: 1,
+    };
+
+    addDocs(newDoc);
+    form.resetFields();
+    onCancel();
   };
 
   return (
-    <Modal width={850} centered open={open} onCancel={onCancel} footer={false}>
+    <Modal width={900} centered open={open} onCancel={onCancel} footer={false}>
       <Form
         form={form}
         layout="vertical"
@@ -42,7 +93,6 @@ export const CloseDocumentsModal = ({ open, onCancel }) => {
           </Typography.Title>
           <Row gutter={24}>
             <Col span={12}>
-              {" "}
               <Form.Item
                 label="Наименование процесса"
                 name="name"
@@ -73,78 +123,94 @@ export const CloseDocumentsModal = ({ open, onCancel }) => {
                   ]}
                 />
               </Form.Item>
-              <Form.Item
-                label="Дата закрытия"
-                name="close_date"
-                rules={[
-                  {
-                    required: true,
-                    message: "Это обязательное поле для заполнения",
-                  },
-                ]}
-              >
-                <DatePicker style={{ width: "100%" }} />
-              </Form.Item>
-              <Form.Item
-                label="Закрывающие документы"
-                name="closing_documents"
-                rules={[
-                  {
-                    required: true,
-                    message: "Необходимо загрузить хотя бы один документ",
-                  },
-                ]}
-              >
-                <DocUploaded />
-              </Form.Item>
-            </Col>
-            <Col span={12}>
-              <Form.Item
-                label="Статус закрытия"
-                name="close_status"
-                rules={[
-                  {
-                    required: true,
-                    message: "Это обязательное поле для заполнения",
-                  },
-                ]}
-              >
-                <Select
-                  placeholder="Выберите статус"
-                  options={[
-                    { value: "closed", label: "Закрыт" },
-                    {
-                      value: "requires_correction",
-                      label: "Требует исправления",
-                    },
-                    { value: "in_progress", label: "В процессе" },
-                  ]}
-                />
-              </Form.Item>
+
               <Form.Item label="Комментарии" name="comments">
                 <Input.TextArea
                   rows={4}
                   placeholder="Введите дополнительную информацию"
                 />
               </Form.Item>
-              <Form.Item
-                label="Сопроводительный лист"
-                name="cover_sheet"
-                rules={[
-                  {
-                    required: true,
-                    message: "Необходимо загрузить сопроводительный лист",
-                  },
-                ]}
-              >
-                <DocUploaded />
-              </Form.Item>
+            </Col>
+            <Col span={12}>
+              <Row gutter={24}>
+                <Col span={12}>
+                  <Form.Item
+                    label="Дата закрытия"
+                    name="close_date"
+                    rules={[
+                      {
+                        required: true,
+                        message: "Это обязательное поле для заполнения",
+                      },
+                    ]}
+                  >
+                    <DatePicker style={{ width: "100%" }} />
+                  </Form.Item>
+                </Col>
+                <Col span={12}>
+                  <Form.Item
+                    label="Статус закрытия"
+                    name="close_status"
+                    rules={[
+                      {
+                        required: true,
+                        message: "Это обязательное поле для заполнения",
+                      },
+                    ]}
+                  >
+                    <Select
+                      placeholder="Выберите статус"
+                      options={[
+                        { value: "closed", label: "Закрыт" },
+                        {
+                          value: "requires_correction",
+                          label: "Требует исправления",
+                        },
+                        { value: "in_progress", label: "В процессе" },
+                      ]}
+                    />
+                  </Form.Item>
+                </Col>
+              </Row>
+
+              <Row gutter={24}>
+                <Col span={12}>
+                  <Form.Item
+                    label="Закрывающие документы"
+                    name="closing_documents"
+                    rules={[
+                      {
+                        required: true,
+                        message: "Необходимо загрузить хотя бы один документ",
+                      },
+                    ]}
+                  >
+                    <DocUploaded onChange={handleFileUploadClosing} />
+                  </Form.Item>
+                </Col>
+                <Col span={12}>
+                  <Form.Item
+                    label="Сопроводительный лист"
+                    name="cover_sheet"
+                    rules={[
+                      {
+                        required: true,
+                        message: "Необходимо загрузить сопроводительный лист",
+                      },
+                    ]}
+                  >
+                    <DocUploaded onChange={handleFileUploadCover} />
+                  </Form.Item>
+                </Col>
+              </Row>
             </Col>
           </Row>
 
-          <Button type="primary" htmlType="submit">
-            Добавить в черновики
-          </Button>
+          <Flex justify="end">
+            <Button type="primary" htmlType="submit">
+              Добавить в черновики
+            </Button>
+          </Flex>
         </Flex>
       </Form>
     </Modal>

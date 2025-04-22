@@ -13,42 +13,44 @@ import {
 import { useEffect, useState } from "react";
 import { status } from "./../../enums/enums";
 import styles from "./PurchaseRequestTable.module.scss";
+import { useAddDocsZakupMutation } from "../../store";
 
 export const PurchaseRequestModal = ({ open, onCancel }) => {
   const [form] = Form.useForm();
-  const [folderArr, setFolderArr] = useState([]);
-  const [lastGuid, setLastGuid] = useState(0);
-
-  useEffect(() => {
-    const savedFolderArr = JSON.parse(localStorage.getItem("folderArr")) || [];
-    const savedLastGuid = Math.max(
-      ...savedFolderArr?.map((item) => item.guid),
-      0
-    );
-    setFolderArr(savedFolderArr);
-    setLastGuid(savedLastGuid);
-  }, []);
+  const [addDocs] = useAddDocsZakupMutation();
 
   const onFinish = (values) => {
-    const newFolderArr = [
-      ...folderArr,
-      {
-        guid: lastGuid + 1,
-        user_foto: "http://docs.icloud.kg/image/avatar/28.jpg",
-        user_name: "Leon Kennady",
-        name: values.name,
-        title: values.title,
-        description: values.comment,
-        folder_name: status.DRAFT,
-        count: 12,
-        date: values.end_date,
-        status: status.IN_PROCESS,
-      },
-    ];
+    // const newFolderArr = [
+    //   ...folderArr,
+    //   {
+    //     guid: lastGuid + 1,
+    //     user_foto: "http://docs.icloud.kg/image/avatar/28.jpg",
+    //     user_name: "Leon Kennady",
+    //     name: values.name,
+    //     title: values.title,
+    //     description: values.comment,
+    //     folder_name: status.DRAFT,
+    //     count: 12,
+    //     date: values.end_date,
+    //     status: status.IN_PROCESS,
+    //   },
+    // ];
 
-    setFolderArr(newFolderArr);
-    setLastGuid(lastGuid + 1);
-    localStorage.setItem("folderArr", JSON.stringify(newFolderArr));
+    // setFolderArr(newFolderArr);
+    // setLastGuid(lastGuid + 1);
+    // localStorage.setItem("folderArr", JSON.stringify(newFolderArr));
+    const newDoc = {
+      name: values.name,
+      application: values.application,
+      sum: values.sum,
+      budget: values.budget,
+      contragent: values.contragent,
+      end_date: values.end_date,
+      comment: values.comment,
+      doc_id: 1,
+    };
+
+    addDocs(newDoc);
     form.resetFields();
     onCancel();
   };
@@ -59,7 +61,7 @@ export const PurchaseRequestModal = ({ open, onCancel }) => {
   };
 
   return (
-    <Modal width={850} centered open={open} onCancel={onCancel} footer={false}>
+    <Modal width={900} centered open={open} onCancel={onCancel} footer={false}>
       <Form
         form={form}
         layout="vertical"
@@ -73,7 +75,7 @@ export const PurchaseRequestModal = ({ open, onCancel }) => {
       >
         <Flex vertical gap={"small"}>
           <Typography.Title level={4}>
-            Добавить заявокe на закуп
+            Добавить заявку на закуп
           </Typography.Title>
           <Row gutter={24}>
             <Col span={12}>
@@ -103,40 +105,11 @@ export const PurchaseRequestModal = ({ open, onCancel }) => {
                 <Input placeholder="Введите основание заявки" />
               </Form.Item>
 
-              <Form.Item
-                label="Сумма заявки"
-                name="sum"
-                rules={[
-                  {
-                    required: true,
-                    message: "Это обязательное поле для заполнения",
-                  },
-                ]}
-              >
-                <Input type="number" placeholder="Введите сумму заявки" />
-              </Form.Item>
-
-              <Form.Item
-                label="Бюджетная статья"
-                name="budget"
-                rules={[
-                  {
-                    required: true,
-                    message: "Это обязательное поле для заполнения",
-                  },
-                ]}
-              >
-                <Select
-                  placeholder="Выберите бюджетную статью"
-                  options={[
-                    { value: "true", label: "Бюджет" },
-                    { value: "false", label: "Вне бюджета" },
-                  ]}
-                />
+              <Form.Item label="Комментарии" name="comment">
+                <Input.TextArea placeholder="Введите комментарий" />
               </Form.Item>
             </Col>
             <Col span={12}>
-              {" "}
               <Form.Item
                 label="Контрагент"
                 name="contragent"
@@ -149,9 +122,50 @@ export const PurchaseRequestModal = ({ open, onCancel }) => {
               >
                 <Input placeholder="Введите контрагент" />
               </Form.Item>
+
+              <Row gutter={24}>
+                <Col span={12}>
+                  {" "}
+                  <Form.Item
+                    label="Бюджетная статья"
+                    name="budget"
+                    rules={[
+                      {
+                        required: true,
+                        message: "Это обязательное поле для заполнения",
+                      },
+                    ]}
+                  >
+                    <Select
+                      placeholder="Выберите бюджетную статью"
+                      options={[
+                        { value: 1, label: "Бюджет" },
+                        { value: 0, label: "Вне бюджета" },
+                      ]}
+                    />
+                  </Form.Item>
+                </Col>
+                <Col span={12}>
+                  <Form.Item
+                    label="Крайний срок проведения"
+                    name="end_date"
+                    rules={[
+                      {
+                        required: true,
+                        message: "Это обязательное поле для заполнения",
+                      },
+                    ]}
+                  >
+                    <DatePicker
+                      style={{ width: "100%" }}
+                      placeholder="Введите крайний срок проведения"
+                    />
+                  </Form.Item>
+                </Col>
+              </Row>
               <Form.Item
-                label="Крайний срок проведения"
-                name="end_date"
+                label="Сумма заявки"
+                name="sum"
                 rules={[
                   {
                     required: true,
@@ -159,20 +173,20 @@ export const PurchaseRequestModal = ({ open, onCancel }) => {
                   },
                 ]}
               >
-                <DatePicker
-                  style={{ width: "100%" }}
-                  placeholder="Введите крайний срок проведения"
+                <Input
+                  style={{ width: "200px" }}
+                  type="number"
+                  placeholder="Введите сумму заявки"
                 />
-              </Form.Item>
-              <Form.Item label="Комментарии" name="comment">
-                <Input placeholder="Введите комментарий" />
               </Form.Item>
             </Col>
           </Row>
 
-          <Button type="primary" htmlType="submit">
-            Добавить в черновики
-          </Button>
+          <Flex justify="end">
+            <Button type="primary" htmlType="submit">
+              Добавить в черновики
+            </Button>
+          </Flex>
         </Flex>
       </Form>
     </Modal>

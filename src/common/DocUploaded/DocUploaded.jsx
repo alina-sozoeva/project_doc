@@ -14,7 +14,8 @@ export const DocUploaded = ({ value = [], onChange }) => {
 
   const isSafeExtension = (file) => {
     const name = file.name.toLowerCase();
-    return !blockExtensions.some((ext) => name.endsWith(ext));
+    const result = !blockExtensions.some((ext) => name.endsWith(ext));
+    return result;
   };
 
   const handleChange = ({ fileList }) => {
@@ -26,7 +27,6 @@ export const DocUploaded = ({ value = [], onChange }) => {
       message.error(`${file.name} — не верный формат.`);
       return Upload.LIST_IGNORE;
     }
-
     return false;
   };
 
@@ -39,16 +39,7 @@ export const DocUploaded = ({ value = [], onChange }) => {
   };
 
   return (
-    <Upload
-      {...props}
-      itemRender={(file, actions) => (
-        <span className={styles.customUploadItem}>
-          <span>{file.name}</span>
-          <p onClick={() => actions.remove?.()}>X</p>
-        </span>
-      )}
-      className={styles.uploadArea}
-    >
+    <Upload {...props} className={styles.uploadArea}>
       <Button>Загрузить документы</Button>
     </Upload>
   );

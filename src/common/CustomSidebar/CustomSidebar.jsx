@@ -55,27 +55,17 @@ export const CustomSidebar = () => {
         ]
       : [];
 
-  const dynamicMenu = data
-    ? data.data?.map((item, index) => ({
-        key: `dynamic-${index}`,
-        label: (
-          <Flex align="center" gap={"small"}>
-            <span style={{ fontSize: "20px" }}>•</span>
-            {item.name}
-          </Flex>
-        ),
-        path: `/documents?process_name=${item.basic_processes}`,
-      }))
-    : processes?.map((item, index) => ({
-        key: `dynamic-${index}`,
-        label: (
-          <Flex align="center" gap={"small"}>
-            <span style={{ fontSize: "20px" }}>•</span>
-            {item.title}
-          </Flex>
-        ),
-        path: `/documents?process_name=${item.process_name}`,
-      }));
+  const dynamicMenu =
+    data?.data?.map((item, index) => ({
+      key: `dynamic-${index}`,
+      label: (
+        <Flex align="center" gap={"small"}>
+          <span style={{ fontSize: "20px" }}>•</span>
+          {item.name}
+        </Flex>
+      ),
+      path: `/documents?process_name=${item.basic_processes}`,
+    })) || [];
 
   const menuKeys = [...baseMenu, ...dynamicMenu, ...adminOnlyMenu];
 

@@ -4,7 +4,7 @@ import { addToProcesses } from "../slices";
 export const processesApi = createApi({
   reducerPath: "processesApi",
   baseQuery: fetchBaseQuery({ baseUrl: process.env.REACT_APP_MAIN_URL }),
-  tagTypes: ["ProcessesList"],
+  tagTypes: ["ProcessesList", "ProcessesListMembers"],
   endpoints: (builder) => ({
     getProcesses: builder.query({
       query: () => ({
@@ -21,7 +21,27 @@ export const processesApi = createApi({
       }),
       invalidatesTags: ["ProcessesList"],
     }),
+    getProcessesMembers: builder.query({
+      query: () => ({
+        url: "/get_processes_members",
+        method: "GET",
+      }),
+      providesTags: ["ProcessesListMembers"],
+    }),
+    addProcessesMember: builder.mutation({
+      query: (newMember) => ({
+        url: "/add_processes_members",
+        method: "POST",
+        body: newMember,
+      }),
+      invalidatesTags: ["ProcessesListMembers"],
+    }),
   }),
 });
 
-export const { useGetProcessesQuery, useAddProcessesMutation } = processesApi;
+export const {
+  useGetProcessesQuery,
+  useAddProcessesMutation,
+  useGetProcessesMembersQuery,
+  useAddProcessesMemberMutation,
+} = processesApi;

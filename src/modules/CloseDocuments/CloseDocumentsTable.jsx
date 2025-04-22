@@ -13,64 +13,13 @@ import {
   SearchOutlined,
 } from "@ant-design/icons";
 import { CloseDocumentsModal } from "./CloseDocumentsModal";
-import { useGetDocumentsQuery } from "../../store";
-
-const closeDocumentsData = [
-  {
-    index: 1,
-    user: "Иванов Иван Иванович",
-    process_name: "Закрытие договора аренды",
-    basis_document: "Договор 001",
-    close_date: dayjs().format("DD.MM.YYYY"),
-    close_status: "Закрыт",
-    comment: "Договор завершен, выполнение обязательств окончено.",
-    record: [
-      { step: 1, status: status.PENDING },
-      { step: 2, status: status.APPROVED },
-      { step: 3, status: status.COMPLETED },
-      { step: 4, status: status.PENDING },
-      { step: 5, status: status.PENDING },
-    ],
-  },
-  {
-    index: 2,
-    user: "Петров Петр Петрович",
-    process_name: "Закрытие договора поставки",
-    basis_document: "Договор 002",
-    close_date: dayjs().format("DD.MM.YYYY"),
-    close_status: "В процессе",
-    comment: "Требуется проверка окончательной документации.",
-    record: [
-      { step: 1, status: status.PENDING },
-      { step: 2, status: status.PENDING },
-      { step: 3, status: status.REJECTED },
-      { step: 4, status: status.PENDING },
-      { step: 5, status: status.APPROVED },
-    ],
-  },
-  {
-    index: 3,
-    user: "Сидоров Сидор Сидорович",
-    process_name: "Закрытие договора подряда",
-    basis_document: "Договор 003",
-    close_date: dayjs().format("DD.MM.YYYY"),
-    close_status: "Закрыт",
-    comment: "Работы завершены, договор закрыт.",
-    record: [
-      { step: 1, status: status.APPROVED },
-      { step: 2, status: status.PENDING },
-      { step: 3, status: status.COMPLETED },
-      { step: 4, status: status.PENDING },
-      { step: 5, status: status.PENDING },
-    ],
-  },
-];
+import { useGetDocsCloseQuery } from "../../store";
 
 export const CloseDocumentsTable = () => {
   const [open, setOpen] = useState(false);
   const [openWarn, setOpenWarn] = useState(false);
 
-  const { data } = useGetDocumentsQuery("close");
+  const { data, isLoading } = useGetDocsCloseQuery();
 
   const handleOpenWarn = () => {
     setOpenWarn(true);
@@ -123,7 +72,8 @@ export const CloseDocumentsTable = () => {
       </Flex>
       <Col span={24}>
         <Table
-          dataSource={data ? data?.data : closeDocumentsData}
+          loading={isLoading}
+          dataSource={data && data?.data}
           columns={columns}
           pagination={false}
           className={styles.table}

@@ -23,7 +23,7 @@ export const pathname = {
 
 export const pages = {
   HOME: "Главная страница",
-  DOCUMENTS: "Все документы",
+  DOCUMENTS: "Документы",
   EMPLOYEES: "Структура организации",
   EDIT_FOLDER: "Редактировать файл",
   ADD_EMPLOYEE: "Добавить сотрудника",
@@ -43,12 +43,20 @@ export const storageKeys = {
   PROCESSES_MEMBERS: "processesMembers",
 };
 
+export const processesKeys = {
+  CONTRAGENT: "contragent",
+  SOGLOSOVANIE: "soglosovanie",
+  ZAKUP: "zakup",
+  VYPLATA: "vyplata",
+  CLOSE: "close-documents",
+};
+
 export const processesMap = {
   contragent: "Создание карточки контрагента",
   soglosovanie: "Согласование договора",
   zakup: "Формирование заявок на закуп",
   vyplata: "Формирование заявок на выплату",
-  close: "Закрытие документов",
+  "close-documents": "Закрытие документов",
 };
 
 export const departmentMap = {

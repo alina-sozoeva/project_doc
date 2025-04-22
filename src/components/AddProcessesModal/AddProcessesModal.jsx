@@ -33,18 +33,20 @@ export const AddProcessesModal = ({ open, onCancel, processId }) => {
   const [addProcesses] = useAddProcessesMutation();
 
   const onFinish = (values) => {
-    dispatch(
-      addToProcesses([
-        {
-          id: processId.current,
-          name: values.title,
-          basic_processes: values.process_name,
-        },
-      ])
-    );
+    console.log(values);
+
+    // dispatch(
+    //   addToProcesses([
+    //     {
+    //       id: processId.current,
+    //       name: values.title,
+    //       basic_processes: values.process_name,
+    //     },
+    //   ])
+    // );
     addProcesses({
-      name: values.title,
-      basic_processes: values.process_name,
+      name: values.name,
+      basic_processes: values.basic_processes,
     });
     form.resetFields();
     onCancel();

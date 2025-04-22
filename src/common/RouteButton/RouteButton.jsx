@@ -20,8 +20,6 @@ export const RouteButton = ({ children, statusFolder, onClick, item }) => {
     }
   })();
 
-  console.log(item);
-
   return (
     <Tooltip
       title={

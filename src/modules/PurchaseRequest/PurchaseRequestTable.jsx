@@ -12,66 +12,12 @@ import { status } from "../../enums";
 import { useState } from "react";
 import { InWorkModal } from "../../components";
 import { PurchaseRequestModal } from "./PurchaseRequestModal";
-import { useGetDocumentsQuery } from "../../store";
-
-const purchaseRequestData = [
-  {
-    index: 1,
-    user: "Иванов Иван Иванович",
-    doc_name: "Заявка на закупку №101",
-    budget: "Закупка канцелярии",
-    counterparty: "ООО КанцТорг",
-    end_date: "30.04.2025",
-    comment: "Необходимо срочное исполнение",
-    record: [
-      { step: 1, status: status.PENDING },
-      { step: 2, status: status.APPROVED },
-      { step: 3, status: status.PENDING },
-      { step: 4, status: status.PENDING },
-      { step: 5, status: status.PENDING },
-    ],
-  },
-  {
-    index: 2,
-    user: "Петров Петр Петрович",
-    doc_name: "Заявка на закупку №102",
-    budget: "Ремонт компьютеров",
-    counterparty: "ООО ТехноРемонт",
-    end_date: "10.05.2025",
-    comment: "Ожидается подтверждение от поставщика",
-    record: [
-      { step: 1, status: status.PENDING },
-      { step: 2, status: status.PENDING },
-      { step: 3, status: status.REJECTED },
-      { step: 4, status: status.PENDING },
-      { step: 5, status: status.APPROVED },
-    ],
-  },
-  {
-    index: 3,
-    user: "Сидоров Сидор Сидорович",
-    doc_name: "Заявка на закупку №103",
-    budget: "Ремонт и обслуживание",
-    counterparty: "ЗАО РемонтСервис",
-    end_date: "15.05.2025",
-    comment: "Потребуется дополнительное согласование",
-    record: [
-      { step: 1, status: status.APPROVED },
-      { step: 2, status: status.PENDING },
-      { step: 3, status: status.COMPLETED },
-      { step: 4, status: status.PENDING },
-      { step: 5, status: status.PENDING },
-    ],
-  },
-  // Добавь ещё записи по аналогии
-];
+import { useGetDocsZakupQuery } from "../../store";
 
 export const PurchaseRequestTable = () => {
   const [open, setOpen] = useState(false);
-
   const [openWarn, setOpenWarn] = useState(false);
-
-  const { data } = useGetDocumentsQuery("zakup");
+  const { data, isLoading } = useGetDocsZakupQuery();
 
   const handleOpenWarn = () => {
     setOpenWarn(true);
@@ -123,7 +69,8 @@ export const PurchaseRequestTable = () => {
       </Flex>
       <Col span={24}>
         <Table
-          dataSource={data ? data?.data : purchaseRequestData}
+          loading={isLoading}
+          dataSource={data && data?.data}
           columns={columns}
           pagination={false}
           className={styles.table}

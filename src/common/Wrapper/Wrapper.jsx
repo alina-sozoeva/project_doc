@@ -2,6 +2,7 @@ import { HomeOutlined } from "@ant-design/icons";
 import styles from "./Wrapper.module.scss";
 import clsx from "clsx";
 import { Breadcrumb } from "antd";
+import { processesMap } from "../../enums";
 
 export const Wrapper = ({
   children,
@@ -25,7 +26,7 @@ export const Wrapper = ({
               href: path,
               title: (
                 <>
-                  <span>{title}</span>
+                  <span>{processesMap[title] || title}</span>
                 </>
               ),
             },

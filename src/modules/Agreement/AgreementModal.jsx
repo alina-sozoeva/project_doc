@@ -12,16 +12,62 @@ import {
 } from "antd";
 import { DocUploaded } from "../../common";
 import styles from "./AgreementTable.module.scss";
+import {
+  useAddDocsSoglosovanieMutation,
+  useUploadFileMutation,
+} from "../../store";
+import { useState } from "react";
 
 export const AgreementModal = ({ open, onCancel }) => {
   const [form] = Form.useForm();
+  const [uploaded] = useUploadFileMutation();
+  const [addDocs] = useAddDocsSoglosovanieMutation();
+  const [files, setFiles] = useState([]);
 
-  const onFinish = () => {
-    console.log("1");
+  const handleFileUpload = async (uploadedFiles) => {
+    const uploadedFileUrls = [];
+    try {
+      for (const file of uploadedFiles) {
+        const formData = new FormData();
+        formData.append("contract_file", file.originFileObj);
+        // const uploadResponse = await uploaded(formData).unwrap();
+        // uploadedFileUrls.push(uploadResponse.filesInfo[0].name);
+      }
+      setFiles(uploadedFileUrls);
+    } catch (err) {
+      console.error("Ошибка при загрузке файлов", err);
+    }
+  };
+
+  console.log(files, "files");
+  console.log(files.join(", "));
+
+  const onFinish = (values) => {
+    const newDoc = {
+      contract_number: values.contract_number,
+      contract_file: "test",
+      contract_type: values.contract_type,
+      comments: values.comments,
+      validity_period: values.validity_period,
+      creation_date: values.creation_date,
+      sum: values.sum,
+      approval_status: values.approval_status,
+      contragent: values.contragent,
+      doc_id: 1,
+    };
+
+    addDocs(newDoc);
+    form.resetFields();
+    onCancel();
+  };
+
+  const onClose = () => {
+    form.resetFields();
+    onCancel();
   };
 
   return (
-    <Modal width={850} centered open={open} onCancel={onCancel} footer={false}>
+    <Modal width={850} centered open={open} onCancel={onClose} footer={false}>
       <Form
         form={form}
         layout="vertical"
@@ -35,12 +81,11 @@ export const AgreementModal = ({ open, onCancel }) => {
       >
         <Flex vertical gap={"small"}>
           <Typography.Title level={4}>
-            Добавить документ на формирование выплату
+            Добавить документ на согловование
           </Typography.Title>
 
           <Row gutter={24}>
             <Col span={12}>
-              {" "}
               <Form.Item
                 label="Номер договора"
                 name="contract_number"
@@ -53,21 +98,7 @@ export const AgreementModal = ({ open, onCancel }) => {
               >
                 <Input type="number" placeholder="Введите номер договора" />
               </Form.Item>
-              <Form.Item
-                label="Дата создания"
-                name="creation_date"
-                rules={[
-                  {
-                    required: true,
-                    message: "Это обязательное поле для заполнения",
-                  },
-                ]}
-              >
-                <DatePicker
-                  placeholder="Выберите дату"
-                  style={{ width: "100%" }}
-                />
-              </Form.Item>
+
               <Form.Item
                 label="Контрагент"
                 name="contragent"
@@ -110,7 +141,6 @@ export const AgreementModal = ({ open, onCancel }) => {
               </Form.Item>
             </Col>
             <Col span={12}>
-              {" "}
               <Form.Item
                 label="Срок действия"
                 name="validity_period"
@@ -123,22 +153,45 @@ export const AgreementModal = ({ open, onCancel }) => {
               >
                 <DatePicker style={{ width: "100%" }} />
               </Form.Item>
-              <Form.Item
-                label="Сумма договора"
-                name="sum"
-                rules={[
-                  {
-                    required: true,
-                    message: "Это обязательное поле для заполнения",
-                  },
-                ]}
-              >
-                <Input
-                  type="number"
-                  addonAfter="cом"
-                  placeholder="Введите сумму"
-                />
-              </Form.Item>
+
+              <Row gutter={24}>
+                <Col span={12}>
+                  <Form.Item
+                    label="Дата создания"
+                    name="creation_date"
+                    rules={[
+                      {
+                        required: true,
+                        message: "Это обязательное поле для заполнения",
+                      },
+                    ]}
+                  >
+                    <DatePicker
+                      placeholder="Выберите дату"
+                      style={{ width: "100%" }}
+                    />
+                  </Form.Item>
+                </Col>
+                <Col span={12}>
+                  <Form.Item
+                    label="Сумма договора"
+                    name="sum"
+                    rules={[
+                      {
+                        required: true,
+                        message: "Это обязательное поле для заполнения",
+                      },
+                    ]}
+                  >
+                    <Input
+                      type="number"
+                      addonAfter="cом"
+                      placeholder="Введите сумму"
+                    />
+                  </Form.Item>
+                </Col>
+              </Row>
+
               <Form.Item
                 label="Статус согласования"
                 name="approval_status"
@@ -168,12 +221,12 @@ export const AgreementModal = ({ open, onCancel }) => {
                   },
                 ]}
               >
-                <DocUploaded />
+                <DocUploaded onChange={handleFileUpload} />
               </Form.Item>
             </Col>
           </Row>
         </Flex>
-        <Flex justify="start">
+        <Flex justify="end">
           <Button type="primary" htmlType="submit">
             Добавить в черновики
           </Button>

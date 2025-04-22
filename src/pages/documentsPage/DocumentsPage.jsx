@@ -1,7 +1,7 @@
 import { Flex } from "antd";
 import { Wrapper } from "../../common";
 import styles from "./DocumentsPage.module.scss";
-import { pages, pathname } from "../../enums";
+import { pages, pathname, processesKeys } from "../../enums";
 import React from "react";
 import {
   AgreementTable,
@@ -19,19 +19,19 @@ export const DocumemtsPage = () => {
 
   const getTableComponent = (processName) => {
     switch (processName) {
-      case "contragent":
+      case processesKeys.CONTRAGENT:
         return <CounterpartyTable />;
 
-      case "soglosovanie":
+      case processesKeys.SOGLOSOVANIE:
         return <AgreementTable />;
 
-      case "zakup":
+      case processesKeys.ZAKUP:
         return <PurchaseRequestTable />;
 
-      case "vyplata":
+      case processesKeys.VYPLATA:
         return <PaymentRequestTable />;
 
-      case "close":
+      case processesKeys.CLOSE:
         return <CloseDocumentsTable />;
 
       default:
@@ -48,8 +48,8 @@ export const DocumemtsPage = () => {
   return (
     <Wrapper
       className={styles.content}
-      path={pathname.DOCUMENTS}
-      title={pages.DOCUMENTS}
+      path={`${pathname.DOCUMENTS}?process_name=${processName}`}
+      title={processName}
       page={true}
     >
       <Flex vertical gap="small">

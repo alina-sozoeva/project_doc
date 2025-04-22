@@ -4,6 +4,7 @@ import dayjs from "dayjs";
 import React from "react";
 import foto from "../../assets/28.jpg";
 import styles from "./AgreementTable.module.scss";
+import { employeeInfo } from "../../utils";
 
 export const useAgreementColumns = (handleOpenWarn) => {
   const columns = [
@@ -12,7 +13,7 @@ export const useAgreementColumns = (handleOpenWarn) => {
       dataIndex: "index",
       key: "index",
       align: "center",
-      width: 20,
+      width: 30,
       render: (_text, _record, index) => index + 1,
     },
     {
@@ -20,6 +21,12 @@ export const useAgreementColumns = (handleOpenWarn) => {
       dataIndex: "user",
       key: "user",
       width: 100,
+      render: (text) => (
+        <div>
+          <p>{employeeInfo().fio}</p>
+          <p>{employeeInfo().email}</p>
+        </div>
+      ),
     },
     {
       title: "Номер договора",
@@ -32,7 +39,7 @@ export const useAgreementColumns = (handleOpenWarn) => {
       dataIndex: "creation_date",
       key: "creation_date",
       width: 150,
-      //   render: (_, record) => record.data.contract_number,
+      render: (text) => dayjs(text).format("DD.MM.YYYY HH:mm"),
     },
     {
       title: "Контрагент",
@@ -54,7 +61,7 @@ export const useAgreementColumns = (handleOpenWarn) => {
       dataIndex: "validity_period",
       key: "validity_period",
       width: 100,
-      //   render: (_, record) => dayjs(record.date).format("DD.MM.YYYY HH:mm"),
+      render: (text) => dayjs(text).format("DD.MM.YYYY HH:mm"),
     },
     {
       title: "Статус согласования",
@@ -69,18 +76,18 @@ export const useAgreementColumns = (handleOpenWarn) => {
       key: "data",
       align: "center",
       width: 200,
-      render: (_, record) => (
-        <div className="chain_container">
-          {record.record.map((step, index) => (
-            <React.Fragment key={index}>
-              <RouteButton statusFolder={step.status} item={record}>
-                {step.step}
-              </RouteButton>
-              {index < record.record.length - 1 && <div className="line" />}
-            </React.Fragment>
-          ))}
-        </div>
-      ),
+      // render: (_, record) => (
+      //   <div className="chain_container">
+      //     {record.record.map((step, index) => (
+      //       <React.Fragment key={index}>
+      //         <RouteButton statusFolder={step.status} item={record}>
+      //           {step.step}
+      //         </RouteButton>
+      //         {index < record.record.length - 1 && <div className="line" />}
+      //       </React.Fragment>
+      //     ))}
+      //   </div>
+      // ),
     },
     {
       title: "...",
