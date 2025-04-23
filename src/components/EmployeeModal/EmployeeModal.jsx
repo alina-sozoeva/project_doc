@@ -29,12 +29,14 @@ export const EmployeeModal = ({ open, onCancel, headId }) => {
   };
 
   const onFinish = async (values) => {
+    console.log(headId, "headId");
+
     const newEmployee = {
       fio: values.fio,
       email: values.email,
       position: values.position,
       department: values.department,
-      headId,
+      head_id: headId,
       photo: "",
       phone_number: values.phone_number,
     };

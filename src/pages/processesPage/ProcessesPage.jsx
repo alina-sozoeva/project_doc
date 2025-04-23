@@ -5,7 +5,11 @@ import { pages, pathname, processesMap, status } from "../../enums";
 import { toast } from "react-toastify";
 import { AddProcessesModal, StepContent } from "../../components";
 import { useDispatch, useSelector } from "react-redux";
-import { addToProcessesMembers, useGetProcessesQuery } from "../../store";
+import {
+  addToProcessesMembers,
+  useGetProcessesByIdQuery,
+  useGetProcessesQuery,
+} from "../../store";
 import { v4 as uuidv4 } from "uuid";
 import styles from "./ProcessesPage.module.scss";
 import { PlusOutlined } from "@ant-design/icons";
@@ -62,8 +66,13 @@ export const ProcessesPage = () => {
   const [openProcessesModal, setOpenProcessesModal] = useState(false);
   const processes = useSelector((state) => state.processes.processes);
   const { data, isLoading } = useGetProcessesQuery();
+  const [selectedId, setSelectedId] = useState(null);
+  const { data: dataById } = useGetProcessesByIdQuery(selectedId, {
+    enabled: selectedId !== undefined,
+  });
 
-  const handleOpenStep = () => {
+  const handleOpenStep = (id) => {
+    setSelectedId(id);
     setOpenSteps(true);
   };
 
@@ -201,8 +210,8 @@ export const ProcessesPage = () => {
             className={styles.table}
             bordered
             scroll={{ y: 480 }}
-            onRow={() => ({
-              onClick: () => handleOpenStep(),
+            onRow={(record) => ({
+              onClick: () => handleOpenStep(record.guid),
             })}
             rowClassName={() => styles.clickableRow}
           />

@@ -8,8 +8,8 @@ export const useProcessesColumns = () => {
   const columns = [
     {
       title: "№",
-      dataIndex: "index",
-      key: "index",
+      dataIndex: "guid",
+      key: "guid",
       align: "center",
       width: 20,
       render: (_text, _record, index) => index + 1,

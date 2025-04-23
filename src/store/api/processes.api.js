@@ -13,6 +13,13 @@ export const processesApi = createApi({
       }),
       providesTags: ["ProcessesList"],
     }),
+    getProcessesById: builder.query({
+      query: (id) => ({
+        url: `/get_processes/${id}`,
+        method: "GET",
+      }),
+      providesTags: ["ProcessesList"],
+    }),
     addProcesses: builder.mutation({
       query: (newProcesses) => ({
         url: "/add_processes",
@@ -44,4 +51,5 @@ export const {
   useAddProcessesMutation,
   useGetProcessesMembersQuery,
   useAddProcessesMemberMutation,
+  useGetProcessesByIdQuery,
 } = processesApi;
