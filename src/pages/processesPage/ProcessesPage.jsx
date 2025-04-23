@@ -1,12 +1,11 @@
 import { useRef, useState } from "react";
 import { Button, Divider, Flex, Form, Steps, Table } from "antd";
 import { WarningModal, Wrapper } from "../../common";
-import { pages, pathname, processesMap, status } from "../../enums";
-import { toast } from "react-toastify";
+import { pages, pathname } from "../../enums";
 import { AddProcessesModal, StepContent } from "../../components";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  addToProcessesMembers,
+  useAddProcessesMemberMutation,
   useGetProcessesByIdQuery,
   useGetProcessesQuery,
 } from "../../store";
@@ -14,30 +13,7 @@ import { v4 as uuidv4 } from "uuid";
 import styles from "./ProcessesPage.module.scss";
 import { PlusOutlined } from "@ant-design/icons";
 import { useProcessesColumns } from "./useProcessesColumns";
-import { dataDocument } from "../../data";
-
-const processes = [
-  {
-    label: "Создание карточки контрагента",
-    value: "/create-counterparty",
-  },
-  {
-    label: "Согласование договора",
-    value: "/agreement",
-  },
-  {
-    label: "Формирование заявок на закуп",
-    value: "/purchase-request",
-  },
-  {
-    label: "Формирование заявок на выплату",
-    value: "/payment-request",
-  },
-  {
-    label: "Закрытие документов",
-    value: "/close-documents",
-  },
-];
+import { skipToken } from "@reduxjs/toolkit/query";
 
 export const ProcessesPage = () => {
   const processId = useRef(uuidv4());
@@ -54,7 +30,6 @@ export const ProcessesPage = () => {
     },
   ];
 
-  const dispatch = useDispatch();
   const [current, setCurrent] = useState(0);
   const [openSteps, setOpenSteps] = useState(false);
   const [openModal, setOpenModal] = useState(false);
@@ -67,11 +42,21 @@ export const ProcessesPage = () => {
   const processes = useSelector((state) => state.processes.processes);
   const { data, isLoading } = useGetProcessesQuery();
   const [selectedId, setSelectedId] = useState(null);
-  const { data: dataById } = useGetProcessesByIdQuery(selectedId, {
-    enabled: selectedId !== undefined,
-  });
+  const { data: dataById } = useGetProcessesByIdQuery(
+    selectedId ? selectedId : skipToken
+  );
+
+  const [addMember] = useAddProcessesMemberMutation();
+
+  const clear = () => {
+    setOpenSteps(false);
+    setCurrent(0);
+    setSteps(defultSteps);
+    setTitle("");
+  };
 
   const handleOpenStep = (id) => {
+    clear();
     setSelectedId(id);
     setOpenSteps(true);
   };
@@ -82,26 +67,32 @@ export const ProcessesPage = () => {
   }));
 
   const addMembers = (values) => {
-    dispatch(
-      addToProcessesMembers([
-        {
-          process_id: processId.current,
-          step_index: current,
-          department_id: values.department_id,
-          position_id: values.position_id,
-          time_limit: values.time_limit,
-          employee_id: values.employee_id,
-          status: values.status,
-        },
-      ])
-    );
-  };
+    console.log(typeof `'${values.department_id}'`);
 
-  const clear = () => {
-    setOpenSteps(false);
-    setCurrent(0);
-    setSteps(defultSteps);
-    setTitle("");
+    const newMember = {
+      process_id: selectedId,
+      step_index: current,
+      department: values.department_id,
+      position: values.position_id,
+      time_limit: values.time_limit,
+      employee_id: values.employee_id,
+    };
+
+    // dispatch(
+    //   addToProcessesMembers([
+    //     {
+    //       process_id: selectedId,
+    //       step_index: current,
+    //       department_id: values.department_id,
+    //       position_id: values.position_id,
+    //       time_limit: values.time_limit,
+    //       employee_id: values.employee_id,
+    //       status: values.status,
+    //     },
+    //   ])
+    // );
+
+    addMember(newMember);
   };
 
   const handleSubmit = () => {

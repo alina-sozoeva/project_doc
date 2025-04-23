@@ -37,7 +37,7 @@ export const processesApi = createApi({
     }),
     addProcessesMember: builder.mutation({
       query: (newMember) => ({
-        url: "/add_processes_members",
+        url: "/add_process_member",
         method: "POST",
         body: newMember,
       }),

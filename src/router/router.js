@@ -9,7 +9,7 @@ export const router = createBrowserRouter([
     children: [
       { path: pathname.HOME, element: <Pages.HomePage /> },
       { path: pathname.DOCUMENTS, element: <Pages.DocumemtsPage /> },
-      { path: pathname.EMPLOYEES, element: <Pages.EmployeesLayout /> },
+      { path: pathname.EMPLOYEES, element: <Pages.EmployeesPage /> },
       { path: pathname.EDIT_FOLDER, element: <Pages.EditFolderPage /> },
       { path: pathname.LOGIN, element: <Pages.LoginPage /> },
       { path: pathname.PROCESSES, element: <Pages.ProcessesPage /> },

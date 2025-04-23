@@ -11,8 +11,6 @@ export const EmployeeModal = ({ open, onCancel, headId }) => {
   const [uploaded] = useUploadFileMutation();
   const [files, setFiles] = useState("");
 
-  console.log(files);
-
   const handleFileUpload = async (uploadedFiles) => {
     const uploadedFileUrls = [];
     try {
@@ -29,8 +27,6 @@ export const EmployeeModal = ({ open, onCancel, headId }) => {
   };
 
   const onFinish = async (values) => {
-    console.log(headId, "headId");
-
     const newEmployee = {
       fio: values.fio,
       email: values.email,
