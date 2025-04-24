@@ -4,6 +4,7 @@ export const departments = [
   { value: 3, label: "Финансовый отдел" },
   { value: 4, label: "Отдел закупок" },
   { value: 5, label: "Отдел продаж" },
+  { value: 6, label: "Административный отдел" },
 ];
 
 export const positions = [
@@ -16,6 +17,7 @@ export const positions = [
   { value: 7, label: "Начальник" },
   { value: 8, label: "Исполнительный директор" },
   { value: 9, label: "Генеральный директор" },
+  { value: 10, label: "Администратор" },
 ];
 
 export const employeesArray = [

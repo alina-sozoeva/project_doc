@@ -4,9 +4,11 @@ import dayjs from "dayjs";
 import React from "react";
 import foto from "../../assets/28.jpg";
 import styles from "./AgreementTable.module.scss";
-import { employeeInfo } from "../../utils";
+import { employeeInfo, useUser } from "../../utils";
 
 export const useAgreementColumns = (handleOpenWarn) => {
+  const user = useUser();
+
   const columns = [
     {
       title: "№",
@@ -18,15 +20,19 @@ export const useAgreementColumns = (handleOpenWarn) => {
     },
     {
       title: "Инициатор",
-      dataIndex: "user",
-      key: "user",
+      dataIndex: "employee_id",
+      key: "employee_id",
       width: 100,
-      render: (text) => (
-        <div>
-          <p>{employeeInfo().fio}</p>
-          <p>{employeeInfo().email}</p>
-        </div>
-      ),
+      render: (text) => {
+        if (text === user.guid) {
+          return (
+            <>
+              <p>{user.fio}</p>
+              <p>{user.email}</p>
+            </>
+          );
+        }
+      },
     },
     {
       title: "Номер договора",

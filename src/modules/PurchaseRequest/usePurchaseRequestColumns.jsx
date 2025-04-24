@@ -4,9 +4,11 @@ import dayjs from "dayjs";
 import React from "react";
 import foto from "../../assets/28.jpg";
 import styles from "./PurchaseRequestTable.module.scss";
-import { employeeInfo } from "../../utils";
+import { employeeInfo, useUser } from "../../utils";
 
 export const usePurchaseRequestColumns = (handleOpenWarn) => {
+  const user = useUser();
+
   const columns = [
     {
       title: "№",
@@ -21,12 +23,16 @@ export const usePurchaseRequestColumns = (handleOpenWarn) => {
       dataIndex: "user",
       key: "user",
       width: 100,
-      render: (text) => (
-        <div>
-          <p>{employeeInfo().fio}</p>
-          <p>{employeeInfo().email}</p>
-        </div>
-      ),
+      render: (text) => {
+        if (text === user.guid) {
+          return (
+            <>
+              <p>{user.fio}</p>
+              <p>{user.email}</p>
+            </>
+          );
+        }
+      },
     },
     {
       title: "Название документа",

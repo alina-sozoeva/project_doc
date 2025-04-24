@@ -11,6 +11,7 @@ import {
 } from "@ant-design/icons";
 import { dataDocument } from "../../data";
 import { useGetProcessesQuery } from "../../store";
+import { userInfo } from "../../utils";
 
 export const CustomSidebar = () => {
   const location = useLocation();
@@ -41,7 +42,7 @@ export const CustomSidebar = () => {
   ];
 
   const adminOnlyMenu =
-    JSON.parse(localStorage.getItem("userInfo")) === "admin@gmail.com"
+    userInfo?.email === "admin@gmail.com"
       ? [
           {
             key: "4",
@@ -64,7 +65,7 @@ export const CustomSidebar = () => {
           {item.name}
         </Flex>
       ),
-      path: `/documents?process_name=${item.basic_processes}`,
+      path: `/documents?process_name=${item.basic_processes}&process_id=${item.guid}`,
     })) || [];
 
   const menuKeys = [...baseMenu, ...dynamicMenu, ...adminOnlyMenu];

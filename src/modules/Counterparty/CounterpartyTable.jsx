@@ -7,23 +7,31 @@ import {
 } from "@ant-design/icons";
 import styles from "./CounterpartyTable.module.scss";
 import { useCounterpartyColums } from "./useCounterpartyColums";
-import { documentsArr } from "../../data";
-import { status } from "../../enums";
 import { InWorkModal } from "../../components";
 import { useState } from "react";
 import { CunterpartyModal } from "./CounterpartyModal";
 import { useGetDocsContragentQuery } from "../../store";
+import { useUser } from "../../utils";
+import { useSearchParams } from "react-router-dom";
 
 export const CounterpartyTable = () => {
+  const user = useUser();
+  const [searchParams] = useSearchParams();
   const [open, setOpen] = useState(false);
   const [openWarn, setOpenWarn] = useState(false);
   const { data, isLoading } = useGetDocsContragentQuery();
+
+  const processId = searchParams.get("process_id");
 
   const handleOpenWarn = () => {
     setOpenWarn(true);
   };
 
   const { columns } = useCounterpartyColums(handleOpenWarn);
+
+  const filteredData = data?.data.filter(
+    (item) => item.employee_id === user.guid && item.process_id === processId
+  );
 
   return (
     <Flex vertical gap="small">
@@ -71,7 +79,7 @@ export const CounterpartyTable = () => {
       <Col span={24}>
         <Table
           loading={isLoading}
-          dataSource={data && data?.data}
+          dataSource={filteredData || []}
           columns={columns}
           pagination={false}
           className={styles.table}
@@ -80,7 +88,11 @@ export const CounterpartyTable = () => {
         />
       </Col>
       <InWorkModal open={openWarn} onCansel={() => setOpenWarn(false)} />
-      <CunterpartyModal open={open} onCancel={() => setOpen(false)} />
+      <CunterpartyModal
+        open={open}
+        onCancel={() => setOpen(false)}
+        processId={processId}
+      />
     </Flex>
   );
 };

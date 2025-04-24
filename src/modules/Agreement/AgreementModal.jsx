@@ -11,17 +11,19 @@ import {
   Col,
 } from "antd";
 import { DocUploaded } from "../../common";
-import styles from "./AgreementTable.module.scss";
 import {
   useAddDocsSoglosovanieMutation,
   useUploadFileMutation,
 } from "../../store";
 import { useState } from "react";
+import { status } from "../../enums";
+import { userInfo } from "../../utils";
+import styles from "./AgreementTable.module.scss";
 
-export const AgreementModal = ({ open, onCancel }) => {
+export const AgreementModal = ({ open, onCancel, processId }) => {
   const [form] = Form.useForm();
-  const [uploaded] = useUploadFileMutation();
   const [addDocs] = useAddDocsSoglosovanieMutation();
+  const [uploaded] = useUploadFileMutation();
   const [files, setFiles] = useState([]);
 
   const handleFileUpload = async (uploadedFiles) => {
@@ -39,9 +41,6 @@ export const AgreementModal = ({ open, onCancel }) => {
     }
   };
 
-  console.log(files, "files");
-  console.log(files.join(", "));
-
   const onFinish = (values) => {
     const newDoc = {
       contract_number: values.contract_number,
@@ -54,6 +53,9 @@ export const AgreementModal = ({ open, onCancel }) => {
       approval_status: values.approval_status,
       contragent: values.contragent,
       doc_id: 1,
+      status: status.DRAFT,
+      process_id: processId,
+      employee_id: userInfo.guid,
     };
 
     addDocs(newDoc);

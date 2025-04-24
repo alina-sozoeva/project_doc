@@ -4,12 +4,16 @@ import NET from "vanta/dist/vanta.net.min";
 import styles from "./LoginPage.module.scss";
 import { useNavigate } from "react-router-dom";
 import logo from "../../assets/logo.png";
+import { useGetEmployeesQuery } from "../../store";
 
 export const LoginPage = () => {
   const [form] = Form.useForm();
   const [userInfo, setUserInfo] = useState({});
   const [vantaEffect, setVantaEffect] = useState(null);
   const navigate = useNavigate();
+  const { data } = useGetEmployeesQuery();
+
+  console.log(data);
 
   const myRef = useRef(null);
   useEffect(() => {
@@ -29,16 +33,11 @@ export const LoginPage = () => {
   }, [vantaEffect]);
 
   const onFinish = (values) => {
-    console.log(values);
-
-    const user = {
-      ...userInfo,
-      email: values.email,
-      password: values.password,
-    };
+    const user = data?.data?.find((item) => item.email === values.email);
+    console.log(user);
 
     setUserInfo(user);
-    localStorage.setItem("userInfo", JSON.stringify(user.email));
+    localStorage.setItem("userInfo", JSON.stringify(user));
     form.resetFields();
     navigate("/");
   };

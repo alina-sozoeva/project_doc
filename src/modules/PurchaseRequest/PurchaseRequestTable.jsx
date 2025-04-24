@@ -5,24 +5,32 @@ import {
   RedoOutlined,
   SearchOutlined,
 } from "@ant-design/icons";
-import { documentsArr } from "../../data";
 import styles from "./PurchaseRequestTable.module.scss";
 import { usePurchaseRequestColumns } from "./usePurchaseRequestColumns";
-import { status } from "../../enums";
 import { useState } from "react";
 import { InWorkModal } from "../../components";
 import { PurchaseRequestModal } from "./PurchaseRequestModal";
 import { useGetDocsZakupQuery } from "../../store";
+import { useUser } from "../../utils";
+import { useSearchParams } from "react-router-dom";
 
 export const PurchaseRequestTable = () => {
+  const user = useUser();
+  const [searchParams] = useSearchParams();
+
   const [open, setOpen] = useState(false);
   const [openWarn, setOpenWarn] = useState(false);
   const { data, isLoading } = useGetDocsZakupQuery();
+  const processId = searchParams.get("process_id");
 
   const handleOpenWarn = () => {
     setOpenWarn(true);
   };
   const { columns } = usePurchaseRequestColumns(handleOpenWarn);
+
+  const filteredData = data?.data.filter(
+    (item) => item.employee_id === user.guid && item.process_id === processId
+  );
 
   return (
     <Flex vertical gap="small">
@@ -70,7 +78,7 @@ export const PurchaseRequestTable = () => {
       <Col span={24}>
         <Table
           loading={isLoading}
-          dataSource={data && data?.data}
+          dataSource={filteredData || []}
           columns={columns}
           pagination={false}
           className={styles.table}
@@ -79,7 +87,11 @@ export const PurchaseRequestTable = () => {
         />
       </Col>
       <InWorkModal open={openWarn} onCansel={() => setOpenWarn(false)} />
-      <PurchaseRequestModal open={open} onCancel={() => setOpen(false)} />
+      <PurchaseRequestModal
+        open={open}
+        onCancel={() => setOpen(false)}
+        processId={processId}
+      />
     </Flex>
   );
 };

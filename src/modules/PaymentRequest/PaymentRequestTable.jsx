@@ -13,16 +13,27 @@ import { useState } from "react";
 import { InWorkModal } from "../../components";
 import { PaymentRequestModal } from "./PaymentRequestModal";
 import { useGetDocsVyplataQuery } from "../../store";
+import { useUser } from "../../utils";
+import { useSearchParams } from "react-router-dom";
 
 export const PaymentRequestTable = () => {
+  const user = useUser();
+  const [searchParams] = useSearchParams();
   const [open, setOpen] = useState(false);
   const [openWarn, setOpenWarn] = useState(false);
   const { data, isLoading } = useGetDocsVyplataQuery();
+  const processId = searchParams.get("process_id");
 
   const handleOpenWarn = () => {
     setOpenWarn(true);
   };
+
   const { columns } = usePaymentRequestColumns(handleOpenWarn);
+
+  const filteredData = data?.data.filter(
+    (item) => item.employee_id === user.guid && item.process_id === processId
+  );
+
   return (
     <Flex vertical gap="small">
       <Flex gap="small" justify="space-between">
@@ -69,7 +80,7 @@ export const PaymentRequestTable = () => {
       <Col span={24}>
         <Table
           loading={isLoading}
-          dataSource={data && data?.data}
+          dataSource={filteredData || []}
           columns={columns}
           pagination={false}
           className={styles.table}
@@ -78,7 +89,11 @@ export const PaymentRequestTable = () => {
         />
       </Col>
       <InWorkModal open={openWarn} onCansel={() => setOpenWarn(false)} />
-      <PaymentRequestModal open={open} onCancel={() => setOpen(false)} />
+      <PaymentRequestModal
+        open={open}
+        onCancel={() => setOpen(false)}
+        processId={processId}
+      />
     </Flex>
   );
 };

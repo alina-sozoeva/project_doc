@@ -9,13 +9,13 @@ import {
   Select,
   Typography,
 } from "antd";
-import styles from "./CounterpartyTable.module.scss";
-import { useDispatch } from "react-redux";
 import { useAddDocsContragentMutation } from "../../store";
+import { status } from "../../enums";
+import { userInfo } from "../../utils";
+import styles from "./CounterpartyTable.module.scss";
 
-export const CunterpartyModal = ({ open, onCancel }) => {
+export const CunterpartyModal = ({ open, onCancel, processId }) => {
   const [form] = Form.useForm();
-  const dispatch = useDispatch();
   const [addDocs] = useAddDocsContragentMutation();
 
   const onFinish = (values) => {
@@ -31,6 +31,9 @@ export const CunterpartyModal = ({ open, onCancel }) => {
       bank_details: values.bank_details,
       verification_status: values.verification_status,
       doc_id: 1,
+      status: status.DRAFT,
+      process_id: processId,
+      employee_id: userInfo.guid,
     };
 
     addDocs(newDoc);

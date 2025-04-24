@@ -16,10 +16,14 @@ import styles from "./CloseDocumentsTable.module.scss";
 import { DocUploaded } from "../../common";
 import { useAddDocsCloseMutation } from "../../store";
 import { useState } from "react";
+import { status } from "../../enums";
+import { useSearchParams } from "react-router-dom";
+import { userInfo } from "../../utils";
 
-export const CloseDocumentsModal = ({ open, onCancel }) => {
+export const CloseDocumentsModal = ({ open, onCancel, processId }) => {
   const [form] = Form.useForm();
   const [addDocs] = useAddDocsCloseMutation();
+
   const [filesClosing, setFilesClosing] = useState([]);
   const [filesCover, setFilesCover] = useState([]);
 
@@ -67,6 +71,9 @@ export const CloseDocumentsModal = ({ open, onCancel }) => {
       comments: values.comments,
       cover_sheet: "test",
       doc_id: 1,
+      status: status.DRAFT,
+      process_id: processId,
+      employee_id: userInfo.guid,
     };
 
     addDocs(newDoc);

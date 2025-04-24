@@ -1,6 +1,5 @@
 import { Button, Col, Flex, Input, Select, Table } from "antd";
 import styles from "./AgreementTable.module.scss";
-import { documentsArr } from "../../data";
 import { useAgreementColumns } from "./useAgreementColumns";
 import {
   FilterOutlined,
@@ -11,23 +10,27 @@ import {
 import { useState } from "react";
 import { AgreementModal } from "./AgreementModal";
 import { InWorkModal } from "../../components";
-import { status } from "../../enums";
-import dayjs from "dayjs";
 import { useGetDocsSoglosovanieQuery } from "../../store";
-import { employeeInfo } from "../../utils";
+import { useUser } from "../../utils";
+import { useSearchParams } from "react-router-dom";
 
 export const AgreementTable = () => {
+  const user = useUser();
+  const [searchParams] = useSearchParams();
   const [open, setOpen] = useState(false);
   const [openWarn, setOpenWarn] = useState(false);
   const { data, isLoading } = useGetDocsSoglosovanieQuery();
+  const processId = searchParams.get("process_id");
 
   const handleOpenWarn = (values) => {
     setOpenWarn(true);
   };
 
-  console.log(employeeInfo());
-
   const { columns } = useAgreementColumns(handleOpenWarn);
+
+  const filteredData = data?.data.filter(
+    (item) => item.employee_id === user.guid && item.process_id === processId
+  );
 
   return (
     <Flex vertical gap="small">
@@ -75,7 +78,7 @@ export const AgreementTable = () => {
       <Col span={24}>
         <Table
           loading={isLoading}
-          dataSource={data?.data}
+          dataSource={filteredData || []}
           columns={columns}
           pagination={false}
           className={styles.table}
@@ -84,7 +87,11 @@ export const AgreementTable = () => {
         />
       </Col>
 
-      <AgreementModal open={open} onCancel={() => setOpen(false)} />
+      <AgreementModal
+        open={open}
+        onCancel={() => setOpen(false)}
+        processId={processId}
+      />
       <InWorkModal open={openWarn} onCansel={() => setOpenWarn(false)} />
     </Flex>
   );

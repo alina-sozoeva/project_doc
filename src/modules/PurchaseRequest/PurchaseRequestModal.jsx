@@ -10,12 +10,11 @@ import {
   Select,
   Typography,
 } from "antd";
-import { useEffect, useState } from "react";
 import { status } from "./../../enums/enums";
-import styles from "./PurchaseRequestTable.module.scss";
 import { useAddDocsZakupMutation } from "../../store";
+import { userInfo } from "../../utils";
 
-export const PurchaseRequestModal = ({ open, onCancel }) => {
+export const PurchaseRequestModal = ({ open, onCancel, processId }) => {
   const [form] = Form.useForm();
   const [addDocs] = useAddDocsZakupMutation();
 
@@ -48,6 +47,9 @@ export const PurchaseRequestModal = ({ open, onCancel }) => {
       end_date: values.end_date,
       comments: values.comments,
       doc_id: 1,
+      status: status.DRAFT,
+      process_id: processId,
+      employee_id: userInfo.guid,
     };
 
     addDocs(newDoc);

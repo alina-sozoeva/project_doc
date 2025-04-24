@@ -10,10 +10,12 @@ import {
   Row,
   Col,
 } from "antd";
-import styles from "./PaymentRequestTable.module.scss";
 import { useAddDocsVyplataMutation } from "../../store";
+import { status } from "../../enums";
+import { userInfo } from "../../utils";
+import styles from "./PaymentRequestTable.module.scss";
 
-export const PaymentRequestModal = ({ open, onCancel }) => {
+export const PaymentRequestModal = ({ open, onCancel, processId }) => {
   const [form] = Form.useForm();
   const [addDocs] = useAddDocsVyplataMutation();
 
@@ -27,6 +29,9 @@ export const PaymentRequestModal = ({ open, onCancel }) => {
       budget: values.budget,
       comments: values.comments,
       doc_id: 1,
+      status: status.DRAFT,
+      process_id: processId,
+      employee_id: userInfo.guid,
     };
 
     addDocs(newDoc);
