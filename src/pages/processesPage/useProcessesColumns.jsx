@@ -5,6 +5,7 @@ import { RouteButton } from "../../common";
 import { processesMap } from "../../enums";
 import { useGetProcessesMembersQuery } from "../../store";
 import foto from "../../assets/foto.jpg";
+import { useState } from "react";
 
 export const useProcessesColumns = () => {
   const { data } = useGetProcessesMembersQuery();
@@ -41,6 +42,7 @@ export const useProcessesColumns = () => {
         const filteredData = data?.data?.filter(
           (item) => item.process_id === record.guid
         );
+
         return filteredData?.length === 0 ? (
           <div className="chain_container">
             <RouteButton></RouteButton>

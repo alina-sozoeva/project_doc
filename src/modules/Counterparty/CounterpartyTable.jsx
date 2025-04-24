@@ -20,14 +20,16 @@ export const CounterpartyTable = () => {
   const [open, setOpen] = useState(false);
   const [openWarn, setOpenWarn] = useState(false);
   const { data, isLoading } = useGetDocsContragentQuery();
+  const [docId, setDocId] = useState("");
 
   const processId = searchParams.get("process_id");
 
-  const handleOpenWarn = () => {
+  const handleOpenWarn = (guid) => {
+    setDocId(guid);
     setOpenWarn(true);
   };
 
-  const { columns } = useCounterpartyColums(handleOpenWarn, user);
+  const { columns } = useCounterpartyColums(handleOpenWarn, user, processId);
 
   const filteredData = data?.data.filter(
     (item) => item.employee_id === user.guid && item.process_id === processId
@@ -87,7 +89,11 @@ export const CounterpartyTable = () => {
           scroll={{ y: 480, x: 1400 }}
         />
       </Col>
-      <InWorkModal open={openWarn} onCansel={() => setOpenWarn(false)} />
+      <InWorkModal
+        open={openWarn}
+        onCansel={() => setOpenWarn(false)}
+        docId={docId}
+      />
       <CunterpartyModal
         open={open}
         onCancel={() => setOpen(false)}

@@ -1,6 +1,8 @@
 import { Button, Modal } from "antd";
 
-export const InWorkModal = ({ open, onCansel }) => {
+export const InWorkModal = ({ open, onCansel, docId }) => {
+  console.log(docId);
+
   return (
     <Modal
       centered

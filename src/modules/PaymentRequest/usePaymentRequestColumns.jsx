@@ -4,8 +4,11 @@ import dayjs from "dayjs";
 import React from "react";
 import foto from "../../assets/28.jpg";
 import styles from "./PaymentRequestTable.module.scss";
+import { useProcessesMembers } from "../../utils";
 
-export const usePaymentRequestColumns = (handleOpenWarn, user) => {
+export const usePaymentRequestColumns = (handleOpenWarn, user, processId) => {
+  const filteredData = useProcessesMembers(processId);
+
   const columns = [
     {
       title: "№",
@@ -75,30 +78,34 @@ export const usePaymentRequestColumns = (handleOpenWarn, user) => {
       key: "data",
       align: "center",
       width: 200,
-      render: (record) => (
+      render: () => (
         <div className="chain_container">
-          <RouteButton>1</RouteButton>
-          <div className="arrow" />
-          <RouteButton>2</RouteButton>
-          <div className="arrow" />
-          <RouteButton>3</RouteButton>
-          <div className="arrow" />
-          <RouteButton>4</RouteButton>
-          <div className="arrow" />
-          <RouteButton>5</RouteButton>
+          {filteredData?.map((step, index) => {
+            console.log(step);
+
+            return (
+              <>
+                <RouteButton item={step}>
+                  {/* <img src={foto} style={{ width: "100%" }} alt="" /> */}
+                </RouteButton>
+                {index < filteredData?.length - 1 && <div className="arrow" />}
+              </>
+            );
+          })}
         </div>
       ),
     },
     {
       title: "...",
-      key: "record",
+      key: "guid",
+      dataIndex: "guid",
       align: "center",
       width: 50,
-      render: (record) => (
+      render: (text) => (
         <Button
           type="primary"
           className={styles.btn}
-          onClick={() => handleOpenWarn()}
+          onClick={() => handleOpenWarn(text)}
         >
           В работу
         </Button>

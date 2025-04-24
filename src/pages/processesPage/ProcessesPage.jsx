@@ -190,6 +190,7 @@ export const ProcessesPage = () => {
                 if (!blockedProcessIds.has(record.guid)) {
                   handleOpenStep(record.guid);
                 } else {
+                  clear();
                   toast.warn(
                     "Процесс уже используется, редактирование недоступно"
                   );

@@ -14,8 +14,6 @@ export const Header = () => {
   const [title, setTitle] = useState("Главная");
   const user = useSelector((state) => state.users.user);
 
-  console.log(user);
-
   // const notifications = useSelector(
   //   (state) => state.notifications.notifications
   // );

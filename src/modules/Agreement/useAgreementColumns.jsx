@@ -4,13 +4,16 @@ import dayjs from "dayjs";
 import React from "react";
 import foto from "../../assets/28.jpg";
 import styles from "./AgreementTable.module.scss";
+import { useProcessesMembers } from "../../utils";
 
-export const useAgreementColumns = (handleOpenWarn, user) => {
+export const useAgreementColumns = (handleOpenWarn, user, processId) => {
+  const filteredData = useProcessesMembers(processId);
+
   const columns = [
     {
       title: "№",
       dataIndex: "index",
-      key: "index",
+      key: "guid",
       align: "center",
       width: 30,
       render: (_text, _record, index) => index + 1,
@@ -71,34 +74,35 @@ export const useAgreementColumns = (handleOpenWarn, user) => {
     },
     {
       title: "Маршрут",
-      dataIndex: "data",
-      key: "data",
+      key: "guid",
       align: "center",
       width: 200,
-      render: (record) => (
+      render: () => (
         <div className="chain_container">
-          <RouteButton>1</RouteButton>
-          <div className="arrow" />
-          <RouteButton>2</RouteButton>
-          <div className="arrow" />
-          <RouteButton>3</RouteButton>
-          <div className="arrow" />
-          <RouteButton>4</RouteButton>
-          <div className="arrow" />
-          <RouteButton>5</RouteButton>
+          {filteredData?.map((step, index) => {
+            return (
+              <>
+                <RouteButton item={step}>
+                  {/* <img src={foto} style={{ width: "100%" }} alt="" /> */}
+                </RouteButton>
+                {index < filteredData?.length - 1 && <div className="arrow" />}
+              </>
+            );
+          })}
         </div>
       ),
     },
     {
       title: "...",
-      key: "record",
+      key: "guid",
+      dataIndex: "guid",
       align: "center",
       width: 50,
-      render: (record) => (
+      render: (text) => (
         <Button
           type="primary"
           className={styles.btn}
-          onClick={() => handleOpenWarn()}
+          onClick={() => handleOpenWarn(text)}
         >
           В работу
         </Button>

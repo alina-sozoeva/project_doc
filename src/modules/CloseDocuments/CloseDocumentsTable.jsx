@@ -1,9 +1,6 @@
 import { Button, Col, Flex, Input, Select, Table } from "antd";
 import styles from "./CloseDocumentsTable.module.scss";
-import { documentsArr } from "../../data";
 import { useCloseDocumentsColumns } from "./useCloseDocumentsColumns";
-import { status } from "../../enums";
-import dayjs from "dayjs";
 import { useState } from "react";
 import { InWorkModal } from "../../components";
 import {
@@ -22,18 +19,19 @@ export const CloseDocumentsTable = () => {
   const [searchParams] = useSearchParams();
   const [open, setOpen] = useState(false);
   const [openWarn, setOpenWarn] = useState(false);
-
+  const [docId, setDocId] = useState("");
   const { data, isLoading } = useGetDocsCloseQuery();
   const processId = searchParams.get("process_id");
 
-  const handleOpenWarn = () => {
+  const handleOpenWarn = (guid) => {
+    setDocId(guid);
     setOpenWarn(true);
   };
 
   const filteredData = data?.data.filter(
     (item) => item.employee_id === user.guid && item.process_id === processId
   );
-  const { columns } = useCloseDocumentsColumns(handleOpenWarn, user);
+  const { columns } = useCloseDocumentsColumns(handleOpenWarn, user, processId);
 
   return (
     <Flex vertical gap="small">
@@ -89,7 +87,11 @@ export const CloseDocumentsTable = () => {
           scroll={{ y: 480, x: 1400 }}
         />
       </Col>
-      <InWorkModal open={openWarn} onCansel={() => setOpenWarn(false)} />
+      <InWorkModal
+        open={openWarn}
+        onCansel={() => setOpenWarn(false)}
+        docId={docId}
+      />
       <CloseDocumentsModal
         open={open}
         onCancel={() => setOpen(false)}

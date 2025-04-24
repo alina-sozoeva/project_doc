@@ -20,13 +20,20 @@ export const PurchaseRequestTable = () => {
 
   const [open, setOpen] = useState(false);
   const [openWarn, setOpenWarn] = useState(false);
+  const [docId, setDocId] = useState("");
+
   const { data, isLoading } = useGetDocsZakupQuery();
   const processId = searchParams.get("process_id");
 
-  const handleOpenWarn = () => {
+  const handleOpenWarn = (guid) => {
+    setDocId(guid);
     setOpenWarn(true);
   };
-  const { columns } = usePurchaseRequestColumns(handleOpenWarn, user);
+  const { columns } = usePurchaseRequestColumns(
+    handleOpenWarn,
+    user,
+    processId
+  );
 
   const filteredData = data?.data.filter(
     (item) => item.employee_id === user.guid && item.process_id === processId
@@ -86,7 +93,11 @@ export const PurchaseRequestTable = () => {
           scroll={{ y: 480, x: 1400 }}
         />
       </Col>
-      <InWorkModal open={openWarn} onCansel={() => setOpenWarn(false)} />
+      <InWorkModal
+        open={openWarn}
+        onCansel={() => setOpenWarn(false)}
+        docId={docId}
+      />
       <PurchaseRequestModal
         open={open}
         onCancel={() => setOpen(false)}

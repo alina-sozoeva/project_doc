@@ -19,14 +19,16 @@ export const AgreementTable = () => {
   const [searchParams] = useSearchParams();
   const [open, setOpen] = useState(false);
   const [openWarn, setOpenWarn] = useState(false);
+  const [docId, setDocId] = useState("");
   const { data, isLoading } = useGetDocsSoglosovanieQuery();
   const processId = searchParams.get("process_id");
 
-  const handleOpenWarn = (values) => {
+  const handleOpenWarn = (guid) => {
+    setDocId(guid);
     setOpenWarn(true);
   };
 
-  const { columns } = useAgreementColumns(handleOpenWarn, user);
+  const { columns } = useAgreementColumns(handleOpenWarn, user, processId);
 
   const filteredData = data?.data.filter(
     (item) => item.employee_id === user.guid && item.process_id === processId
@@ -93,7 +95,11 @@ export const AgreementTable = () => {
         processId={processId}
         user={user}
       />
-      <InWorkModal open={openWarn} onCansel={() => setOpenWarn(false)} />
+      <InWorkModal
+        open={openWarn}
+        onCansel={() => setOpenWarn(false)}
+        docId={docId}
+      />
     </Flex>
   );
 };

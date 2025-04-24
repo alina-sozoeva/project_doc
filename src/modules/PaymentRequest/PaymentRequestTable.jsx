@@ -21,14 +21,16 @@ export const PaymentRequestTable = () => {
   const [searchParams] = useSearchParams();
   const [open, setOpen] = useState(false);
   const [openWarn, setOpenWarn] = useState(false);
+  const [docId, setDocId] = useState("");
   const { data, isLoading } = useGetDocsVyplataQuery();
   const processId = searchParams.get("process_id");
 
-  const handleOpenWarn = () => {
+  const handleOpenWarn = (guid) => {
+    setDocId(guid);
     setOpenWarn(true);
   };
 
-  const { columns } = usePaymentRequestColumns(handleOpenWarn, user);
+  const { columns } = usePaymentRequestColumns(handleOpenWarn, user, processId);
 
   const filteredData = data?.data.filter(
     (item) => item.employee_id === user.guid && item.process_id === processId
@@ -88,7 +90,11 @@ export const PaymentRequestTable = () => {
           scroll={{ y: 480, x: 1400 }}
         />
       </Col>
-      <InWorkModal open={openWarn} onCansel={() => setOpenWarn(false)} />
+      <InWorkModal
+        open={openWarn}
+        onCansel={() => setOpenWarn(false)}
+        docId={docId}
+      />
       <PaymentRequestModal
         open={open}
         onCancel={() => setOpen(false)}
