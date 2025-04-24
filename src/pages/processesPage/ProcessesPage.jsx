@@ -46,6 +46,8 @@ export const ProcessesPage = () => {
     selectedId ? selectedId : skipToken
   );
 
+  console.log(formData, "formData");
+
   const [addMember] = useAddProcessesMemberMutation();
 
   const clear = () => {
@@ -57,6 +59,7 @@ export const ProcessesPage = () => {
 
   const handleOpenStep = (id) => {
     clear();
+    setFormData();
     setSelectedId(id);
     setOpenSteps(true);
   };
@@ -92,14 +95,14 @@ export const ProcessesPage = () => {
     //   ])
     // );
 
-    addMember(newMember);
+    // addMember(newMember);
   };
 
   const handleSubmit = () => {
     form
       .validateFields()
       .then((values) => {
-        addMembers(values);
+        // addMembers(values);
 
         setFormData((prev) => ({
           ...prev,
@@ -144,7 +147,7 @@ export const ProcessesPage = () => {
     //     },
     //   ])
     // );
-    addMembers(values);
+    // addMembers(values);
     // toast.success("Вы успешно создали процесс");
     clear();
   };

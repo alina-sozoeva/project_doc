@@ -5,8 +5,6 @@ import { departmentMap, positionMap } from "../../enums";
 import foto from "../../assets/foto.jpg";
 
 export const EmployeeCard = ({ onOpen, item }) => {
-  console.log(item);
-
   return (
     <Flex vertical className={styles.content}>
       <Flex vertical align="center" justify="center">

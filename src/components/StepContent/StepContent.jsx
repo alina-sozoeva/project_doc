@@ -12,8 +12,6 @@ export const StepContent = ({ form }) => {
     positionId: undefined,
   });
 
-  console.log(employees);
-
   const positions = employees.map((item) => ({
     value: item.position,
     label: positionMap[item.position],
@@ -61,8 +59,6 @@ export const StepContent = ({ form }) => {
     return uniquePositions;
   }, [filters, positions]);
 
-  console.log(filteredPosition);
-
   const filteredemloyees = useMemo(() => {
     const { departmentId, positionId } = filters;
 
@@ -83,8 +79,6 @@ export const StepContent = ({ form }) => {
 
     return employees;
   }, [filters, employees]);
-
-  console.log(filteredemloyees);
 
   const updateemloyees = filteredemloyees?.map((item) => ({
     value: item.id,

@@ -24,8 +24,14 @@ export const RouteButton = ({ children, statusFolder, onClick, item }) => {
     <Tooltip
       title={
         <Flex vertical>
-          <p>Testov Test Testovich</p>
-          <p>test@gmail.com</p>
+          {item ? (
+            <>
+              <p>{item?.employee_id}</p>
+              <p>{item?.position}</p>
+            </>
+          ) : (
+            "Нет данных"
+          )}
         </Flex>
       }
     >

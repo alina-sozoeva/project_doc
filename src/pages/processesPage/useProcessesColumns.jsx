@@ -3,8 +3,11 @@ import styles from "./ProcessesPage.module.scss";
 import { Button } from "antd";
 import { RouteButton } from "../../common";
 import { processesMap } from "../../enums";
+import { useGetProcessesMembersQuery } from "../../store";
 
 export const useProcessesColumns = () => {
+  const { data } = useGetProcessesMembersQuery();
+
   const columns = [
     {
       title: "№",
@@ -33,19 +36,29 @@ export const useProcessesColumns = () => {
       key: "record",
       align: "center",
       width: 200,
-      render: (record) => (
-        <div className="chain_container">
-          <RouteButton>1</RouteButton>
-          <div className="line" />
-          <RouteButton>2</RouteButton>
-          {/* <div className="line" />
-          <RouteButton>3</RouteButton>
-          <div className="line" />
-          <RouteButton>4</RouteButton>
-          <div className="line" />
-          <RouteButton>5</RouteButton> */}
-        </div>
-      ),
+      render: (_, record) => {
+        const filteredData = data?.data?.filter(
+          (item) => item.process_id === record.guid
+        );
+        return filteredData?.length === 0 ? (
+          <div className="chain_container">
+            <RouteButton>1</RouteButton>
+            <div className="line" />
+            <RouteButton>2</RouteButton>
+          </div>
+        ) : (
+          <div className="chain_container">
+            {filteredData?.map((step, index) => {
+              return (
+                <>
+                  <RouteButton item={step}>{step.step_index + 1}</RouteButton>
+                  {index < filteredData?.length - 1 && <div className="line" />}
+                </>
+              );
+            })}
+          </div>
+        );
+      },
     },
     {
       title: "...",
