@@ -58,3 +58,23 @@ li {
   background-color: #1677ff;
   margin: 0 8px;
 }
+
+.arrow {
+  position: relative;
+  width: 35px;
+  height: 2px;
+  background-color: #1677ff;
+  margin: 0 8px;
+}
+
+.arrow::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%) rotate(45deg);
+  width: 7px;
+  height: 7px;
+  border-top: 2px solid #1677ff;
+  border-right: 2px solid #1677ff;
+}

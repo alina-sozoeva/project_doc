@@ -1,9 +1,10 @@
-import { DeleteOutlined } from "@ant-design/icons";
+import { ArrowRightOutlined, DeleteOutlined } from "@ant-design/icons";
 import styles from "./ProcessesPage.module.scss";
 import { Button } from "antd";
 import { RouteButton } from "../../common";
 import { processesMap } from "../../enums";
 import { useGetProcessesMembersQuery } from "../../store";
+import foto from "../../assets/foto.jpg";
 
 export const useProcessesColumns = () => {
   const { data } = useGetProcessesMembersQuery();
@@ -42,17 +43,21 @@ export const useProcessesColumns = () => {
         );
         return filteredData?.length === 0 ? (
           <div className="chain_container">
-            <RouteButton>1</RouteButton>
-            <div className="line" />
-            <RouteButton>2</RouteButton>
+            <RouteButton></RouteButton>
+            <div className="arrow" />
+            <RouteButton></RouteButton>
           </div>
         ) : (
           <div className="chain_container">
             {filteredData?.map((step, index) => {
               return (
                 <>
-                  <RouteButton item={step}>{step.step_index + 1}</RouteButton>
-                  {index < filteredData?.length - 1 && <div className="line" />}
+                  <RouteButton item={step}>
+                    {/* <img src={foto} style={{ width: "100%" }} alt="" /> */}
+                  </RouteButton>
+                  {index < filteredData?.length - 1 && (
+                    <div className="arrow" />
+                  )}
                 </>
               );
             })}

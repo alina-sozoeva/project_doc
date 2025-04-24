@@ -33,7 +33,7 @@ export const CloseDocumentsTable = () => {
   const filteredData = data?.data.filter(
     (item) => item.employee_id === user.guid && item.process_id === processId
   );
-  const { columns } = useCloseDocumentsColumns(handleOpenWarn);
+  const { columns } = useCloseDocumentsColumns(handleOpenWarn, user);
 
   return (
     <Flex vertical gap="small">
@@ -94,6 +94,7 @@ export const CloseDocumentsTable = () => {
         open={open}
         onCancel={() => setOpen(false)}
         processId={processId}
+        user={user}
       />
     </Flex>
   );

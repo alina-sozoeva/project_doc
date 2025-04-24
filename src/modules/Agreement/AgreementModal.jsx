@@ -17,10 +17,9 @@ import {
 } from "../../store";
 import { useState } from "react";
 import { status } from "../../enums";
-import { userInfo } from "../../utils";
 import styles from "./AgreementTable.module.scss";
 
-export const AgreementModal = ({ open, onCancel, processId }) => {
+export const AgreementModal = ({ open, onCancel, processId, user }) => {
   const [form] = Form.useForm();
   const [addDocs] = useAddDocsSoglosovanieMutation();
   const [uploaded] = useUploadFileMutation();
@@ -55,7 +54,7 @@ export const AgreementModal = ({ open, onCancel, processId }) => {
       doc_id: 1,
       status: status.DRAFT,
       process_id: processId,
-      employee_id: userInfo.guid,
+      employee_id: user.guid,
     };
 
     addDocs(newDoc);

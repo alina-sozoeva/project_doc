@@ -4,19 +4,23 @@ import { useMemo, useState } from "react";
 import styles from "./StepContent.module.scss";
 import { useSelector } from "react-redux";
 import { positionMap } from "../../enums";
+import { useGetEmployeesQuery } from "../../store";
 
 export const StepContent = ({ form }) => {
-  const employees = useSelector((state) => state.employees.employees);
+  const { data: employees } = useGetEmployeesQuery();
   const [filters, setFilters] = useState({
     departmentId: undefined,
     positionId: undefined,
   });
 
-  const positions = employees.map((item) => ({
-    value: item.position,
-    label: positionMap[item.position],
-    department: item.department,
-  }));
+  const positions = useMemo(() => {
+    if (!employees?.data) return [];
+    return employees.data.map((item) => ({
+      value: item.position,
+      label: positionMap[item.position],
+      department: item.department,
+    }));
+  }, [employees]);
 
   const handleChange = (type, value) => {
     setFilters((prev) => {
@@ -47,9 +51,11 @@ export const StepContent = ({ form }) => {
   const filteredPosition = useMemo(() => {
     const { departmentId } = filters;
 
+    const safePositions = positions || [];
+
     const filtered = departmentId
-      ? positions.filter((item) => item.department === departmentId)
-      : positions;
+      ? safePositions.filter((item) => item.department === departmentId)
+      : safePositions;
 
     const uniquePositions = filtered.filter(
       (item, index, self) =>
@@ -60,25 +66,27 @@ export const StepContent = ({ form }) => {
   }, [filters, positions]);
 
   const filteredemloyees = useMemo(() => {
+    if (!employees?.data) return [];
+
     const { departmentId, positionId } = filters;
 
     if (positionId && departmentId) {
-      return employees.filter(
+      return employees.data.filter(
         (item) =>
           item.position === positionId && item.department === departmentId
       );
     }
 
     if (departmentId) {
-      return employees.filter((item) => item.department === departmentId);
+      return employees.data.filter((item) => item.department === departmentId);
     }
 
     if (positionId) {
-      return employees.filter((item) => item.position === positionId);
+      return employees.data.filter((item) => item.position === positionId);
     }
 
-    return employees;
-  }, [filters, employees]);
+    return employees.data;
+  }, [filters, employees?.data]);
 
   const updateemloyees = filteredemloyees?.map((item) => ({
     value: item.id,
@@ -123,7 +131,7 @@ export const StepContent = ({ form }) => {
             showSearch
             placeholder="Выберите должность участника процесса"
             optionFilterProp="label"
-            options={filteredPosition}
+            options={filteredPosition || []}
             onChange={(value) => handleChange("positionId", value)}
             disabled={!filters.departmentId}
           />
@@ -146,7 +154,7 @@ export const StepContent = ({ form }) => {
             showSearch
             placeholder="Выберите ФИО участника процесса"
             optionFilterProp="label"
-            options={updateemloyees}
+            options={updateemloyees || []}
             disabled={!filters.positionId}
           />
         </Form.Item>

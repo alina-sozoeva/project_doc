@@ -4,6 +4,7 @@ import {
   employeesSlice,
   notificationsSlice,
   processesSlice,
+  usersSlice,
 } from "./slices";
 import { documentsApi, employeesApi, processesApi } from "./api";
 
@@ -16,6 +17,7 @@ export const store = configureStore({
     employees: employeesSlice.reducer,
     documents: documentsSlice.reducer,
     processes: processesSlice.reducer,
+    users: usersSlice.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat([

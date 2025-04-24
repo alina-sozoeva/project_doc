@@ -12,10 +12,9 @@ import {
 } from "antd";
 import { useAddDocsVyplataMutation } from "../../store";
 import { status } from "../../enums";
-import { userInfo } from "../../utils";
 import styles from "./PaymentRequestTable.module.scss";
 
-export const PaymentRequestModal = ({ open, onCancel, processId }) => {
+export const PaymentRequestModal = ({ open, onCancel, processId, user }) => {
   const [form] = Form.useForm();
   const [addDocs] = useAddDocsVyplataMutation();
 
@@ -31,7 +30,7 @@ export const PaymentRequestModal = ({ open, onCancel, processId }) => {
       doc_id: 1,
       status: status.DRAFT,
       process_id: processId,
-      employee_id: userInfo.guid,
+      employee_id: user.guid,
     };
 
     addDocs(newDoc);
@@ -151,10 +150,11 @@ export const PaymentRequestModal = ({ open, onCancel, processId }) => {
               </Row>
             </Col>
           </Row>
-
-          <Button type="primary" htmlType="submit">
-            Добавить в черновики
-          </Button>
+          <Flex justify="end">
+            <Button type="primary" htmlType="submit">
+              Добавить в черновики
+            </Button>
+          </Flex>
         </Flex>
       </Form>
     </Modal>

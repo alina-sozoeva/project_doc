@@ -3,7 +3,7 @@ import { Button, Divider, Flex, Form, Steps, Table } from "antd";
 import { WarningModal, Wrapper } from "../../common";
 import { pages, pathname } from "../../enums";
 import { AddProcessesModal, StepContent } from "../../components";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import {
   useAddProcessesMemberMutation,
   useGetProcessesByIdQuery,
@@ -45,8 +45,6 @@ export const ProcessesPage = () => {
   const { data: dataById } = useGetProcessesByIdQuery(
     selectedId ? selectedId : skipToken
   );
-
-  console.log(formData, "formData");
 
   const [addMember] = useAddProcessesMemberMutation();
 

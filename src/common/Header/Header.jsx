@@ -36,7 +36,7 @@ export const Header = () => {
 
   const logOut = () => {
     localStorage.removeItem("statusCount");
-    localStorage.removeItem("userInfo");
+    localStorage.removeItem("user");
     navigate("/login");
   };
 

@@ -12,9 +12,8 @@ import {
 } from "antd";
 import { status } from "./../../enums/enums";
 import { useAddDocsZakupMutation } from "../../store";
-import { userInfo } from "../../utils";
 
-export const PurchaseRequestModal = ({ open, onCancel, processId }) => {
+export const PurchaseRequestModal = ({ open, onCancel, processId, user }) => {
   const [form] = Form.useForm();
   const [addDocs] = useAddDocsZakupMutation();
 
@@ -49,7 +48,7 @@ export const PurchaseRequestModal = ({ open, onCancel, processId }) => {
       doc_id: 1,
       status: status.DRAFT,
       process_id: processId,
-      employee_id: userInfo.guid,
+      employee_id: user.guid,
     };
 
     addDocs(newDoc);

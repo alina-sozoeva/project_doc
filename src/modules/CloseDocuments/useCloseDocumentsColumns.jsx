@@ -4,11 +4,8 @@ import dayjs from "dayjs";
 import React from "react";
 import foto from "../../assets/28.jpg";
 import styles from "./CloseDocumentsTable.module.scss";
-import { employeeInfo, useUser } from "../../utils";
 
-export const useCloseDocumentsColumns = (handleOpenWarn) => {
-  const user = useUser();
-
+export const useCloseDocumentsColumns = (handleOpenWarn, user) => {
   const columns = [
     {
       title: "№",
@@ -78,13 +75,13 @@ export const useCloseDocumentsColumns = (handleOpenWarn) => {
       render: (record) => (
         <div className="chain_container">
           <RouteButton>1</RouteButton>
-          <div className="line" />
+          <div className="arrow" />
           <RouteButton>2</RouteButton>
-          <div className="line" />
+          <div className="arrow" />
           <RouteButton>3</RouteButton>
-          <div className="line" />
+          <div className="arrow" />
           <RouteButton>4</RouteButton>
-          <div className="line" />
+          <div className="arrow" />
           <RouteButton>5</RouteButton>
         </div>
       ),

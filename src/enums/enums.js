@@ -41,6 +41,7 @@ export const storageKeys = {
   DOCUMENTS: "documents",
   PROCESSES: "processes",
   PROCESSES_MEMBERS: "processesMembers",
+  USER: "user",
 };
 
 export const processesKeys = {

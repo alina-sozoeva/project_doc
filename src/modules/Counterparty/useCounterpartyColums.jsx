@@ -4,11 +4,8 @@ import dayjs from "dayjs";
 import React from "react";
 import foto from "../../assets/28.jpg";
 import styles from "./CounterpartyTable.module.scss";
-import { employeeInfo, useUser } from "../../utils";
 
-export const useCounterpartyColums = (handleOpenWarn) => {
-  const user = useUser();
-
+export const useCounterpartyColums = (handleOpenWarn, user) => {
   const columns = [
     {
       title: "№",
@@ -23,16 +20,12 @@ export const useCounterpartyColums = (handleOpenWarn) => {
       dataIndex: "employee_id",
       key: "employee_id",
       width: 100,
-      render: (text) => {
-        if (text === user.guid) {
-          return (
-            <>
-              <p>{user.fio}</p>
-              <p>{user.email}</p>
-            </>
-          );
-        }
-      },
+      render: (text) => (
+        <>
+          <p>{user.fio}</p>
+          <p>{user.email}</p>
+        </>
+      ),
     },
     {
       title: "Наименование компании",
@@ -78,13 +71,13 @@ export const useCounterpartyColums = (handleOpenWarn) => {
       render: (record) => (
         <div className="chain_container">
           <RouteButton>1</RouteButton>
-          <div className="line" />
+          <div className="arrow" />
           <RouteButton>2</RouteButton>
-          <div className="line" />
+          <div className="arrow" />
           <RouteButton>3</RouteButton>
-          <div className="line" />
+          <div className="arrow" />
           <RouteButton>4</RouteButton>
-          <div className="line" />
+          <div className="arrow" />
           <RouteButton>5</RouteButton>
         </div>
       ),

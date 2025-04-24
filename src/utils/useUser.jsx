@@ -1,10 +1,11 @@
+import { useSelector } from "react-redux";
 import { useGetEmployeesQuery } from "../store";
 
 export const useUser = () => {
   const { data } = useGetEmployeesQuery();
-  const userInfo = JSON.parse(localStorage.getItem("userInfo"));
+  const user = useSelector((state) => state.users.user);
 
-  if (!data || !userInfo) return null;
+  if (!data || !user) return null;
 
-  return data?.data?.find((item) => item.guid === userInfo.guid) || [];
+  return data?.data?.find((item) => item.guid === user.guid) || [];
 };

@@ -1,4 +1,4 @@
-export const userInfo = JSON.parse(localStorage.getItem("userInfo"));
+export const userInfo = JSON.parse(localStorage.getItem("user"));
 export const emloyees = JSON.parse(localStorage.getItem("employees"));
 
 export const employeeInfo = () => {

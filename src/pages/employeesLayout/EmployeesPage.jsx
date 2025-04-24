@@ -11,17 +11,7 @@ import { Wrapper } from "../../common";
 export const EmployeesPage = () => {
   const [openEmployee, setOpenEmployee] = useState(false);
   const [employeeId, setEmployeeId] = useState("");
-  // const employeestest = useSelector((state) => state.employees.employees);
   const { data, error, isLoading } = useGetEmployeesQuery();
-
-  console.log(data, "useGetEmployeesQuery");
-
-  // if (isLoading)
-  //   return (
-  //     <Flex gap="middle" vertical>
-  //       <Spin tip="Loading..."></Spin>
-  //     </Flex>
-  //   );
 
   const addNewEmployee = (id) => {
     setEmployeeId(id);
@@ -29,7 +19,6 @@ export const EmployeesPage = () => {
   };
 
   const buildTree = (employees, headId = 1) => {
-    // debugger;
     return employees
       ?.filter((employee) => +employee.head_id === headId)
       .map((employee) => ({
@@ -39,8 +28,6 @@ export const EmployeesPage = () => {
   };
 
   const treeData = buildTree(data?.data, 1);
-
-  console.log(treeData, "treeData");
 
   return (
     <Wrapper

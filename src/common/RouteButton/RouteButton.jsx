@@ -1,6 +1,7 @@
 import styles from "./RouteButton.module.scss";
 import { Button, Flex, Tooltip } from "antd";
 import { status } from "../../enums";
+import foto from "../../assets/foto.jpg";
 
 export const RouteButton = ({ children, statusFolder, onClick, item }) => {
   const color = (() => {
@@ -36,14 +37,15 @@ export const RouteButton = ({ children, statusFolder, onClick, item }) => {
       }
     >
       <div className={styles.content}>
-        <Button
+        {/* <Button
           className={styles.btn}
           color={color}
           variant="filled"
           onClick={onClick}
-        >
-          {children}
-        </Button>
+        > */}
+        <img src={foto} alt="" />
+        {children}
+        {/* </Button> */}
       </div>
     </Tooltip>
   );

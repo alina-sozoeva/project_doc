@@ -4,11 +4,8 @@ import dayjs from "dayjs";
 import React from "react";
 import foto from "../../assets/28.jpg";
 import styles from "./PurchaseRequestTable.module.scss";
-import { employeeInfo, useUser } from "../../utils";
 
-export const usePurchaseRequestColumns = (handleOpenWarn) => {
-  const user = useUser();
-
+export const usePurchaseRequestColumns = (handleOpenWarn, user) => {
   const columns = [
     {
       title: "№",
@@ -20,19 +17,15 @@ export const usePurchaseRequestColumns = (handleOpenWarn) => {
     },
     {
       title: "Инициатор",
-      dataIndex: "user",
-      key: "user",
+      dataIndex: "employee_id",
+      key: "employee_id",
       width: 100,
-      render: (text) => {
-        if (text === user.guid) {
-          return (
-            <>
-              <p>{user.fio}</p>
-              <p>{user.email}</p>
-            </>
-          );
-        }
-      },
+      render: (text) => (
+        <>
+          <p>{user.fio}</p>
+          <p>{user.email}</p>
+        </>
+      ),
     },
     {
       title: "Название документа",
@@ -78,13 +71,13 @@ export const usePurchaseRequestColumns = (handleOpenWarn) => {
       render: (record) => (
         <div className="chain_container">
           <RouteButton>1</RouteButton>
-          <div className="line" />
+          <div className="arrow" />
           <RouteButton>2</RouteButton>
-          <div className="line" />
+          <div className="arrow" />
           <RouteButton>3</RouteButton>
-          <div className="line" />
+          <div className="arrow" />
           <RouteButton>4</RouteButton>
-          <div className="line" />
+          <div className="arrow" />
           <RouteButton>5</RouteButton>
         </div>
       ),

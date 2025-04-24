@@ -26,7 +26,7 @@ export const AgreementTable = () => {
     setOpenWarn(true);
   };
 
-  const { columns } = useAgreementColumns(handleOpenWarn);
+  const { columns } = useAgreementColumns(handleOpenWarn, user);
 
   const filteredData = data?.data.filter(
     (item) => item.employee_id === user.guid && item.process_id === processId
@@ -91,6 +91,7 @@ export const AgreementTable = () => {
         open={open}
         onCancel={() => setOpen(false)}
         processId={processId}
+        user={user}
       />
       <InWorkModal open={openWarn} onCansel={() => setOpenWarn(false)} />
     </Flex>

@@ -16,8 +16,6 @@ export const useDocumentsColums = () => {
     navigate(`/edit-folder/${record.guid}/${record.status}`);
   };
 
-  const userInfo = JSON.parse(localStorage.getItem("userInfo"));
-
   const columns = [
     {
       title: "№",
@@ -79,7 +77,7 @@ export const useDocumentsColums = () => {
               <RouteButton statusFolder={step.status} item={record}>
                 {step.step}
               </RouteButton>
-              {index < record.record.length - 1 && <div className="line" />}
+              {index < record.record.length - 1 && <div className="arrow" />}
             </React.Fragment>
           ))}
         </div>

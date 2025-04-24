@@ -28,7 +28,7 @@ export const PaymentRequestTable = () => {
     setOpenWarn(true);
   };
 
-  const { columns } = usePaymentRequestColumns(handleOpenWarn);
+  const { columns } = usePaymentRequestColumns(handleOpenWarn, user);
 
   const filteredData = data?.data.filter(
     (item) => item.employee_id === user.guid && item.process_id === processId
@@ -93,6 +93,7 @@ export const PaymentRequestTable = () => {
         open={open}
         onCancel={() => setOpen(false)}
         processId={processId}
+        user={user}
       />
     </Flex>
   );

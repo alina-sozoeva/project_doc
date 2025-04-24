@@ -26,7 +26,7 @@ export const PurchaseRequestTable = () => {
   const handleOpenWarn = () => {
     setOpenWarn(true);
   };
-  const { columns } = usePurchaseRequestColumns(handleOpenWarn);
+  const { columns } = usePurchaseRequestColumns(handleOpenWarn, user);
 
   const filteredData = data?.data.filter(
     (item) => item.employee_id === user.guid && item.process_id === processId
@@ -91,6 +91,7 @@ export const PurchaseRequestTable = () => {
         open={open}
         onCancel={() => setOpen(false)}
         processId={processId}
+        user={user}
       />
     </Flex>
   );

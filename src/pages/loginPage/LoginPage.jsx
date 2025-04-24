@@ -4,18 +4,18 @@ import NET from "vanta/dist/vanta.net.min";
 import styles from "./LoginPage.module.scss";
 import { useNavigate } from "react-router-dom";
 import logo from "../../assets/logo.png";
-import { useGetEmployeesQuery } from "../../store";
+import { addUser, useGetEmployeesQuery } from "../../store";
+import { useDispatch } from "react-redux";
 
 export const LoginPage = () => {
-  const [form] = Form.useForm();
-  const [userInfo, setUserInfo] = useState({});
-  const [vantaEffect, setVantaEffect] = useState(null);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const [form] = Form.useForm();
+  const [vantaEffect, setVantaEffect] = useState(null);
   const { data } = useGetEmployeesQuery();
 
-  console.log(data);
-
   const myRef = useRef(null);
+
   useEffect(() => {
     if (!vantaEffect) {
       setVantaEffect(
@@ -34,10 +34,17 @@ export const LoginPage = () => {
 
   const onFinish = (values) => {
     const user = data?.data?.find((item) => item.email === values.email);
-    console.log(user);
 
-    setUserInfo(user);
-    localStorage.setItem("userInfo", JSON.stringify(user));
+    if (!user) {
+      form.setFields([
+        {
+          name: "email",
+          errors: ["Такого пользователя не существует"],
+        },
+      ]);
+      return;
+    }
+    dispatch(addUser(user));
     form.resetFields();
     navigate("/");
   };

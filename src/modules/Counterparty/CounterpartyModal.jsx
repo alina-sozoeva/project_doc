@@ -11,10 +11,9 @@ import {
 } from "antd";
 import { useAddDocsContragentMutation } from "../../store";
 import { status } from "../../enums";
-import { userInfo } from "../../utils";
 import styles from "./CounterpartyTable.module.scss";
 
-export const CunterpartyModal = ({ open, onCancel, processId }) => {
+export const CunterpartyModal = ({ open, onCancel, processId, user }) => {
   const [form] = Form.useForm();
   const [addDocs] = useAddDocsContragentMutation();
 
@@ -33,7 +32,7 @@ export const CunterpartyModal = ({ open, onCancel, processId }) => {
       doc_id: 1,
       status: status.DRAFT,
       process_id: processId,
-      employee_id: userInfo.guid,
+      employee_id: user.guid,
     };
 
     addDocs(newDoc);

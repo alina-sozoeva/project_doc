@@ -27,7 +27,7 @@ export const CounterpartyTable = () => {
     setOpenWarn(true);
   };
 
-  const { columns } = useCounterpartyColums(handleOpenWarn);
+  const { columns } = useCounterpartyColums(handleOpenWarn, user);
 
   const filteredData = data?.data.filter(
     (item) => item.employee_id === user.guid && item.process_id === processId
@@ -92,6 +92,7 @@ export const CounterpartyTable = () => {
         open={open}
         onCancel={() => setOpen(false)}
         processId={processId}
+        user={user}
       />
     </Flex>
   );
