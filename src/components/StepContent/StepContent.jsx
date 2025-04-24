@@ -89,7 +89,7 @@ export const StepContent = ({ form }) => {
   }, [filters, employees?.data]);
 
   const updateemloyees = filteredemloyees?.map((item) => ({
-    value: item.id,
+    value: item.guid,
     label: item.fio,
   }));
 

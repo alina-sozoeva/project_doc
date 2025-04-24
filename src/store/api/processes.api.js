@@ -35,11 +35,11 @@ export const processesApi = createApi({
       }),
       providesTags: ["ProcessesListMembers"],
     }),
-    addProcessesMember: builder.mutation({
-      query: (newMember) => ({
+    addProcessesMembers: builder.mutation({
+      query: (members) => ({
         url: "/add_process_member",
         method: "POST",
-        body: newMember,
+        body: members,
       }),
       invalidatesTags: ["ProcessesListMembers"],
     }),
@@ -50,6 +50,6 @@ export const {
   useGetProcessesQuery,
   useAddProcessesMutation,
   useGetProcessesMembersQuery,
-  useAddProcessesMemberMutation,
+  useAddProcessesMembersMutation,
   useGetProcessesByIdQuery,
 } = processesApi;

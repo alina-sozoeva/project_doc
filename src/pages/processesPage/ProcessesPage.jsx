@@ -5,8 +5,9 @@ import { pages, pathname } from "../../enums";
 import { AddProcessesModal, StepContent } from "../../components";
 import { useSelector } from "react-redux";
 import {
-  useAddProcessesMemberMutation,
+  useAddProcessesMembersMutation,
   useGetProcessesByIdQuery,
+  useGetProcessesMembersQuery,
   useGetProcessesQuery,
 } from "../../store";
 import { v4 as uuidv4 } from "uuid";
@@ -14,6 +15,7 @@ import styles from "./ProcessesPage.module.scss";
 import { PlusOutlined } from "@ant-design/icons";
 import { useProcessesColumns } from "./useProcessesColumns";
 import { skipToken } from "@reduxjs/toolkit/query";
+import { toast } from "react-toastify";
 
 export const ProcessesPage = () => {
   const processId = useRef(uuidv4());
@@ -35,18 +37,21 @@ export const ProcessesPage = () => {
   const [openModal, setOpenModal] = useState(false);
   const [title, setTitle] = useState("");
   const [steps, setSteps] = useState(defultSteps);
-  const [formData, setFormData] = useState({});
+  const [formData, setFormData] = useState([]);
   const [modalType, setModalType] = useState(null);
   const [modalText, setModalText] = useState({});
   const [openProcessesModal, setOpenProcessesModal] = useState(false);
-  const processes = useSelector((state) => state.processes.processes);
   const { data, isLoading } = useGetProcessesQuery();
   const [selectedId, setSelectedId] = useState(null);
   const { data: dataById } = useGetProcessesByIdQuery(
     selectedId ? selectedId : skipToken
   );
+  const { data: processesMembers } = useGetProcessesMembersQuery();
+  const [addMembers] = useAddProcessesMembersMutation();
 
-  const [addMember] = useAddProcessesMemberMutation();
+  const blockedProcessIds = new Set(
+    processesMembers?.data?.map((member) => member.process_id)
+  );
 
   const clear = () => {
     setOpenSteps(false);
@@ -57,9 +62,10 @@ export const ProcessesPage = () => {
 
   const handleOpenStep = (id) => {
     clear();
-    setFormData();
+    setFormData([]);
     setSelectedId(id);
     setOpenSteps(true);
+    form.resetFields();
   };
 
   const items = steps?.map((item, index) => ({
@@ -67,45 +73,21 @@ export const ProcessesPage = () => {
     title: item.title,
   }));
 
-  const addMembers = (values) => {
-    console.log(typeof `'${values.department_id}'`);
-
-    const newMember = {
-      process_id: selectedId,
-      step_index: current,
-      department: values.department_id,
-      position: values.position_id,
-      time_limit: values.time_limit,
-      employee_id: values.employee_id,
-    };
-
-    // dispatch(
-    //   addToProcessesMembers([
-    //     {
-    //       process_id: selectedId,
-    //       step_index: current,
-    //       department_id: values.department_id,
-    //       position_id: values.position_id,
-    //       time_limit: values.time_limit,
-    //       employee_id: values.employee_id,
-    //       status: values.status,
-    //     },
-    //   ])
-    // );
-
-    // addMember(newMember);
-  };
-
   const handleSubmit = () => {
     form
       .validateFields()
       .then((values) => {
-        // addMembers(values);
-
-        setFormData((prev) => ({
+        setFormData((prev) => [
           ...prev,
-          [current]: values,
-        }));
+          {
+            process_id: selectedId,
+            step_index: current,
+            department: values.department_id,
+            position: values.position_id,
+            time_limit: values.time_limit,
+            employee_id: values.employee_id,
+          },
+        ]);
 
         form.resetFields();
 
@@ -136,17 +118,18 @@ export const ProcessesPage = () => {
   };
 
   const onFinish = (values) => {
-    // dispatch(
-    //   addToProcesses([
-    //     {
-    //       id: processId.current,
-    //       title: processesMap[title],
-    //       slug: title,
-    //     },
-    //   ])
-    // );
-    // addMembers(values);
-    // toast.success("Вы успешно создали процесс");
+    addMembers([
+      ...formData,
+      {
+        process_id: selectedId,
+        step_index: current,
+        department: values.department_id,
+        position: values.position_id,
+        time_limit: values.time_limit,
+        employee_id: values.employee_id,
+      },
+    ]);
+    toast.success("Вы успешно обновили процесс");
     clear();
   };
 
@@ -196,14 +179,22 @@ export const ProcessesPage = () => {
         <>
           <Table
             loading={isLoading}
-            dataSource={data ? data?.data : processes}
+            dataSource={data?.data}
             columns={columns}
             pagination={false}
             className={styles.table}
             bordered
             scroll={{ y: 480 }}
             onRow={(record) => ({
-              onClick: () => handleOpenStep(record.guid),
+              onClick: () => {
+                if (!blockedProcessIds.has(record.guid)) {
+                  handleOpenStep(record.guid);
+                } else {
+                  toast.warn(
+                    "Процесс уже используется, редактирование недоступно"
+                  );
+                }
+              },
             })}
             rowClassName={() => styles.clickableRow}
           />
