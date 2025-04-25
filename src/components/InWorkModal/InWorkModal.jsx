@@ -1,7 +1,12 @@
 import { Button, Modal } from "antd";
 
-export const InWorkModal = ({ open, onCansel, docId }) => {
+export const InWorkModal = ({ open, onCansel, docId, onConfirm }) => {
   console.log(docId);
+
+  const handleClick = () => {
+    onConfirm();
+    onCansel();
+  };
 
   return (
     <Modal
@@ -11,7 +16,7 @@ export const InWorkModal = ({ open, onCansel, docId }) => {
       title="Предупреждение"
       onCancel={onCansel}
       footer={[
-        <Button key="submit" type="primary" onClick={onCansel}>
+        <Button key="submit" type="primary" onClick={handleClick}>
           Отправить в работу
         </Button>,
       ]}

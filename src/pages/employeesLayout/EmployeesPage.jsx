@@ -20,12 +20,13 @@ export const EmployeesPage = () => {
 
   const buildTree = (employees, headId = 1) => {
     return employees
-      ?.filter((employee) => +employee.head_id === headId)
+      ?.filter((employee) => employee.head_id == headId)
       .map((employee) => ({
         ...employee,
         children: buildTree(employees, employee.guid),
       }));
   };
+  // e13ac7f5-eaff-4f4f-a286-12e584710ff3
 
   const treeData = buildTree(data?.data, 1);
 

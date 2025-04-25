@@ -2,6 +2,7 @@ import styles from "./RouteButton.module.scss";
 import { Button, Flex, Tooltip } from "antd";
 import { status } from "../../enums";
 import foto from "../../assets/foto.jpg";
+import { useGetEmployeesQuery } from "../../store";
 
 export const RouteButton = ({ children, statusFolder, onClick, item }) => {
   const color = (() => {
@@ -21,14 +22,18 @@ export const RouteButton = ({ children, statusFolder, onClick, item }) => {
     }
   })();
 
+  const { data } = useGetEmployeesQuery();
+
+  const filtered = data?.data?.find((i) => i?.guid === item?.employee_id);
+
   return (
     <Tooltip
       title={
         <Flex vertical>
           {item ? (
             <>
-              <p>{item?.employee_id}</p>
-              <p>{item?.position}</p>
+              <p>{filtered?.fio}</p>
+              <p>{filtered?.email}</p>
             </>
           ) : (
             "Нет данных"

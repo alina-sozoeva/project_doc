@@ -18,6 +18,7 @@ import { useAddDocsCloseMutation } from "../../store";
 import { useState } from "react";
 import { status } from "../../enums";
 import { useSearchParams } from "react-router-dom";
+import { toast } from "react-toastify";
 
 export const CloseDocumentsModal = ({ open, onCancel, processId, user }) => {
   const [form] = Form.useForm();
@@ -69,10 +70,11 @@ export const CloseDocumentsModal = ({ open, onCancel, processId, user }) => {
       closing_documents: "test",
       comments: values.comments,
       cover_sheet: "test",
-      doc_id: 1,
+      doc_id: "",
       status: status.DRAFT,
       process_id: processId,
       employee_id: user.guid,
+      member_id: "",
     };
 
     addDocs(newDoc);

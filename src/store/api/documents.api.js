@@ -95,6 +95,14 @@ export const documentsApi = createApi({
         formData: true,
       }),
     }),
+    updateDocsClose: builder.mutation({
+      query: (doc) => ({
+        url: "/update_docs_close",
+        method: "POST",
+        body: doc,
+      }),
+      invalidatesTags: ["DocsCloseList"],
+    }),
   }),
 });
 
@@ -110,6 +118,8 @@ export const {
   useAddDocsVyplataMutation,
   useAddDocsZakupMutation,
   useUploadFileMutation,
+  useUpdateDocsCloseMutation,
+  useUpdateMutation,
 } = documentsApi;
 
 // import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
