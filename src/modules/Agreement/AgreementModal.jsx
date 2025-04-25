@@ -55,6 +55,7 @@ export const AgreementModal = ({ open, onCancel, processId, user }) => {
       status: status.DRAFT,
       process_id: processId,
       employee_id: user.guid,
+      member_id: "",
     };
 
     addDocs(newDoc);

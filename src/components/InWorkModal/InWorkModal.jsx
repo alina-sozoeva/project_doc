@@ -1,8 +1,6 @@
 import { Button, Modal } from "antd";
 
 export const InWorkModal = ({ open, onCansel, docId, onConfirm }) => {
-  console.log(docId);
-
   const handleClick = () => {
     onConfirm();
     onCansel();

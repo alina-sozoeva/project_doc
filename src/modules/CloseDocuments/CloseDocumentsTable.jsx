@@ -21,22 +21,32 @@ import { status } from "../../enums";
 import { ApprovalModal } from "../../common";
 import { toast } from "react-toastify";
 
+const defult = {
+  name: "",
+  basis_document: "",
+  close_date: "",
+  close_status: "",
+  closing_documents: "",
+  comments: "",
+  cover_sheet: "test",
+  doc_id: "",
+  process_id: "",
+  employee_id: "",
+};
+
 export const CloseDocumentsTable = () => {
   const user = useUser();
   const [searchParams] = useSearchParams();
   const [open, setOpen] = useState(false);
   const [openWarn, setOpenWarn] = useState(false);
+  const [openApprov, setOpenApprov] = useState();
   const [docId, setDocId] = useState();
   const { data, isLoading } = useGetDocsCloseQuery();
-  const processId = searchParams.get("process_id");
-  const [updateDoc] = useUpdateDocsCloseMutation();
   const { data: members } = useGetProcessesMembersQuery();
-  const { data: docs } = useGetDocsCloseQuery();
-  const [openApprov, setOpenApprov] = useState();
+  const [updateDoc] = useUpdateDocsCloseMutation();
+  const processId = searchParams.get("process_id");
 
   const handleOpenWarn = (guid) => {
-    console.log(guid);
-
     setDocId(guid);
     setOpenWarn(true);
   };
@@ -46,25 +56,14 @@ export const CloseDocumentsTable = () => {
     setOpenApprov(true);
   };
 
-  const filtered = docs?.data?.find((item) => item.guid === docId);
+  const filtered = data?.data?.find((item) => item.guid === docId);
   const filteredMem = members?.data?.filter(
     (item) => item.process_id === processId
   );
 
-  console.log(filteredMem);
-
   const onConfirm = () => {
     updateDoc({
-      name: filtered.name,
-      basis_document: filtered.basis_document,
-      close_date: filtered.close_date,
-      close_status: filtered.close_status,
-      closing_documents: "test",
-      comments: filtered.comments,
-      cover_sheet: "test",
-      doc_id: "",
-      process_id: processId,
-      employee_id: user.guid,
+      ...defult,
       guid: docId,
       status: status.IN_PROCESS,
       member_id: filteredMem[0]?.employee_id,
@@ -80,18 +79,8 @@ export const CloseDocumentsTable = () => {
     );
 
     const isLast = currentIndex === memberList.length - 1;
-
     updateDoc({
-      name: filtered.name,
-      basis_document: filtered.basis_document,
-      close_date: filtered.close_date,
-      close_status: filtered.close_status,
-      closing_documents: "test",
-      comments: filtered.comments,
-      cover_sheet: "test",
-      doc_id: "",
-      process_id: processId,
-      employee_id: user.guid,
+      ...defult,
       guid: docId,
       status: isLast ? status.APPROVED : status.IN_PROCESS,
       member_id: isLast ? "" : memberList[currentIndex + 1]?.employee_id,
@@ -102,16 +91,7 @@ export const CloseDocumentsTable = () => {
 
   const onRegec = () => {
     updateDoc({
-      name: filtered.name,
-      basis_document: filtered.basis_document,
-      close_date: filtered.close_date,
-      close_status: filtered.close_status,
-      closing_documents: "test",
-      comments: filtered.comments,
-      cover_sheet: "test",
-      doc_id: "",
-      process_id: processId,
-      employee_id: user.guid,
+      ...defult,
       guid: docId,
       status: status.REJECTED,
       member_id: "",
@@ -121,16 +101,7 @@ export const CloseDocumentsTable = () => {
 
   const onRevis = () => {
     updateDoc({
-      name: filtered.name,
-      basis_document: filtered.basis_document,
-      close_date: filtered.close_date,
-      close_status: filtered.close_status,
-      closing_documents: "test",
-      comments: filtered.comments,
-      cover_sheet: "test",
-      doc_id: "",
-      process_id: processId,
-      employee_id: user.guid,
+      ...defult,
       guid: docId,
       status: status.REVISION,
       member_id: "",
@@ -143,8 +114,6 @@ export const CloseDocumentsTable = () => {
       (item?.employee_id === user?.guid && item?.process_id === processId) ||
       item.member_id === user?.guid
   );
-
-  console.log(filteredData);
 
   const { columns } = useCloseDocumentsColumns(
     handleOpenWarn,

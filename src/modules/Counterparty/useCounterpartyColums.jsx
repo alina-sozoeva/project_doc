@@ -4,11 +4,18 @@ import dayjs from "dayjs";
 import React from "react";
 import foto from "../../assets/28.jpg";
 import styles from "./CounterpartyTable.module.scss";
-import { useGetProcessesMembersQuery } from "../../store";
+import { useGetEmployeesQuery, useGetProcessesMembersQuery } from "../../store";
 import { useProcessesMembers } from "../../utils";
+import { status } from "../../enums";
 
-export const useCounterpartyColums = (handleOpenWarn, user, processId) => {
+export const useCounterpartyColums = (
+  handleOpenWarn,
+  user,
+  processId,
+  handleOpenApprov
+) => {
   const filteredData = useProcessesMembers(processId);
+  const { data } = useGetEmployeesQuery();
 
   const columns = [
     {
@@ -24,12 +31,17 @@ export const useCounterpartyColums = (handleOpenWarn, user, processId) => {
       dataIndex: "employee_id",
       key: "employee_id",
       width: 100,
-      render: (text) => (
-        <>
-          <p>{user.fio}</p>
-          <p>{user.email}</p>
-        </>
-      ),
+      render: (_, record) => {
+        const filtered = data?.data?.find(
+          (item) => item.guid === record.employee_id
+        );
+        return (
+          <>
+            <p>{filtered.fio}</p>
+            <p>{filtered.email}</p>
+          </>
+        );
+      },
     },
     {
       title: "Наименование компании",
@@ -92,16 +104,50 @@ export const useCounterpartyColums = (handleOpenWarn, user, processId) => {
       key: "guid",
       dataIndex: "guid",
       align: "center",
-      width: 50,
-      render: (text) => (
-        <Button
-          type="primary"
-          className={styles.btn}
-          onClick={() => handleOpenWarn(text)}
-        >
-          В работу
-        </Button>
-      ),
+      width: 100,
+      render: (_, record) => {
+        const isInitiator = record.employee_id === user.guid;
+
+        if (
+          record.status === status.DRAFT ||
+          record.status === status.REVISION
+        ) {
+          return (
+            <Button
+              type="primary"
+              className={styles.btn}
+              onClick={() => handleOpenWarn(record.guid)}
+            >
+              В работу
+            </Button>
+          );
+        }
+
+        if (record.status === status.IN_PROCESS) {
+          return (
+            <Button
+              type="primary"
+              className={styles.btn}
+              onClick={() => handleOpenApprov(record.guid)}
+              disabled={isInitiator}
+            >
+              Утвердить
+            </Button>
+          );
+        }
+
+        if (record.status === status.REJECTED) {
+          return (
+            <Button type="primary" danger className={styles.btn}>
+              Удалить
+            </Button>
+          );
+        }
+
+        if (record.status === status.APPROVED) {
+          return <Button className={styles.btn}>Сохранить</Button>;
+        }
+      },
     },
   ];
 

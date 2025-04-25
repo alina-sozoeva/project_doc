@@ -10,18 +10,44 @@ import { useCounterpartyColums } from "./useCounterpartyColums";
 import { InWorkModal } from "../../components";
 import { useState } from "react";
 import { CunterpartyModal } from "./CounterpartyModal";
-import { useGetDocsContragentQuery } from "../../store";
+import {
+  useGetDocsCloseQuery,
+  useGetDocsContragentQuery,
+  useGetProcessesMembersQuery,
+  useUpdateDocsContragentMutation,
+} from "../../store";
 import { useUser } from "../../utils";
 import { useSearchParams } from "react-router-dom";
+import { status } from "../../enums";
+import { toast } from "react-toastify";
+import { ApprovalModal } from "../../common";
+
+const defult = {
+  nameid_contragent: 1,
+  company_name: "",
+  inn: "",
+  legal_address: "",
+  actual_address: "",
+  fio: "",
+  phone: "",
+  email: "",
+  bank_details: "",
+  verification_status: "",
+  doc_id: "",
+  process_id: "",
+  employee_id: "",
+};
 
 export const CounterpartyTable = () => {
   const user = useUser();
   const [searchParams] = useSearchParams();
   const [open, setOpen] = useState(false);
   const [openWarn, setOpenWarn] = useState(false);
+  const [openApprov, setOpenApprov] = useState();
+  const [docId, setDocId] = useState();
   const { data, isLoading } = useGetDocsContragentQuery();
-  const [docId, setDocId] = useState("");
-
+  const { data: members } = useGetProcessesMembersQuery();
+  const [updateDoc] = useUpdateDocsContragentMutation();
   const processId = searchParams.get("process_id");
 
   const handleOpenWarn = (guid) => {
@@ -29,10 +55,88 @@ export const CounterpartyTable = () => {
     setOpenWarn(true);
   };
 
-  const { columns } = useCounterpartyColums(handleOpenWarn, user, processId);
+  const handleOpenApprov = (guid) => {
+    setDocId(guid);
+    setOpenApprov(true);
+  };
+
+  const filtered = data?.data?.find((item) => item.guid === docId);
+  const filteredMem = members?.data?.filter(
+    (item) => item.process_id === processId
+  );
+
+  const onConfirm = () => {
+    updateDoc({
+      // nameid_contragent: filtered.nameid_contragent,
+      // company_name: filtered.nameid_contragent,
+      // inn: filtered.nameid_contragent,
+      // legal_address: filtered.nameid_contragent,
+      // actual_address: filtered.nameid_contragent,
+      // fio: filtered.nameid_contragent,
+      // phone: filtered.nameid_contragent,
+      // email: filtered.nameid_contragent,
+      // bank_details: filtered.nameid_contragent,
+      // verification_status: filtered.nameid_contragent,
+      // doc_id: filtered.nameid_contragent,
+      // process_id: filtered.nameid_contragent,
+      // employee_id: filtered.nameid_contragent,
+      ...defult,
+      guid: docId,
+      status: status.IN_PROCESS,
+      member_id: filteredMem[0]?.employee_id,
+    });
+    toast.success("Вы отправили документ на обработку");
+  };
+
+  const onConfirmApp = () => {
+    const currentMemberId = filtered.member_id;
+    const memberList = filteredMem || [];
+    const currentIndex = memberList.findIndex(
+      (m) => m.employee_id === currentMemberId
+    );
+
+    const isLast = currentIndex === memberList.length - 1;
+    updateDoc({
+      ...defult,
+      guid: docId,
+      status: isLast ? status.APPROVED : status.IN_PROCESS,
+      member_id: isLast ? "" : memberList[currentIndex + 1]?.employee_id,
+    });
+    toast.success("Вы отправили документ на обработку");
+    setOpenApprov(false);
+  };
+
+  const onRegec = () => {
+    updateDoc({
+      ...defult,
+      guid: docId,
+      status: status.REJECTED,
+      member_id: "",
+    });
+    setOpenApprov(false);
+  };
+
+  const onRevis = () => {
+    updateDoc({
+      ...defult,
+      guid: docId,
+      status: status.REVISION,
+      member_id: "",
+    });
+    setOpenApprov(false);
+  };
 
   const filteredData = data?.data.filter(
-    (item) => item.employee_id === user.guid && item.process_id === processId
+    (item) =>
+      (item?.employee_id === user?.guid && item?.process_id === processId) ||
+      item.member_id === user?.guid
+  );
+
+  const { columns } = useCounterpartyColums(
+    handleOpenWarn,
+    user,
+    processId,
+    handleOpenApprov
   );
 
   return (
@@ -93,6 +197,14 @@ export const CounterpartyTable = () => {
         open={openWarn}
         onCansel={() => setOpenWarn(false)}
         docId={docId}
+        onConfirm={onConfirm}
+      />
+      <ApprovalModal
+        open={openApprov}
+        onCancel={() => setOpenApprov(false)}
+        onConfirm={onConfirmApp}
+        onRegec={onRegec}
+        onRevis={onRevis}
       />
       <CunterpartyModal
         open={open}

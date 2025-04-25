@@ -4,7 +4,7 @@ import dayjs from "dayjs";
 import React from "react";
 import foto from "../../assets/28.jpg";
 import styles from "./CloseDocumentsTable.module.scss";
-import { useGetEmployeesQuery, useGetProcessesMembersQuery } from "../../store";
+import { useGetEmployeesQuery } from "../../store";
 import { useProcessesMembers } from "../../utils";
 import { status } from "../../enums";
 
@@ -15,9 +15,7 @@ export const useCloseDocumentsColumns = (
   handleOpenApprov
 ) => {
   const filteredData = useProcessesMembers(processId);
-
   const { data } = useGetEmployeesQuery();
-  const { data: members } = useGetProcessesMembersQuery();
 
   const columns = [
     {
@@ -106,13 +104,8 @@ export const useCloseDocumentsColumns = (
       key: "guid",
       dataIndex: "guid",
       align: "center",
-      width: 50,
+      width: 100,
       render: (_, record) => {
-        const filtered = members?.data?.find(
-          (item) => item.employee_id === record.member_id
-        );
-
-        // Проверка, если текущий пользователь является инициатором
         const isInitiator = record.employee_id === user.guid;
 
         if (
@@ -136,9 +129,9 @@ export const useCloseDocumentsColumns = (
               type="primary"
               className={styles.btn}
               onClick={() => handleOpenApprov(record.guid)}
-              disabled={isInitiator} // Инициатор не может нажимать
+              disabled={isInitiator}
             >
-              В процессе
+              Утвердить
             </Button>
           );
         }

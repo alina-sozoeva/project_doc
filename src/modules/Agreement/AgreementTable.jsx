@@ -10,28 +10,121 @@ import {
 import { useState } from "react";
 import { AgreementModal } from "./AgreementModal";
 import { InWorkModal } from "../../components";
-import { useGetDocsSoglosovanieQuery } from "../../store";
+import {
+  useGetDocsSoglosovanieQuery,
+  useGetProcessesMembersQuery,
+  useUpdateDocsSoglosovanieMutation,
+} from "../../store";
 import { useUser } from "../../utils";
 import { useSearchParams } from "react-router-dom";
+import { status } from "../../enums";
+import { toast } from "react-toastify";
+import { ApprovalModal } from "../../common";
+
+const defult = {
+  contract_number: "",
+  contract_file: "",
+  contract_type: "",
+  comments: "",
+  validity_period: "",
+  creation_date: "",
+  sum: 1,
+  approval_status: "",
+  contragent: "",
+  doc_id: 0,
+  process_id: "",
+  employee_id: "",
+};
 
 export const AgreementTable = () => {
   const user = useUser();
   const [searchParams] = useSearchParams();
   const [open, setOpen] = useState(false);
   const [openWarn, setOpenWarn] = useState(false);
+  const [openApprov, setOpenApprov] = useState();
   const [docId, setDocId] = useState("");
   const { data, isLoading } = useGetDocsSoglosovanieQuery();
+  const { data: members } = useGetProcessesMembersQuery();
+  const [updateDoc] = useUpdateDocsSoglosovanieMutation();
   const processId = searchParams.get("process_id");
 
   const handleOpenWarn = (guid) => {
+    console.log(guid);
+
     setDocId(guid);
     setOpenWarn(true);
   };
 
-  const { columns } = useAgreementColumns(handleOpenWarn, user, processId);
+  const handleOpenApprov = (guid) => {
+    setDocId(guid);
+    setOpenApprov(true);
+  };
+
+  const { columns } = useAgreementColumns(
+    handleOpenWarn,
+    user,
+    processId,
+    handleOpenApprov
+  );
+  const filtered = data?.data?.find((item) => item.guid === docId);
+  const filteredMem = members?.data?.filter(
+    (item) => item.process_id === processId
+  );
+
+  console.log(filteredMem);
+
+  const onConfirm = () => {
+    updateDoc({
+      ...defult,
+      guid: docId,
+      status: status.IN_PROCESS,
+      member_id: filteredMem[0]?.employee_id,
+    });
+    toast.success("Вы отправили документ на обработку");
+  };
+
+  const onConfirmApp = () => {
+    const currentMemberId = filtered.member_id;
+    const memberList = filteredMem || [];
+    const currentIndex = memberList.findIndex(
+      (m) => m.employee_id === currentMemberId
+    );
+
+    const isLast = currentIndex === memberList.length - 1;
+    updateDoc({
+      ...defult,
+      guid: docId,
+      status: isLast ? status.APPROVED : status.IN_PROCESS,
+      member_id: isLast ? "" : memberList[currentIndex + 1]?.employee_id,
+    });
+    toast.success("Вы отправили документ на обработку");
+    setOpenApprov(false);
+  };
+
+  const onRegec = () => {
+    updateDoc({
+      ...defult,
+      guid: docId,
+      status: status.REJECTED,
+      member_id: "",
+    });
+    setOpenApprov(false);
+  };
+
+  const onRevis = () => {
+    updateDoc({
+      ...defult,
+      guid: docId,
+      status: status.REVISION,
+      member_id: "",
+    });
+    setOpenApprov(false);
+  };
 
   const filteredData = data?.data.filter(
-    (item) => item.employee_id === user.guid && item.process_id === processId
+    (item) =>
+      (item?.employee_id === user?.guid && item?.process_id === processId) ||
+      item.member_id === user?.guid
   );
 
   return (
@@ -99,6 +192,14 @@ export const AgreementTable = () => {
         open={openWarn}
         onCansel={() => setOpenWarn(false)}
         docId={docId}
+        onConfirm={onConfirm}
+      />
+      <ApprovalModal
+        open={openApprov}
+        onCancel={() => setOpenApprov(false)}
+        onConfirm={onConfirmApp}
+        onRegec={onRegec}
+        onRevis={onRevis}
       />
     </Flex>
   );

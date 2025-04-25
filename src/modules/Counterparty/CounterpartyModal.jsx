@@ -19,9 +19,9 @@ export const CunterpartyModal = ({ open, onCancel, processId, user }) => {
 
   const onFinish = (values) => {
     const newDoc = {
-      nameid_contragent: "",
+      nameid_contragent: 1,
       company_name: values.company_name,
-      inn: values.inn,
+      inn: "",
       legal_address: values.legal_address,
       actual_address: values.actual_address,
       fio: values.fio,
@@ -29,10 +29,11 @@ export const CunterpartyModal = ({ open, onCancel, processId, user }) => {
       email: values.email,
       bank_details: values.bank_details,
       verification_status: values.verification_status,
-      doc_id: 1,
+      doc_id: "",
       status: status.DRAFT,
       process_id: processId,
       employee_id: user.guid,
+      member_id: "",
     };
 
     addDocs(newDoc);

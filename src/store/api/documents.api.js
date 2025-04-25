@@ -103,6 +103,38 @@ export const documentsApi = createApi({
       }),
       invalidatesTags: ["DocsCloseList"],
     }),
+    updateDocsSoglosovanie: builder.mutation({
+      query: (doc) => ({
+        url: "/update_docs_soglosovanie",
+        method: "POST",
+        body: doc,
+      }),
+      invalidatesTags: ["DocsSoglosovanieList"],
+    }),
+    updateDocsContragent: builder.mutation({
+      query: (doc) => ({
+        url: "/update_docs_contragent",
+        method: "POST",
+        body: doc,
+      }),
+      invalidatesTags: ["DocsContragentList"],
+    }),
+    updateDocsVyplata: builder.mutation({
+      query: (doc) => ({
+        url: "/update_docs_vyplata",
+        method: "POST",
+        body: doc,
+      }),
+      invalidatesTags: ["DocsVyplataList"],
+    }),
+    updateDocsZakup: builder.mutation({
+      query: (doc) => ({
+        url: "/update_docs_zakup",
+        method: "POST",
+        body: doc,
+      }),
+      invalidatesTags: ["DocsZakupList"],
+    }),
   }),
 });
 
@@ -119,6 +151,10 @@ export const {
   useAddDocsZakupMutation,
   useUploadFileMutation,
   useUpdateDocsCloseMutation,
+  useUpdateDocsSoglosovanieMutation,
+  useUpdateDocsContragentMutation,
+  useUpdateDocsVyplataMutation,
+  useUpdateDocsZakupMutation,
   useUpdateMutation,
 } = documentsApi;
 

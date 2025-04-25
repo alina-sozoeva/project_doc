@@ -65,7 +65,9 @@ export const EmployeesPage = () => {
                 lineBorderRadius={"10px"}
                 label={
                   <EmployeeCard
-                    item={data?.data[0]}
+                    item={data?.data?.find(
+                      (item) => item.email === "generalnyi.director@company.com"
+                    )}
                     onOpen={() => addNewEmployee(1)}
                   />
                 }
