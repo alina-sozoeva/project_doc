@@ -29,7 +29,7 @@ export const CloseDocumentsTable = () => {
   };
 
   const filteredData = data?.data.filter(
-    (item) => item.employee_id === user.guid && item.process_id === processId
+    (item) => item?.employee_id === user?.guid && item?.process_id === processId
   );
   const { columns } = useCloseDocumentsColumns(handleOpenWarn, user, processId);
 

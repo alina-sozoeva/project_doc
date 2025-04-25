@@ -74,8 +74,6 @@ export const usePurchaseRequestColumns = (handleOpenWarn, user, processId) => {
       render: () => (
         <div className="chain_container">
           {filteredData?.map((step, index) => {
-            console.log(step);
-
             return (
               <>
                 <RouteButton item={step}>

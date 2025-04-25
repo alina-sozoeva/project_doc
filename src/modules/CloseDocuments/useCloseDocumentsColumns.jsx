@@ -24,16 +24,12 @@ export const useCloseDocumentsColumns = (handleOpenWarn, user, processId) => {
       dataIndex: "user",
       key: "user",
       width: 100,
-      render: (text) => {
-        if (text === user.guid) {
-          return (
-            <>
-              <p>{user.fio}</p>
-              <p>{user.email}</p>
-            </>
-          );
-        }
-      },
+      render: () => (
+        <>
+          <p>{user.fio}</p>
+          <p>{user.email}</p>
+        </>
+      ),
     },
     {
       title: "Наименование процесса",
@@ -79,8 +75,6 @@ export const useCloseDocumentsColumns = (handleOpenWarn, user, processId) => {
       render: () => (
         <div className="chain_container">
           {filteredData?.map((step, index) => {
-            console.log(step);
-
             return (
               <>
                 <RouteButton item={step}>

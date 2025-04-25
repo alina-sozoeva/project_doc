@@ -62,7 +62,7 @@ li {
 .arrow {
   position: relative;
   width: 35px;
-  height: 2px;
+  height: 1.5px;
   background-color: #1677ff;
   margin: 0 8px;
 }
@@ -75,6 +75,6 @@ li {
   transform: translateY(-50%) rotate(45deg);
   width: 7px;
   height: 7px;
-  border-top: 2px solid #1677ff;
-  border-right: 2px solid #1677ff;
+  border-top: 1.5px solid #1677ff;
+  border-right: 1.5px solid #1677ff;
 }

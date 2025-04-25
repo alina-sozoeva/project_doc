@@ -55,47 +55,6 @@ export const DocumemtsPage = () => {
       <Flex vertical gap="small">
         {table}
       </Flex>
-
-      {/* <Modal
-        centered
-        width={400}
-        open={openApproveModal}
-        title={`Утверждение документа`}
-        onCancel={() => setOpenApproveModal(false)}
-        footer={null}
-      >
-        <Flex vertical>
-          <p>
-            <strong>Название документа:</strong>{" "}
-            {selectedDocument?.data?.doc_name}
-          </p>
-          <p>
-            <strong>Номер документа:</strong> 111
-          </p>
-          <p>
-            <strong>Дата создания:</strong>{" "}
-            {dayjs(selectedDocument?.date).format("DD.MM.YYYY HH:mm")}
-          </p>
-          <p>
-            <strong>Автор:</strong> {selectedDocument?.data?.user_name}
-          </p>
-          <p>
-            <strong>Описание:</strong>{" "}
-            {selectedDocument?.data?.contract_number || "Нет описания"}
-          </p>
-        </Flex>
-        <Flex align="center" justify="center" gap={"small"}>
-          <Button type="primary" onClick={() => handleApprove("Согласовать")}>
-            Согласовать
-          </Button>
-          <Button danger onClick={() => handleApprove("Отказать")}>
-            Отказать
-          </Button>
-          <Button type="default" onClick={() => handleApprove("Доработать")}>
-            Доработать
-          </Button>
-        </Flex>
-      </Modal> */}
     </Wrapper>
   );
 };
