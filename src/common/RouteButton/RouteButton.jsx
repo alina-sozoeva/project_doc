@@ -42,15 +42,15 @@ export const RouteButton = ({ children, statusFolder, onClick, item }) => {
       }
     >
       <div className={styles.content}>
-        {/* <Button
+        <Button
           className={styles.btn}
           color={color}
           variant="filled"
           onClick={onClick}
-        > */}
-        <img src={foto} alt="" />
-        {children}
-        {/* </Button> */}
+        >
+          <img src={foto} alt="" />
+          {children}
+        </Button>
       </div>
     </Tooltip>
   );

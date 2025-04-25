@@ -1,4 +1,4 @@
-import { RouteButton } from "../../common";
+import { RouteButton, StatusButton } from "../../common";
 import { Button } from "antd";
 import dayjs from "dayjs";
 import React from "react";
@@ -7,6 +7,7 @@ import styles from "./CloseDocumentsTable.module.scss";
 import { useGetEmployeesQuery } from "../../store";
 import { useProcessesMembers } from "../../utils";
 import { status } from "../../enums";
+import { RedoOutlined } from "@ant-design/icons";
 
 export const useCloseDocumentsColumns = (
   handleOpenWarn,
@@ -84,12 +85,14 @@ export const useCloseDocumentsColumns = (
       key: "data",
       align: "center",
       width: 200,
-      render: () => (
+      render: (_, record) => (
         <div className="chain_container">
           {filteredData?.map((step, index) => {
             return (
               <>
-                <RouteButton item={step}>
+                <RouteButton item={step} statusFolder={record.status}>
+                  {step.employee_id === record.member_id && <RedoOutlined />}
+
                   {/* <img src={foto} style={{ width: "100%" }} alt="" /> */}
                 </RouteButton>
                 {index < filteredData?.length - 1 && <div className="arrow" />}

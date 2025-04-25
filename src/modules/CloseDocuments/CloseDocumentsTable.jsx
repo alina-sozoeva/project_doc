@@ -18,7 +18,7 @@ import {
 import { useUser } from "../../utils";
 import { useSearchParams } from "react-router-dom";
 import { status } from "../../enums";
-import { ApprovalModal } from "../../common";
+import { ApprovalModal, StatusButton } from "../../common";
 import { toast } from "react-toastify";
 
 const defult = {
@@ -115,6 +115,21 @@ export const CloseDocumentsTable = () => {
       item.member_id === user?.guid
   );
 
+  // const rowClassName = (record) => {
+  //   console.log(record.status === status.IN_PROCESS);
+
+  //   switch (record.status) {
+  //     case status.IN_PROCESS:
+  //       return styles.blue;
+  //     case status.APPROVED:
+  //       return "approved";
+  //     case status.REJECTED:
+  //       return "rejected";
+  //     default:
+  //       return "";
+  //   }
+  // };
+
   const { columns } = useCloseDocumentsColumns(
     handleOpenWarn,
     user,
@@ -125,6 +140,11 @@ export const CloseDocumentsTable = () => {
   return (
     <Flex vertical gap="small">
       <Flex gap="small" justify="space-between">
+        {/* <StatusButton statusFolder={status.APPROVED}></StatusButton>
+        <StatusButton statusFolder={status.REJECTED}></StatusButton>
+        <StatusButton statusFolder={status.IN_PROCESS}></StatusButton>
+        <StatusButton statusFolder={status.REVISION}></StatusButton> */}
+
         <Flex gap="small">
           <Input
             placeholder="Поиск по инициатору"
@@ -174,6 +194,7 @@ export const CloseDocumentsTable = () => {
           className={styles.table}
           bordered
           scroll={{ y: 480, x: 1400 }}
+          // rowClassName={rowClassName}
         />
       </Col>
       <InWorkModal

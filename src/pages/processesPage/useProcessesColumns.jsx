@@ -45,9 +45,7 @@ export const useProcessesColumns = () => {
 
         return filteredData?.length === 0 ? (
           <div className="chain_container">
-            <RouteButton></RouteButton>
-            <div className="arrow" />
-            <RouteButton></RouteButton>
+            Нажмите чтобы добавить учатников процесса
           </div>
         ) : (
           <div className="chain_container">
