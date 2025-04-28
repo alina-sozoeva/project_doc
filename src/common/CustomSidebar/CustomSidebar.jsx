@@ -115,10 +115,12 @@ export const CustomSidebar = () => {
   };
 
   useEffect(() => {
-    if (user === null) {
+    const storedUser = localStorage.getItem("user");
+
+    if (!user || !storedUser) {
       navigate("/login");
     }
-  }, [navigate]);
+  }, [user, navigate]);
 
   return (
     <div className={styles.sidebarWrapper}>
