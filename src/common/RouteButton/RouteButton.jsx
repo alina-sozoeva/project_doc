@@ -3,6 +3,14 @@ import { Button, Flex, Tooltip } from "antd";
 import { status } from "../../enums";
 import foto from "../../assets/foto.jpg";
 import { useGetEmployeesQuery } from "../../store";
+import {
+  CheckCircleOutlined,
+  CloseCircleOutlined,
+  DoubleLeftOutlined,
+  ExclamationCircleOutlined,
+  FileTextOutlined,
+  SyncOutlined,
+} from "@ant-design/icons";
 
 export const RouteButton = ({ children, statusFolder, onClick, item }) => {
   const color = (() => {
@@ -22,6 +30,23 @@ export const RouteButton = ({ children, statusFolder, onClick, item }) => {
     }
   })();
 
+  const icon = (() => {
+    switch (statusFolder) {
+      case status.APPROVED:
+        return <CheckCircleOutlined style={{ color: "#52c41a" }} />;
+      case status.REJECTED:
+        return <CloseCircleOutlined style={{ color: "#ff4d4f" }} />;
+      case status.IN_PROCESS:
+        return <SyncOutlined style={{ color: "#1890ff" }} />;
+      case status.DRAFT:
+        return <FileTextOutlined style={{ color: "#8c8c8c" }} />;
+      case status.REVISION:
+        return <ExclamationCircleOutlined style={{ color: "#faad14" }} />;
+      default:
+        return <DoubleLeftOutlined style={{ transform: "rotate(-90deg)" }} />;
+    }
+  })();
+
   const { data } = useGetEmployeesQuery();
 
   const filtered = data?.data?.find((i) => i?.guid === item?.employee_id);
@@ -29,9 +54,10 @@ export const RouteButton = ({ children, statusFolder, onClick, item }) => {
   return (
     <Tooltip
       title={
-        <Flex vertical>
+        <Flex vertical align="center">
           {item ? (
             <>
+              <img src={foto} alt="" style={{ width: "40px" }} />
               <p>{filtered?.fio}</p>
               <p>{filtered?.email}</p>
             </>
@@ -47,8 +73,9 @@ export const RouteButton = ({ children, statusFolder, onClick, item }) => {
           color={color}
           variant="filled"
           onClick={onClick}
+          icon={icon}
         >
-          <img src={foto} alt="" />
+          {/* <img src={foto} alt="" /> */}
           {children}
         </Button>
       </div>

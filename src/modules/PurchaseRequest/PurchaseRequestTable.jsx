@@ -11,6 +11,7 @@ import { useState } from "react";
 import { InWorkModal } from "../../components";
 import { PurchaseRequestModal } from "./PurchaseRequestModal";
 import {
+  useAddDocsStatusesMutation,
   useGetDocsZakupQuery,
   useGetProcessesMembersQuery,
   useUpdateDocsZakupMutation,
@@ -45,6 +46,7 @@ export const PurchaseRequestTable = () => {
   const { data: members } = useGetProcessesMembersQuery();
   const [updateDoc] = useUpdateDocsZakupMutation();
   const processId = searchParams.get("process_id");
+  const [addStatus] = useAddDocsStatusesMutation();
 
   const handleOpenWarn = (guid) => {
     setDocId(guid);
@@ -80,14 +82,15 @@ export const PurchaseRequestTable = () => {
     toast.success("Вы отправили документ на обработку");
   };
 
-  const onConfirmApp = () => {
-    const currentMemberId = filtered.member_id;
-    const memberList = filteredMem || [];
-    const currentIndex = memberList.findIndex(
-      (m) => m.employee_id === currentMemberId
-    );
+  const currentMemberId = filtered.member_id;
+  const memberList = filteredMem || [];
+  const currentIndex = memberList.findIndex(
+    (m) => m.employee_id === currentMemberId
+  );
 
-    const isLast = currentIndex === memberList.length - 1;
+  const isLast = currentIndex === memberList.length - 1;
+
+  const onConfirmApp = () => {
     updateDoc({
       name: filtered.name,
       application: filtered.application,
@@ -102,6 +105,13 @@ export const PurchaseRequestTable = () => {
       guid: docId,
       status: isLast ? status.APPROVED : status.IN_PROCESS,
       member_id: isLast ? "" : memberList[currentIndex + 1]?.employee_id,
+    });
+
+    addStatus({
+      docs_id: docId,
+      member_id: memberList[currentIndex]?.employee_id,
+      status: status.APPROVED,
+      comments: "test",
     });
     toast.success("Вы отправили документ на обработку");
     setOpenApprov(false);
@@ -123,6 +133,13 @@ export const PurchaseRequestTable = () => {
       status: status.REJECTED,
       member_id: "",
     });
+
+    addStatus({
+      docs_id: docId,
+      member_id: memberList[currentIndex]?.employee_id,
+      status: status.REJECTED,
+      comments: "test",
+    });
     setOpenApprov(false);
   };
 
@@ -141,6 +158,13 @@ export const PurchaseRequestTable = () => {
       guid: docId,
       status: status.REVISION,
       member_id: "",
+    });
+
+    addStatus({
+      docs_id: docId,
+      member_id: memberList[currentIndex]?.employee_id,
+      status: status.REVISION,
+      comments: "test",
     });
     setOpenApprov(false);
   };

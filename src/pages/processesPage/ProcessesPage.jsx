@@ -86,6 +86,7 @@ export const ProcessesPage = () => {
             position: values.position_id,
             time_limit: values.time_limit,
             employee_id: values.employee_id,
+            status: "",
           },
         ]);
 
@@ -127,6 +128,7 @@ export const ProcessesPage = () => {
         position: values.position_id,
         time_limit: values.time_limit,
         employee_id: values.employee_id,
+        status: "",
       },
     ]);
     toast.success("Вы успешно обновили процесс");

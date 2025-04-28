@@ -5,7 +5,7 @@ import React from "react";
 import foto from "../../assets/28.jpg";
 import styles from "./PaymentRequestTable.module.scss";
 import { useProcessesMembers } from "../../utils";
-import { useGetEmployeesQuery } from "../../store";
+import { useGetDocsVyplataQuery, useGetEmployeesQuery } from "../../store";
 import { status } from "../../enums";
 import { RedoOutlined } from "@ant-design/icons";
 
@@ -17,6 +17,23 @@ export const usePaymentRequestColumns = (
 ) => {
   const filteredData = useProcessesMembers(processId);
   const { data } = useGetEmployeesQuery();
+
+  const { data: statuses } = useGetDocsVyplataQuery();
+  const filteredStatuses = (guid) =>
+    statuses?.data?.filter((item) => {
+      return item.docs_id === guid;
+    });
+
+  const getLastStatusForStep = (guid, employeeId) => {
+    const statusesForDoc = filteredStatuses(guid);
+
+    const statusesForStep = statusesForDoc
+      ?.filter((status) => status.member_id === employeeId)
+      ?.sort((a, b) => new Date(a.create_at) - new Date(b.create_at));
+
+    return statusesForStep?.[statusesForStep.length - 1];
+  };
+
   const columns = [
     {
       title: "№",
@@ -94,15 +111,20 @@ export const usePaymentRequestColumns = (
       render: (_, record) => (
         <div className="chain_container">
           {filteredData?.map((step, index) => {
-            return (
-              <>
-                <RouteButton item={step} statusFolder={record.status}>
-                  {step.employee_id === record.member_id && <RedoOutlined />}
+            const lastStatus = getLastStatusForStep(
+              record.guid,
+              step.employee_id
+            );
 
-                  {/* <img src={foto} style={{ width: "100%" }} alt="" /> */}
-                </RouteButton>
+            return (
+              <React.Fragment key={step.employee_id}>
+                {/* {step.employee_id === record.member_id && <RedoOutlined />} */}
+                <RouteButton
+                  item={step}
+                  statusFolder={lastStatus && lastStatus.status}
+                ></RouteButton>
                 {index < filteredData?.length - 1 && <div className="arrow" />}
-              </>
+              </React.Fragment>
             );
           })}
         </div>

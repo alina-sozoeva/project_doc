@@ -7,12 +7,18 @@ import { BellOutlined, PoweroffOutlined } from "@ant-design/icons";
 import foto from "../../assets/28.jpg";
 import { useSelector } from "react-redux";
 import { employeeInfo } from "../../utils";
+import {
+  useGetDocsContragentQuery,
+  useGetProcessesMembersQuery,
+} from "../../store";
 
 export const Header = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const [title, setTitle] = useState("Главная");
   const user = useSelector((state) => state.users.user);
+  // const { data } = useGetProcessesMembersQuery();
+  const { data } = useGetDocsContragentQuery();
 
   // const notifications = useSelector(
   //   (state) => state.notifications.notifications
@@ -26,6 +32,10 @@ export const Header = () => {
   // const message = matching?.filter(
   //   (item) => item.member_id === employeeInfo()?.id
   // );
+
+  const fileredArr = data?.data?.filter((item) => item.member_id === user.guid);
+
+  console.log(fileredArr);
 
   useEffect(() => {
     const key = Object.keys(pathname).find(
@@ -54,7 +64,7 @@ export const Header = () => {
         <Flex align="center" className={styles.nav_list}>
           <div className={styles.bellWrapper}>
             <BellOutlined />
-            {/* <p className={styles.messageCount}>{message?.length}</p> */}
+            <p className={styles.messageCount}>{fileredArr?.length}</p>
           </div>
           <Flex align="center" gap={"small"}>
             <img src={foto} alt="user foto" className={styles.user_foto} />

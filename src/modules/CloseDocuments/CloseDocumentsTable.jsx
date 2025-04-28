@@ -11,6 +11,7 @@ import {
 } from "@ant-design/icons";
 import { CloseDocumentsModal } from "./CloseDocumentsModal";
 import {
+  useAddDocsStatusesMutation,
   useGetDocsCloseQuery,
   useGetProcessesMembersQuery,
   useUpdateDocsCloseMutation,
@@ -45,6 +46,7 @@ export const CloseDocumentsTable = () => {
   const { data: members } = useGetProcessesMembersQuery();
   const [updateDoc] = useUpdateDocsCloseMutation();
   const processId = searchParams.get("process_id");
+  const [addStatus] = useAddDocsStatusesMutation();
 
   const handleOpenWarn = (guid) => {
     setDocId(guid);
@@ -71,19 +73,27 @@ export const CloseDocumentsTable = () => {
     toast.success("Вы отправили документ на обработку");
   };
 
-  const onConfirmApp = () => {
-    const currentMemberId = filtered.member_id;
-    const memberList = filteredMem || [];
-    const currentIndex = memberList.findIndex(
-      (m) => m.employee_id === currentMemberId
-    );
+  const currentMemberId = filtered.member_id;
+  const memberList = filteredMem || [];
+  const currentIndex = memberList.findIndex(
+    (m) => m.employee_id === currentMemberId
+  );
 
-    const isLast = currentIndex === memberList.length - 1;
+  const isLast = currentIndex === memberList.length - 1;
+
+  const onConfirmApp = () => {
     updateDoc({
       ...defult,
       guid: docId,
       status: isLast ? status.APPROVED : status.IN_PROCESS,
       member_id: isLast ? "" : memberList[currentIndex + 1]?.employee_id,
+    });
+
+    addStatus({
+      docs_id: docId,
+      member_id: memberList[currentIndex]?.employee_id,
+      status: status.APPROVED,
+      comments: "test",
     });
     toast.success("Вы отправили документ на обработку");
     setOpenApprov(false);
@@ -96,6 +106,13 @@ export const CloseDocumentsTable = () => {
       status: status.REJECTED,
       member_id: "",
     });
+
+    addStatus({
+      docs_id: docId,
+      member_id: memberList[currentIndex]?.employee_id,
+      status: status.REJECTED,
+      comments: "test",
+    });
     setOpenApprov(false);
   };
 
@@ -105,6 +122,13 @@ export const CloseDocumentsTable = () => {
       guid: docId,
       status: status.REVISION,
       member_id: "",
+    });
+
+    addStatus({
+      docs_id: docId,
+      member_id: memberList[currentIndex]?.employee_id,
+      status: status.REVISION,
+      comments: "test",
     });
     setOpenApprov(false);
   };

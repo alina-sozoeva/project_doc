@@ -10,13 +10,14 @@ import {
   SettingOutlined,
 } from "@ant-design/icons";
 import { dataDocument } from "../../data";
-import { useGetProcessesQuery } from "../../store";
+import { useGetDocsContragentQuery, useGetProcessesQuery } from "../../store";
 
 export const CustomSidebar = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const { data } = useGetProcessesQuery();
   const user = useSelector((state) => state.users.user);
+  const { data: contragent } = useGetDocsContragentQuery();
 
   const processes = useSelector((state) => state.processes.processes);
 
@@ -30,20 +31,20 @@ export const CustomSidebar = () => {
       ),
       path: "/",
     },
-    {
-      key: "3",
-      label: (
-        <>
-          <ClusterOutlined /> Структура организации
-        </>
-      ),
-      path: "/employees",
-    },
   ];
 
   const adminOnlyMenu =
     user?.email === "admin@gmail.com"
       ? [
+          {
+            key: "3",
+            label: (
+              <>
+                <ClusterOutlined /> Структура организации
+              </>
+            ),
+            path: "/employees",
+          },
           {
             key: "4",
             label: (

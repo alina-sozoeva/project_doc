@@ -10,6 +10,7 @@ export const documentsApi = createApi({
     "DocsVyplataList",
     "DocsZakupList",
     "DocsContragentList",
+    "DocsStatuses",
   ],
   endpoints: (builder) => ({
     getDocsClose: builder.query({
@@ -135,6 +136,21 @@ export const documentsApi = createApi({
       }),
       invalidatesTags: ["DocsZakupList"],
     }),
+    getDocsStatuses: builder.query({
+      query: () => ({
+        url: "/get_docs_statuses",
+        method: "GET",
+      }),
+      providesTags: ["DocsStatuses"],
+    }),
+    addDocsStatuses: builder.mutation({
+      query: (newDocs) => ({
+        url: "/add_docs_statuses",
+        method: "POST",
+        body: newDocs,
+      }),
+      invalidatesTags: ["DocsStatuses"],
+    }),
   }),
 });
 
@@ -155,7 +171,9 @@ export const {
   useUpdateDocsContragentMutation,
   useUpdateDocsVyplataMutation,
   useUpdateDocsZakupMutation,
+  useAddDocsStatusesMutation,
   useUpdateMutation,
+  useGetDocsStatusesQuery,
 } = documentsApi;
 
 // import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
