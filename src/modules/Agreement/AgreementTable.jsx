@@ -16,7 +16,7 @@ import {
   useGetProcessesMembersQuery,
   useUpdateDocsSoglosovanieMutation,
 } from "../../store";
-import { useUser } from "../../utils";
+import { useProcessesMembers, useUser } from "../../utils";
 import { useSearchParams } from "react-router-dom";
 import { status } from "../../enums";
 import { toast } from "react-toastify";
@@ -49,10 +49,13 @@ export const AgreementTable = () => {
   const [updateDoc] = useUpdateDocsSoglosovanieMutation();
   const processId = searchParams.get("process_id");
   const [addStatus] = useAddDocsStatusesMutation();
+  const filteredDataMembers = useProcessesMembers(processId);
+
+  const isInitiator = filteredDataMembers?.find(
+    (item) => item.employee_id === user.guid
+  );
 
   const handleOpenWarn = (guid) => {
-    console.log(guid);
-
     setDocId(guid);
     setOpenWarn(true);
   };
@@ -72,8 +75,6 @@ export const AgreementTable = () => {
   const filteredMem = members?.data?.filter(
     (item) => item.process_id === processId
   );
-
-  console.log(filteredMem);
 
   const onConfirm = () => {
     updateDoc({
@@ -117,7 +118,6 @@ export const AgreementTable = () => {
       status: status.REJECTED,
       member_id: "",
     });
-    setOpenApprov(false);
 
     addStatus({
       docs_id: docId,
@@ -125,6 +125,8 @@ export const AgreementTable = () => {
       status: status.REJECTED,
       comments: "test",
     });
+    toast.error("Вы отказали в обработке документа");
+    setOpenApprov(false);
   };
 
   const onRevis = () => {
@@ -141,6 +143,8 @@ export const AgreementTable = () => {
       status: status.REVISION,
       comments: "test",
     });
+    toast.warn("Вы успешно отправили документ на доработку");
+
     setOpenApprov(false);
   };
 
@@ -189,7 +193,11 @@ export const AgreementTable = () => {
             <RedoOutlined />
           </Button>
         </Flex>
-        <Button type="primary" onClick={() => setOpen(true)}>
+        <Button
+          type="primary"
+          onClick={() => setOpen(true)}
+          disabled={isInitiator}
+        >
           <PlusOutlined /> Добавить документ
         </Button>
       </Flex>

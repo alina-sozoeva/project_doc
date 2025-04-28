@@ -10,3 +10,4 @@ export * from "./WarningModal";
 export * from "./RouteButton";
 export * from "./DocUploaded";
 export * from "./ApprovalModal";
+export * from "./CustomTable";

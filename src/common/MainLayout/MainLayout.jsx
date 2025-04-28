@@ -15,7 +15,7 @@ export const MainLayout = () => {
     <Layout style={{ minHeight: "100vh", background: "white" }}>
       {!isAuthPage && (
         <Layout.Sider
-          width={240}
+          width={250}
           collapsible
           collapsedWidth={60}
           trigger={null}
@@ -35,7 +35,7 @@ export const MainLayout = () => {
         </Layout.Sider>
       )}
 
-      <Layout style={{ marginLeft: !isAuthPage ? 220 : 0 }}>
+      <Layout style={{ marginLeft: !isAuthPage ? 230 : 0 }}>
         {!isAuthPage && (
           <Layout.Header
             style={{

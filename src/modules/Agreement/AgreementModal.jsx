@@ -88,18 +88,36 @@ export const AgreementModal = ({ open, onCancel, processId, user }) => {
 
           <Row gutter={24}>
             <Col span={12}>
-              <Form.Item
-                label="Номер договора"
-                name="contract_number"
-                rules={[
-                  {
-                    required: true,
-                    message: "Это обязательное поле для заполнения",
-                  },
-                ]}
-              >
-                <Input type="number" placeholder="Введите номер договора" />
-              </Form.Item>
+              <Row gutter={24}>
+                <Col span={12}>
+                  <Form.Item
+                    label="Номер договора"
+                    name="contract_number"
+                    rules={[
+                      {
+                        required: true,
+                        message: "Это обязательное поле для заполнения",
+                      },
+                    ]}
+                  >
+                    <Input type="number" placeholder="Введите номер договора" />
+                  </Form.Item>
+                </Col>
+                <Col span={12}>
+                  <Form.Item
+                    label="Срок действия"
+                    name="validity_period"
+                    rules={[
+                      {
+                        required: true,
+                        message: "Это обязательное поле для заполнения",
+                      },
+                    ]}
+                  >
+                    <DatePicker style={{ width: "100%" }} />
+                  </Form.Item>
+                </Col>
+              </Row>
 
               <Form.Item
                 label="Контрагент"
@@ -143,19 +161,6 @@ export const AgreementModal = ({ open, onCancel, processId, user }) => {
               </Form.Item>
             </Col>
             <Col span={12}>
-              <Form.Item
-                label="Срок действия"
-                name="validity_period"
-                rules={[
-                  {
-                    required: true,
-                    message: "Это обязательное поле для заполнения",
-                  },
-                ]}
-              >
-                <DatePicker style={{ width: "100%" }} />
-              </Form.Item>
-
               <Row gutter={24}>
                 <Col span={12}>
                   <Form.Item

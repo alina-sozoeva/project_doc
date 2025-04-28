@@ -16,7 +16,7 @@ import {
   useGetProcessesMembersQuery,
   useUpdateDocsCloseMutation,
 } from "../../store";
-import { useUser } from "../../utils";
+import { useProcessesMembers, useUser } from "../../utils";
 import { useSearchParams } from "react-router-dom";
 import { status } from "../../enums";
 import { ApprovalModal, StatusButton } from "../../common";
@@ -47,6 +47,11 @@ export const CloseDocumentsTable = () => {
   const [updateDoc] = useUpdateDocsCloseMutation();
   const processId = searchParams.get("process_id");
   const [addStatus] = useAddDocsStatusesMutation();
+  const filteredDataMembers = useProcessesMembers(processId);
+
+  const isInitiator = filteredDataMembers?.find(
+    (item) => item.employee_id === user.guid
+  );
 
   const handleOpenWarn = (guid) => {
     setDocId(guid);
@@ -113,6 +118,7 @@ export const CloseDocumentsTable = () => {
       status: status.REJECTED,
       comments: "test",
     });
+    toast.error("Вы отказали в обработке документа");
     setOpenApprov(false);
   };
 
@@ -130,6 +136,7 @@ export const CloseDocumentsTable = () => {
       status: status.REVISION,
       comments: "test",
     });
+    toast.warn("Вы успешно отправили документ на доработку");
     setOpenApprov(false);
   };
 
@@ -205,7 +212,11 @@ export const CloseDocumentsTable = () => {
             <RedoOutlined />
           </Button>
         </Flex>
-        <Button type="primary" onClick={() => setOpen(true)}>
+        <Button
+          type="primary"
+          onClick={() => setOpen(true)}
+          disabled={isInitiator}
+        >
           <PlusOutlined /> Добавить документ
         </Button>
       </Flex>

@@ -157,7 +157,7 @@ export const usePurchaseRequestColumns = (
               type="primary"
               className={styles.btn}
               onClick={() => handleOpenApprov(record.guid)}
-              // disabled={isInitiator}
+              disabled={isInitiator}
             >
               Утвердить
             </Button>

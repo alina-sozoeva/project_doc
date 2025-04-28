@@ -10,7 +10,15 @@ import {
   SettingOutlined,
 } from "@ant-design/icons";
 import { dataDocument } from "../../data";
-import { useGetDocsContragentQuery, useGetProcessesQuery } from "../../store";
+import {
+  useGetDocsCloseQuery,
+  useGetDocsContragentQuery,
+  useGetDocsSoglosovanieQuery,
+  useGetDocsVyplataQuery,
+  useGetDocsZakupQuery,
+  useGetProcessesQuery,
+} from "../../store";
+import { processesKeys } from "../../enums";
 
 export const CustomSidebar = () => {
   const location = useLocation();
@@ -18,6 +26,30 @@ export const CustomSidebar = () => {
   const { data } = useGetProcessesQuery();
   const user = useSelector((state) => state.users.user);
   const { data: contragent } = useGetDocsContragentQuery();
+  const { data: sogl } = useGetDocsSoglosovanieQuery();
+  const { data: vyplata } = useGetDocsVyplataQuery();
+  const { data: zakup } = useGetDocsZakupQuery();
+  const { data: close } = useGetDocsCloseQuery();
+
+  const getFilteredCount = (processName) => {
+    let filteredData = [];
+
+    if (processName === processesKeys.CONTRAGENT) {
+      filteredData = contragent?.data || [];
+    } else if (processName === processesKeys.SOGLOSOVANIE) {
+      filteredData = sogl?.data || [];
+    } else if (processName === processesKeys.VYPLATA) {
+      filteredData = vyplata?.data || [];
+    } else if (processName === processesKeys.ZAKUP) {
+      filteredData = zakup?.data || [];
+    } else if (processName === processesKeys.CLOSE) {
+      filteredData = close?.data || [];
+    }
+
+    return (
+      filteredData.filter((item) => item.member_id === user.guid).length || null
+    );
+  };
 
   const processes = useSelector((state) => state.processes.processes);
 
@@ -63,7 +95,7 @@ export const CustomSidebar = () => {
       label: (
         <Flex align="center" gap={"small"}>
           <span style={{ fontSize: "20px" }}>•</span>
-          {item.name}
+          {item.name} {getFilteredCount(item.basic_processes)}
         </Flex>
       ),
       path: `/documents?process_name=${item.basic_processes}&process_id=${item.guid}`,
