@@ -114,10 +114,10 @@ export const useCounterpartyColums = (
 
             return (
               <React.Fragment key={step.employee_id}>
-                {/* {step.employee_id === record.member_id && <RedoOutlined />} */}
                 <RouteButton
                   item={step}
                   statusFolder={lastStatus && lastStatus.status}
+                  inProcess={step.employee_id === record.member_id}
                 ></RouteButton>
                 {index < filteredData?.length - 1 && <div className="arrow" />}
               </React.Fragment>

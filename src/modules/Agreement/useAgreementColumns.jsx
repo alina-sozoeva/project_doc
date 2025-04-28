@@ -5,7 +5,11 @@ import React from "react";
 import foto from "../../assets/28.jpg";
 import styles from "./AgreementTable.module.scss";
 import { useProcessesMembers } from "../../utils";
-import { useGetDocsSoglosovanieQuery, useGetEmployeesQuery } from "../../store";
+import {
+  useGetDocsSoglosovanieQuery,
+  useGetDocsStatusesQuery,
+  useGetEmployeesQuery,
+} from "../../store";
 import { status } from "../../enums";
 import { RedoOutlined } from "@ant-design/icons";
 
@@ -17,7 +21,7 @@ export const useAgreementColumns = (
 ) => {
   const filteredData = useProcessesMembers(processId);
   const { data } = useGetEmployeesQuery();
-  const { data: statuses } = useGetDocsSoglosovanieQuery();
+  const { data: statuses } = useGetDocsStatusesQuery();
   const filteredStatuses = (guid) =>
     statuses?.data?.filter((item) => {
       return item.docs_id === guid;
@@ -113,12 +117,14 @@ export const useAgreementColumns = (
               step.employee_id
             );
 
+            console.log(lastStatus);
+
             return (
               <React.Fragment key={step.employee_id}>
-                {/* {step.employee_id === record.member_id && <RedoOutlined />} */}
                 <RouteButton
                   item={step}
                   statusFolder={lastStatus && lastStatus.status}
+                  inProcess={step.employee_id === record.member_id}
                 ></RouteButton>
                 {index < filteredData?.length - 1 && <div className="arrow" />}
               </React.Fragment>

@@ -1,6 +1,10 @@
 .content {
   border-radius: 10px;
   height: 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 
   img {
     width: 35px;

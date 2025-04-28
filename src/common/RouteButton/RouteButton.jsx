@@ -9,10 +9,17 @@ import {
   DoubleLeftOutlined,
   ExclamationCircleOutlined,
   FileTextOutlined,
+  RedoOutlined,
   SyncOutlined,
 } from "@ant-design/icons";
 
-export const RouteButton = ({ children, statusFolder, onClick, item }) => {
+export const RouteButton = ({
+  children,
+  statusFolder,
+  onClick,
+  item,
+  inProcess,
+}) => {
   const color = (() => {
     switch (statusFolder) {
       case status.APPROVED:
@@ -68,12 +75,13 @@ export const RouteButton = ({ children, statusFolder, onClick, item }) => {
       }
     >
       <div className={styles.content}>
+        {/* {inProcess && <RedoOutlined />} */}
         <Button
           className={styles.btn}
-          color={color}
+          color={(inProcess && "blue") || color}
           variant="filled"
           onClick={onClick}
-          icon={icon}
+          icon={(inProcess && <RedoOutlined />) || icon}
         >
           {/* <img src={foto} alt="" /> */}
           {children}

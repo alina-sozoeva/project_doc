@@ -5,7 +5,11 @@ import React from "react";
 import foto from "../../assets/28.jpg";
 import styles from "./PaymentRequestTable.module.scss";
 import { useProcessesMembers } from "../../utils";
-import { useGetDocsVyplataQuery, useGetEmployeesQuery } from "../../store";
+import {
+  useGetDocsStatusesQuery,
+  useGetDocsVyplataQuery,
+  useGetEmployeesQuery,
+} from "../../store";
 import { status } from "../../enums";
 import { RedoOutlined } from "@ant-design/icons";
 
@@ -18,7 +22,7 @@ export const usePaymentRequestColumns = (
   const filteredData = useProcessesMembers(processId);
   const { data } = useGetEmployeesQuery();
 
-  const { data: statuses } = useGetDocsVyplataQuery();
+  const { data: statuses } = useGetDocsStatusesQuery();
   const filteredStatuses = (guid) =>
     statuses?.data?.filter((item) => {
       return item.docs_id === guid;
@@ -118,10 +122,10 @@ export const usePaymentRequestColumns = (
 
             return (
               <React.Fragment key={step.employee_id}>
-                {/* {step.employee_id === record.member_id && <RedoOutlined />} */}
                 <RouteButton
                   item={step}
                   statusFolder={lastStatus && lastStatus.status}
+                  inProcess={step.employee_id === record.member_id}
                 ></RouteButton>
                 {index < filteredData?.length - 1 && <div className="arrow" />}
               </React.Fragment>

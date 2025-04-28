@@ -1,15 +1,17 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import styles from "./Header.module.scss";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Flex, Typography } from "antd";
 import { pages, pathname } from "../../enums";
 import { BellOutlined, PoweroffOutlined } from "@ant-design/icons";
 import foto from "../../assets/28.jpg";
 import { useSelector } from "react-redux";
-import { employeeInfo } from "../../utils";
 import {
+  useGetDocsCloseQuery,
   useGetDocsContragentQuery,
-  useGetProcessesMembersQuery,
+  useGetDocsSoglosovanieQuery,
+  useGetDocsVyplataQuery,
+  useGetDocsZakupQuery,
 } from "../../store";
 
 export const Header = () => {
@@ -17,25 +19,23 @@ export const Header = () => {
   const navigate = useNavigate();
   const [title, setTitle] = useState("Главная");
   const user = useSelector((state) => state.users.user);
-  // const { data } = useGetProcessesMembersQuery();
   const { data } = useGetDocsContragentQuery();
+  const { data: sogl } = useGetDocsSoglosovanieQuery();
+  const { data: vyplata } = useGetDocsVyplataQuery();
+  const { data: zakup } = useGetDocsZakupQuery();
+  const { data: close } = useGetDocsCloseQuery();
 
-  // const notifications = useSelector(
-  //   (state) => state.notifications.notifications
-  // );
-  // const employees = useSelector((state) => state.employees.employees);
+  const filteredCount = useMemo(() => {
+    const allData = [
+      ...(data?.data || []),
+      ...(sogl?.data || []),
+      ...(vyplata?.data || []),
+      ...(zakup?.data || []),
+      ...(close?.data || []),
+    ];
 
-  // const matching = notifications?.filter((notif) =>
-  //   employees?.some((emp) => emp.id === notif.member_id)
-  // );
-
-  // const message = matching?.filter(
-  //   (item) => item.member_id === employeeInfo()?.id
-  // );
-
-  const fileredArr = data?.data?.filter((item) => item.member_id === user.guid);
-
-  console.log(fileredArr);
+    return allData.filter((item) => item.member_id === user.guid).length;
+  }, [data, sogl, vyplata, zakup, close, user.guid]);
 
   useEffect(() => {
     const key = Object.keys(pathname).find(
@@ -64,7 +64,7 @@ export const Header = () => {
         <Flex align="center" className={styles.nav_list}>
           <div className={styles.bellWrapper}>
             <BellOutlined />
-            <p className={styles.messageCount}>{fileredArr?.length}</p>
+            <p className={styles.messageCount}>{filteredCount}</p>
           </div>
           <Flex align="center" gap={"small"}>
             <img src={foto} alt="user foto" className={styles.user_foto} />

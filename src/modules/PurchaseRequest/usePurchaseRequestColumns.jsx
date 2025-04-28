@@ -6,7 +6,11 @@ import foto from "../../assets/28.jpg";
 import styles from "./PurchaseRequestTable.module.scss";
 import { useProcessesMembers } from "../../utils";
 import { status } from "../../enums";
-import { useGetDocsZakupQuery, useGetEmployeesQuery } from "../../store";
+import {
+  useGetDocsStatusesQuery,
+  useGetDocsZakupQuery,
+  useGetEmployeesQuery,
+} from "../../store";
 import { RedoOutlined } from "@ant-design/icons";
 
 export const usePurchaseRequestColumns = (
@@ -18,7 +22,7 @@ export const usePurchaseRequestColumns = (
   const filteredData = useProcessesMembers(processId);
   const { data } = useGetEmployeesQuery();
 
-  const { data: statuses } = useGetDocsZakupQuery();
+  const { data: statuses } = useGetDocsStatusesQuery();
   const filteredStatuses = (guid) =>
     statuses?.data?.filter((item) => {
       return item.docs_id === guid;
@@ -29,9 +33,9 @@ export const usePurchaseRequestColumns = (
 
     const statusesForStep = statusesForDoc
       ?.filter((status) => status.member_id === employeeId)
-      ?.sort((a, b) => new Date(a.create_at) - new Date(b.create_at)); // Сортируем по времени
+      ?.sort((a, b) => new Date(a.create_at) - new Date(b.create_at));
 
-    return statusesForStep?.[statusesForStep.length - 1]; // Берем самый последний
+    return statusesForStep?.[statusesForStep.length - 1];
   };
 
   const columns = [
@@ -111,10 +115,10 @@ export const usePurchaseRequestColumns = (
 
             return (
               <React.Fragment key={step.employee_id}>
-                {/* {step.employee_id === record.member_id && <RedoOutlined />} */}
                 <RouteButton
                   item={step}
                   statusFolder={lastStatus && lastStatus.status}
+                  inProcess={step.employee_id === record.member_id}
                 ></RouteButton>
                 {index < filteredData?.length - 1 && <div className="arrow" />}
               </React.Fragment>

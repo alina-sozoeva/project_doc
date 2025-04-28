@@ -73,7 +73,7 @@ export const CloseDocumentsTable = () => {
     toast.success("Вы отправили документ на обработку");
   };
 
-  const currentMemberId = filtered.member_id;
+  const currentMemberId = filtered?.member_id;
   const memberList = filteredMem || [];
   const currentIndex = memberList.findIndex(
     (m) => m.employee_id === currentMemberId
