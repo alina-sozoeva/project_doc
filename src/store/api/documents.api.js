@@ -14,37 +14,42 @@ export const documentsApi = createApi({
   ],
   endpoints: (builder) => ({
     getDocsClose: builder.query({
-      query: () => ({
+      query: ({ process_id, employee_id }) => ({
         url: "/get_docs_close",
         method: "GET",
+        params: { process_id, employee_id },
       }),
       providesTags: ["DocsCloseList"],
     }),
     getDocsSoglosovanie: builder.query({
-      query: () => ({
+      query: ({ process_id, employee_id }) => ({
         url: "/get_docs_soglosovanie",
         method: "GET",
+        params: { process_id, employee_id },
       }),
       providesTags: ["DocsSoglosovanieList"],
     }),
     getDocsVyplata: builder.query({
-      query: () => ({
+      query: ({ process_id, employee_id }) => ({
         url: "/get_docs_vyplata",
         method: "GET",
+        params: { process_id, employee_id },
       }),
       providesTags: ["DocsVyplataList"],
     }),
     getDocsZakup: builder.query({
-      query: () => ({
+      query: ({ process_id, employee_id }) => ({
         url: "/get_docs_zakup",
         method: "GET",
+        params: { process_id, employee_id },
       }),
       providesTags: ["DocsZakupList"],
     }),
     getDocsContragent: builder.query({
-      query: () => ({
+      query: ({ process_id, employee_id }) => ({
         url: "/get_docs_contragent",
         method: "GET",
+        params: { process_id, employee_id },
       }),
       providesTags: ["DocsContragentList"],
     }),

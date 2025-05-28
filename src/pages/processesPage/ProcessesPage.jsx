@@ -46,7 +46,7 @@ export const ProcessesPage = () => {
   const { data: dataById } = useGetProcessesByIdQuery(
     selectedId ? selectedId : skipToken
   );
-  const { data: processesMembers } = useGetProcessesMembersQuery();
+  const { data: processesMembers } = useGetProcessesMembersQuery({});
   const [addMembers] = useAddProcessesMembersMutation();
 
   const blockedProcessIds = new Set(

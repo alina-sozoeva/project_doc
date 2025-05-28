@@ -1,6 +1,5 @@
 import { Col, Flex, Table } from "antd";
-import styles from "./AgreementTable.module.scss";
-import { useAgreementColumns } from "./useAgreementColumns";
+import styles from "./CustomTable.module.scss";
 
 import { useState } from "react";
 import { InWorkModal } from "../../components";
@@ -9,24 +8,28 @@ import {
   useGetProcessesMembersQuery,
   useUpdateDocsSoglosovanieMutation,
 } from "../../store";
-import { useProcessesMembers, useUser } from "../../utils";
+import { useUser } from "../../utils";
 import { status } from "../../enums";
 import { toast } from "react-toastify";
 import { ApprovalModal } from "../../common";
+import { useColumns } from "../../hooks";
 
-export const CustomTable = ({ defult, processId, data, isLoading }) => {
+export const CustomTable = ({
+  processId,
+  filteredData,
+  isLoading,
+  columnsItem,
+  updateDoc,
+}) => {
   const user = useUser();
   const [openWarn, setOpenWarn] = useState(false);
   const [openApprov, setOpenApprov] = useState();
   const [docId, setDocId] = useState("");
-  const { data: members } = useGetProcessesMembersQuery();
-  const [updateDoc] = useUpdateDocsSoglosovanieMutation();
+  const { data: filteredMem } = useGetProcessesMembersQuery({
+    process_id: processId,
+    employee_id: user?.guid,
+  });
   const [addStatus] = useAddDocsStatusesMutation();
-  const filteredDataMembers = useProcessesMembers(processId);
-
-  const isInitiator = filteredDataMembers?.find(
-    (item) => item.employee_id === user.guid
-  );
 
   const handleOpenWarn = (guid) => {
     setDocId(guid);
@@ -38,38 +41,34 @@ export const CustomTable = ({ defult, processId, data, isLoading }) => {
     setOpenApprov(true);
   };
 
-  const { columns } = useAgreementColumns(
+  const { columns } = useColumns(
     handleOpenWarn,
     user,
     processId,
-    handleOpenApprov
-  );
-  const filtered = data?.data?.find((item) => item.guid === docId);
-  const filteredMem = members?.data?.filter(
-    (item) => item.process_id === processId
+    handleOpenApprov,
+    columnsItem
   );
 
-  const onConfirm = () => {
-    updateDoc({
-      ...defult,
-      guid: docId,
-      status: status.IN_PROCESS,
-      member_id: filteredMem[0]?.employee_id,
-    });
-    toast.success("Вы отправили документ на обработку");
-  };
-
+  const filtered = filteredData?.data?.find((item) => item.guid === docId);
   const currentMemberId = filtered?.member_id;
-  const memberList = filteredMem || [];
+  const memberList = filteredMem?.data || [];
   const currentIndex = memberList.findIndex(
     (m) => m.employee_id === currentMemberId
   );
 
   const isLast = currentIndex === memberList.length - 1;
 
+  const onConfirm = () => {
+    updateDoc({
+      guid: docId,
+      status: status.IN_PROCESS,
+      member_id: filteredMem?.data[0]?.employee_id,
+    });
+    toast.success("Вы отправили документ на обработку");
+  };
+
   const onConfirmApp = () => {
     updateDoc({
-      ...defult,
       guid: docId,
       status: isLast ? status.APPROVED : status.IN_PROCESS,
       member_id: isLast ? "" : memberList[currentIndex + 1]?.employee_id,
@@ -86,7 +85,6 @@ export const CustomTable = ({ defult, processId, data, isLoading }) => {
 
   const onRegec = () => {
     updateDoc({
-      ...defult,
       guid: docId,
       status: status.REJECTED,
       member_id: "",
@@ -104,7 +102,6 @@ export const CustomTable = ({ defult, processId, data, isLoading }) => {
 
   const onRevis = () => {
     updateDoc({
-      ...defult,
       guid: docId,
       status: status.REVISION,
       member_id: "",
@@ -121,18 +118,12 @@ export const CustomTable = ({ defult, processId, data, isLoading }) => {
     setOpenApprov(false);
   };
 
-  const filteredData = data?.data.filter(
-    (item) =>
-      (item?.employee_id === user?.guid && item?.process_id === processId) ||
-      item.member_id === user?.guid
-  );
-
   return (
     <Flex vertical gap="small">
       <Col span={24}>
         <Table
           loading={isLoading}
-          dataSource={filteredData || []}
+          dataSource={filteredData?.data || []}
           columns={columns}
           pagination={false}
           className={styles.table}

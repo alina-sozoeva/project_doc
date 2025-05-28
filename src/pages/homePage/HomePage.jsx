@@ -63,16 +63,16 @@ export const HomePage = () => {
       icon: <FileSyncOutlined style={{ color: "#0288D1" }} />,
       count: statusCount ? statusCount[status.IN_PROCESS] : null,
     },
+    // {
+    //   key: 4,
+    //   title: "Черновики",
+    //   backgroundColor: "rgba(48, 46, 50, 0.06)",
+    //   status: status.DRAFT,
+    //   icon: <FileTextOutlined style={{ color: "#757575" }} />,
+    //   count: statusCount ? statusCount[status.DRAFT] : null,
+    // },
     {
       key: 4,
-      title: "Черновики",
-      backgroundColor: "rgba(48, 46, 50, 0.06)",
-      status: status.DRAFT,
-      icon: <FileTextOutlined style={{ color: "#757575" }} />,
-      count: statusCount ? statusCount[status.DRAFT] : null,
-    },
-    {
-      key: 5,
       title: "На доработке",
       backgroundColor: "rgba(245, 255, 5, 0.1)",
       status: status.REVISION,
@@ -85,17 +85,35 @@ export const HomePage = () => {
     <Wrapper path={pathname.HOME} page={true} className={styles.home}>
       <Flex vertical gap={"small"}>
         <Flex justify="end" gap={"small"}></Flex>
-        <Flex gap="middle" justify="center" align="center" wrap>
-          {folderArr?.map((item) => (
-            <CustomCard
-              title={item.title}
-              count={item.count}
-              backgroundColor={item.backgroundColor}
-              icon={item.icon}
-              onClick={() => filteredStatus(item.status)}
-              // path={pathname.DOCUMENTS}
-            />
-          ))}
+        <Flex vertical align="center" gap="middle">
+          <h2>Задачи мне </h2>
+          <Flex gap="middle" justify="center" align="center" wrap>
+            {folderArr?.map((item) => (
+              <CustomCard
+                title={item.title}
+                count={item.count}
+                backgroundColor={item.backgroundColor}
+                icon={item.icon}
+                onClick={() => filteredStatus(item.status)}
+                // path={pathname.DOCUMENTS}
+              />
+            ))}
+          </Flex>
+        </Flex>
+        <Flex vertical align="center" gap="middle">
+          <h2>Задачи от мне </h2>
+          <Flex gap="middle" justify="center" align="center" wrap>
+            {folderArr?.map((item) => (
+              <CustomCard
+                title={item.title}
+                count={item.count}
+                backgroundColor={item.backgroundColor}
+                icon={item.icon}
+                onClick={() => filteredStatus(item.status)}
+                // path={pathname.DOCUMENTS}
+              />
+            ))}
+          </Flex>
         </Flex>
       </Flex>
 

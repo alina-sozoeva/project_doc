@@ -29,12 +29,21 @@ export const processesApi = createApi({
       invalidatesTags: ["ProcessesList"],
     }),
     getProcessesMembers: builder.query({
-      query: () => ({
-        url: "/get_processes_members",
-        method: "GET",
-      }),
+      query: ({ process_id, employee_id } = {}) => {
+        const params = {};
+
+        if (process_id) params.process_id = process_id;
+        if (employee_id) params.employee_id = employee_id;
+
+        return {
+          url: "/get_processes_members",
+          method: "GET",
+          params,
+        };
+      },
       providesTags: ["ProcessesListMembers"],
     }),
+
     addProcessesMembers: builder.mutation({
       query: (members) => ({
         url: "/add_process_member",

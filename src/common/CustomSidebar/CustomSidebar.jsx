@@ -9,7 +9,6 @@ import {
   HomeOutlined,
   SettingOutlined,
 } from "@ant-design/icons";
-import { dataDocument } from "../../data";
 import {
   useGetDocsCloseQuery,
   useGetDocsContragentQuery,
@@ -50,8 +49,6 @@ export const CustomSidebar = () => {
       filteredData.filter((item) => item.member_id === user.guid).length || null
     );
   };
-
-  const processes = useSelector((state) => state.processes.processes);
 
   const baseMenu = [
     {
