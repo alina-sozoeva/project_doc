@@ -1,4 +1,4 @@
-import { Flex } from "antd";
+import { Calendar, Flex, Table } from "antd";
 import { CustomCard, FolderModal, Wrapper } from "../../common";
 import { pathname, status } from "../../enums";
 import styles from "./HomePage.module.scss";
@@ -7,7 +7,6 @@ import {
   FileExcelOutlined,
   FileExclamationOutlined,
   FileSyncOutlined,
-  FileTextOutlined,
 } from "@ant-design/icons";
 import { useState } from "react";
 import { employeeInfo } from "../../utils";
@@ -83,11 +82,17 @@ export const HomePage = () => {
 
   return (
     <Wrapper path={pathname.HOME} page={true} className={styles.home}>
-      <Flex vertical gap={"small"}>
+      <Flex gap={"small"}>
         <Flex justify="end" gap={"small"}></Flex>
         <Flex vertical align="center" gap="middle">
           <h2>Задачи мне </h2>
-          <Flex gap="middle" justify="center" align="center" wrap>
+          <Flex
+            gap="middle"
+            justify="center"
+            align="center"
+            wrap
+            style={{ width: "600px" }}
+          >
             {folderArr?.map((item) => (
               <CustomCard
                 title={item.title}
@@ -102,7 +107,13 @@ export const HomePage = () => {
         </Flex>
         <Flex vertical align="center" gap="middle">
           <h2>Задачи от мне </h2>
-          <Flex gap="middle" justify="center" align="center" wrap>
+          <Flex
+            gap="middle"
+            justify="center"
+            align="center"
+            wrap
+            style={{ width: "600px" }}
+          >
             {folderArr?.map((item) => (
               <CustomCard
                 title={item.title}
@@ -115,9 +126,18 @@ export const HomePage = () => {
             ))}
           </Flex>
         </Flex>
+        {/* <Flex>
+          <Flex>
+            <h2>Почта</h2>
+          </Flex>
+          <Flex>
+            <Calendar />
+          </Flex>
+        </Flex> */}
       </Flex>
-
-      <FolderModal open={open} onCancel={onClose} />
+      {/* <Flex>
+        <Table />
+      </Flex> */}
     </Wrapper>
   );
 };

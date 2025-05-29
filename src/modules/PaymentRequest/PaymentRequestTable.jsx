@@ -28,6 +28,11 @@ export const PaymentRequestTable = () => {
   });
   const [updateDoc] = useUpdateDocsVyplataMutation();
 
+  //   const filteredData = data?.data.filter(
+  //   (item) =>
+  //     (item?.employee_id === user?.guid && item?.process_id === processId) ||
+  //     item.member_id === user?.guid
+  // );
   return (
     <Flex vertical gap="small">
       <Flex gap="small" justify="space-between">

@@ -1,54 +1,38 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { Flex, Menu, Space } from "antd";
+import { Flex, Menu, Space, Spin } from "antd";
 import { useEffect, useMemo } from "react";
 import styles from "./CustomSidebar.module.scss";
 import logo from "../../assets/logo.png";
 import { useSelector } from "react-redux";
 import {
   ClusterOutlined,
+  HistoryOutlined,
   HomeOutlined,
+  PlusOutlined,
   SettingOutlined,
+  StarOutlined,
 } from "@ant-design/icons";
-import {
-  useGetDocsCloseQuery,
-  useGetDocsContragentQuery,
-  useGetDocsSoglosovanieQuery,
-  useGetDocsVyplataQuery,
-  useGetDocsZakupQuery,
-  useGetProcessesQuery,
-} from "../../store";
-import { processesKeys } from "../../enums";
+import { useGetDocCountsQuery } from "../../store";
 
 export const CustomSidebar = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const { data } = useGetProcessesQuery();
   const user = useSelector((state) => state.users.user);
-  const { data: contragent } = useGetDocsContragentQuery();
-  const { data: sogl } = useGetDocsSoglosovanieQuery();
-  const { data: vyplata } = useGetDocsVyplataQuery();
-  const { data: zakup } = useGetDocsZakupQuery();
-  const { data: close } = useGetDocsCloseQuery();
+  const { data: processes, isLoading } = useGetDocCountsQuery({
+    employee_id: user?.guid,
+  });
 
-  const getFilteredCount = (processName) => {
-    let filteredData = [];
-
-    if (processName === processesKeys.CONTRAGENT) {
-      filteredData = contragent?.data || [];
-    } else if (processName === processesKeys.SOGLOSOVANIE) {
-      filteredData = sogl?.data || [];
-    } else if (processName === processesKeys.VYPLATA) {
-      filteredData = vyplata?.data || [];
-    } else if (processName === processesKeys.ZAKUP) {
-      filteredData = zakup?.data || [];
-    } else if (processName === processesKeys.CLOSE) {
-      filteredData = close?.data || [];
-    }
-
-    return (
-      filteredData.filter((item) => item.member_id === user.guid).length || null
-    );
-  };
+  const dynamicMenu =
+    processes?.counts?.map((item, index) => ({
+      key: `dynamic-${index}`,
+      label: (
+        <Flex align="center" gap={"small"}>
+          <span style={{ fontSize: "20px" }}>•</span>
+          {item.name} {item.count === 0 ? null : item.count}
+        </Flex>
+      ),
+      path: `/documents?process_name=${item.basic_processes}&process_id=${item.guid}`,
+    })) || [];
 
   const baseMenu = [
     {
@@ -60,13 +44,49 @@ export const CustomSidebar = () => {
       ),
       path: "/",
     },
+    {
+      key: "4",
+      label: (
+        <>
+          <SettingOutlined /> Процессы
+        </>
+      ),
+      children: dynamicMenu,
+    },
+    {
+      key: "5",
+      label: (
+        <>
+          <HistoryOutlined /> История
+        </>
+      ),
+      path: "/history",
+    },
+    {
+      key: "6",
+      label: (
+        <>
+          <StarOutlined /> Избранное
+        </>
+      ),
+      path: "/favorites",
+    },
+    // {
+    //   key: "8",
+    //   label: (
+    //     <>
+    //       <SearchOutlined /> Поиск
+    //     </>
+    //   ),
+    //   path: "/search",
+    // },
   ];
 
   const adminOnlyMenu =
     user?.email === "admin@gmail.com"
       ? [
           {
-            key: "3",
+            key: "2",
             label: (
               <>
                 <ClusterOutlined /> Структура организации
@@ -75,30 +95,18 @@ export const CustomSidebar = () => {
             path: "/employees",
           },
           {
-            key: "4",
+            key: "3",
             label: (
               <>
-                <SettingOutlined /> Процессы
+                <PlusOutlined /> Добавить процесс
               </>
             ),
-            path: "/processes",
+            path: "/add-processes",
           },
         ]
       : [];
 
-  const dynamicMenu =
-    data?.data?.map((item, index) => ({
-      key: `dynamic-${index}`,
-      label: (
-        <Flex align="center" gap={"small"}>
-          <span style={{ fontSize: "20px" }}>•</span>
-          {item.name} {getFilteredCount(item.basic_processes)}
-        </Flex>
-      ),
-      path: `/documents?process_name=${item.basic_processes}&process_id=${item.guid}`,
-    })) || [];
-
-  const menuKeys = [...baseMenu, ...dynamicMenu, ...adminOnlyMenu];
+  const menuKeys = [...baseMenu, ...adminOnlyMenu];
 
   const selectedKey = useMemo(() => {
     const currentMenuItem = menuKeys.find(
@@ -131,20 +139,41 @@ export const CustomSidebar = () => {
         <Menu
           theme="light"
           mode="inline"
-          defaultSelectedKeys={[selectedKey]}
-          items={menuKeys.map(({ key, label, path }) => ({
-            key,
-            label: (
-              <Link
-                style={{ fontWeight: 600 }}
-                to={path}
-                onClick={() => handleMenuClick()}
-              >
-                {label}
-              </Link>
-            ),
-          }))}
+          selectedKeys={[selectedKey]}
           className={styles.menu}
+          items={menuKeys.map((menuItem) => {
+            if (menuItem.children) {
+              return {
+                key: menuItem.key,
+                label: <p style={{ fontWeight: 600 }}>{menuItem.label}</p>,
+                children: menuItem.children.map((child) => ({
+                  key: child.key,
+                  label: (
+                    <Link
+                      to={child.path}
+                      onClick={handleMenuClick}
+                      style={{ fontWeight: 600 }}
+                    >
+                      {child.label}
+                    </Link>
+                  ),
+                })),
+              };
+            }
+
+            return {
+              key: menuItem.key,
+              label: (
+                <Link
+                  to={menuItem.path}
+                  onClick={handleMenuClick}
+                  style={{ fontWeight: 600 }}
+                >
+                  {menuItem.label}
+                </Link>
+              ),
+            };
+          })}
         />
       </div>
     </div>

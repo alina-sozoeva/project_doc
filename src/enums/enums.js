@@ -11,14 +11,12 @@ export const pathname = {
   DOCUMENTS: "/documents",
   EMPLOYEES: "/employees",
   EDIT_FOLDER: "/edit-folder/:id/:status",
-  PROCESSES: "/processes",
-  CREATE_COUNTERPARTY: "/create-counterparty",
-  CREATE_PURCHASE_REQUEST: "/purchase-request",
-  CREATE_AGREEMENT: "/agreement",
-  CREATE_PAYMENT_REQUEST: "/payment-request",
-  CLOSE_DOCUMENTS: "/close-documents",
+  PROCESSES: "/add-processes",
   LOGIN: "/login",
   REGISTER: "/register",
+  HISTORY: "/history",
+  SEARCH: "/search",
+  FAVORITES: "/favorites",
 };
 
 export const pages = {
@@ -28,11 +26,9 @@ export const pages = {
   EDIT_FOLDER: "Редактировать файл",
   ADD_EMPLOYEE: "Добавить сотрудника",
   PROCESSES: "Справочник процессов",
-  CREATE_COUNTERPARTY: "Создание карточки контрагента",
-  CREATE_PURCHASE_REQUEST: "Формирование заявок на закуп",
-  CREATE_AGREEMENT: "Формирование заявок на выплату",
-  CREATE_PAYMENT_REQUEST: "Создание заявки на выплату",
-  CLOSE_DOCUMENTS: "Закрытие документов",
+  HISTORY: "История действий",
+  SEARCH: "Избранные документы",
+  FAVORITES: "/favorites",
 };
 
 export const storageKeys = {

@@ -78,9 +78,6 @@ export const FolderModal = ({ open, onCancel }) => {
               </Button>
             </Upload>
           </Form.Item>
-          {/* <Form.Item label="Название папки" name="folder_name">
-            <Select placeholder="Статус документа" options={folderOptions} />
-          </Form.Item> */}
           <Flex justify="end" gap={"small"}>
             <Button type="default" onClick={onClose}>
               Отмена

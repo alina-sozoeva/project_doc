@@ -14,24 +14,12 @@ export const router = createBrowserRouter([
       { path: pathname.LOGIN, element: <Pages.LoginPage /> },
       { path: pathname.PROCESSES, element: <Pages.ProcessesPage /> },
       {
-        path: pathname.CREATE_COUNTERPARTY,
-        element: <Pages.AddCunterpartyPage />,
+        path: pathname.HISTORY,
+        element: <Pages.HistoryPage />,
       },
       {
-        path: pathname.CREATE_PURCHASE_REQUEST,
-        element: <Pages.AddPurchaseRequestPage />,
-      },
-      {
-        path: pathname.CREATE_AGREEMENT,
-        element: <Pages.AddAgreementPage />,
-      },
-      {
-        path: pathname.CREATE_PAYMENT_REQUEST,
-        element: <Pages.AddPaymentRequestPage />,
-      },
-      {
-        path: pathname.CLOSE_DOCUMENTS,
-        element: <Pages.CloseDocumentsPage />,
+        path: pathname.FAVORITES,
+        element: <Pages.FavoritesPage />,
       },
     ],
   },

@@ -11,6 +11,7 @@ export const documentsApi = createApi({
     "DocsZakupList",
     "DocsContragentList",
     "DocsStatuses",
+    "DocCounts",
   ],
   endpoints: (builder) => ({
     getDocsClose: builder.query({
@@ -156,6 +157,14 @@ export const documentsApi = createApi({
       }),
       invalidatesTags: ["DocsStatuses"],
     }),
+    getDocCounts: builder.query({
+      query: ({ employee_id }) => ({
+        url: "/get_all_doc_counts",
+        method: "GET",
+        params: { employee_id },
+      }),
+      providesTags: ["DocCounts"],
+    }),
   }),
 });
 
@@ -179,6 +188,7 @@ export const {
   useAddDocsStatusesMutation,
   useUpdateMutation,
   useGetDocsStatusesQuery,
+  useGetDocCountsQuery,
 } = documentsApi;
 
 // import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
