@@ -1,13 +1,15 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { Flex, Menu, Space, Spin } from "antd";
+import { Flex, Menu, Space } from "antd";
 import { useEffect, useMemo } from "react";
 import styles from "./CustomSidebar.module.scss";
 import logo from "../../assets/logo.png";
 import { useSelector } from "react-redux";
 import {
+  BellOutlined,
   ClusterOutlined,
   HistoryOutlined,
   HomeOutlined,
+  InboxOutlined,
   PlusOutlined,
   SettingOutlined,
   StarOutlined,
@@ -18,7 +20,7 @@ export const CustomSidebar = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const user = useSelector((state) => state.users.user);
-  const { data: processes, isLoading } = useGetDocCountsQuery({
+  const { data: processes } = useGetDocCountsQuery({
     employee_id: user?.guid,
   });
 
@@ -57,13 +59,32 @@ export const CustomSidebar = () => {
       key: "5",
       label: (
         <>
+          <InboxOutlined /> Входящие
+        </>
+      ),
+
+      path: "/documents?process_name=all-docs-process",
+    },
+    {
+      key: "6",
+      label: (
+        <>
+          <BellOutlined /> Непрочитанные
+        </>
+      ),
+      path: "/documents?process_name=unread-docs-process",
+    },
+    {
+      key: "7",
+      label: (
+        <>
           <HistoryOutlined /> История
         </>
       ),
       path: "/history",
     },
     {
-      key: "6",
+      key: "8",
       label: (
         <>
           <StarOutlined /> Избранное
@@ -72,7 +93,7 @@ export const CustomSidebar = () => {
       path: "/favorites",
     },
     // {
-    //   key: "8",
+    //   key: "9",
     //   label: (
     //     <>
     //       <SearchOutlined /> Поиск

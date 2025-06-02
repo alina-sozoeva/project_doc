@@ -7,3 +7,4 @@ export * from "./TreeComponent";
 export * from "./AddProcessesModal";
 export * from "./InWorkModal";
 export * from "./CustomTable";
+export * from "./AllDocsCard";

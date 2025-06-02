@@ -40,10 +40,10 @@ export const Header = () => {
       >
         <Typography.Title level={4}>{title}</Typography.Title>
         <Flex align="center" className={styles.nav_list}>
-          <div className={styles.bellWrapper}>
+          {/* <div className={styles.bellWrapper}>
             <BellOutlined />
             <p className={styles.messageCount}>{processes?.totalCount}</p>
-          </div>
+          </div> */}
           <Flex align="center" gap={"small"}>
             <img src={foto} alt="user foto" className={styles.user_foto} />
             <Flex vertical gap={"small"}>

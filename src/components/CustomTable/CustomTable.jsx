@@ -6,7 +6,6 @@ import { InWorkModal } from "../../components";
 import {
   useAddDocsStatusesMutation,
   useGetProcessesMembersQuery,
-  useUpdateDocsSoglosovanieMutation,
 } from "../../store";
 import { useUser } from "../../utils";
 import { status } from "../../enums";

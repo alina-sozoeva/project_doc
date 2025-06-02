@@ -1,14 +1,15 @@
 import { Flex } from "antd";
 import { Wrapper } from "../../common";
 import styles from "./DocumentsPage.module.scss";
-import { pages, pathname, processesKeys } from "../../enums";
-import React from "react";
+import { pathname, processesKeys } from "../../enums";
 import {
   AgreementTable,
+  AllDocs,
   CloseDocumentsTable,
   CounterpartyTable,
   PaymentRequestTable,
   PurchaseRequestTable,
+  UnreadDocs,
 } from "../../modules";
 import { useLocation } from "react-router-dom";
 
@@ -33,6 +34,12 @@ export const DocumemtsPage = () => {
 
       case processesKeys.CLOSE:
         return <CloseDocumentsTable />;
+
+      case processesKeys.ALL:
+        return <AllDocs />;
+
+      case processesKeys.UNREAD:
+        return <UnreadDocs />;
 
       default:
         return (

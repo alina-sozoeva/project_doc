@@ -8,6 +8,8 @@ export const status = {
 
 export const pathname = {
   HOME: "/",
+  All: "/all-docs-process",
+  UNREAD: "/unread-docs-process",
   DOCUMENTS: "/documents",
   EMPLOYEES: "/employees",
   EDIT_FOLDER: "/edit-folder/:id/:status",
@@ -15,7 +17,7 @@ export const pathname = {
   LOGIN: "/login",
   REGISTER: "/register",
   HISTORY: "/history",
-  SEARCH: "/search",
+  // SEARCH: "/search",
   FAVORITES: "/favorites",
 };
 
@@ -27,8 +29,8 @@ export const pages = {
   ADD_EMPLOYEE: "Добавить сотрудника",
   PROCESSES: "Справочник процессов",
   HISTORY: "История действий",
-  SEARCH: "Избранные документы",
-  FAVORITES: "/favorites",
+  // SEARCH: "Избранные документы",
+  FAVORITES: "Избранные документы",
 };
 
 export const storageKeys = {
@@ -41,6 +43,8 @@ export const storageKeys = {
 };
 
 export const processesKeys = {
+  ALL: "all-docs-process",
+  UNREAD: "unread-docs-process",
   CONTRAGENT: "contragent",
   SOGLOSOVANIE: "soglosovanie",
   ZAKUP: "zakup",
@@ -54,6 +58,8 @@ export const processesMap = {
   zakup: "Формирование заявок на закуп",
   vyplata: "Формирование заявок на выплату",
   "close-documents": "Закрытие документов",
+  "all-docs-process": "Входящие",
+  "unread-docs-process": "Непрочитанные",
 };
 
 export const departmentMap = {

@@ -3,8 +3,6 @@ import styles from "./TreeComponent.module.scss";
 import { EmployeeCard } from "../EmployeeCard";
 
 export const TreeComponent = ({ node, addNewEmployee }) => {
-  console.log(node, "node");
-
   return (
     <TreeNode
       className={styles.wrap}

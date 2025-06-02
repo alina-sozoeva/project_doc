@@ -2,16 +2,15 @@ import { Flex, Spin } from "antd";
 import { Tree } from "react-organizational-chart";
 import { useState } from "react";
 import { EmployeeCard, EmployeeModal, TreeComponent } from "../../components";
-import styles from "./EmployeesLayout.module.scss";
-import { useSelector } from "react-redux";
 import { useGetEmployeesQuery } from "../../store";
 import { pages, pathname } from "../../enums";
 import { Wrapper } from "../../common";
+import styles from "./EmployeesLayout.module.scss";
 
 export const EmployeesPage = () => {
   const [openEmployee, setOpenEmployee] = useState(false);
   const [employeeId, setEmployeeId] = useState("");
-  const { data, error, isLoading } = useGetEmployeesQuery();
+  const { data, isLoading } = useGetEmployeesQuery();
 
   const addNewEmployee = (id) => {
     setEmployeeId(id);
@@ -20,13 +19,12 @@ export const EmployeesPage = () => {
 
   const buildTree = (employees, headId = 1) => {
     return employees
-      ?.filter((employee) => employee.head_id == headId)
+      ?.filter((employee) => String(employee.head_id) === String(headId))
       .map((employee) => ({
         ...employee,
         children: buildTree(employees, employee.guid),
       }));
   };
-  // e13ac7f5-eaff-4f4f-a286-12e584710ff3
 
   const treeData = buildTree(data?.data, 1);
 
