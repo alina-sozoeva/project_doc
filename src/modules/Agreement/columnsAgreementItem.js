@@ -17,7 +17,7 @@ export const columnsAgreementItem = [
     render: (_, record) => (
       <>
         <p>{record?.employee?.fio}</p>
-        <p>{record?.employee?.email}</p>
+        {/* <p>{record?.employee?.email}</p> */}
       </>
     ),
   },

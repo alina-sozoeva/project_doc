@@ -28,9 +28,12 @@ export const CustomSidebar = () => {
     processes?.counts?.map((item, index) => ({
       key: `dynamic-${index}`,
       label: (
-        <Flex align="center" gap={"small"}>
-          <span style={{ fontSize: "20px" }}>•</span>
-          {item.name} {item.count === 0 ? null : item.count}
+        <Flex justify="space-between" align="center" gap={"small"}>
+          <Flex align="center" gap={"small"}>
+            <span style={{ fontSize: "20px" }}>•</span>
+            <span>{item.name}</span>
+          </Flex>
+          {item.count !== 0 && <span>{item.count}</span>}
         </Flex>
       ),
       path: `/documents?process_name=${item.basic_processes}&process_id=${item.guid}`,
@@ -58,11 +61,13 @@ export const CustomSidebar = () => {
     {
       key: "5",
       label: (
-        <>
-          <InboxOutlined /> Входящие
-        </>
+        <Flex justify="space-between">
+          <span>
+            <InboxOutlined /> Входящие
+          </span>
+          {processes?.totalCount !== 0 && <span>{processes?.totalCount}</span>}
+        </Flex>
       ),
-
       path: "/documents?process_name=all-docs-process",
     },
     {

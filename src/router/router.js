@@ -21,6 +21,10 @@ export const router = createBrowserRouter([
         path: pathname.FAVORITES,
         element: <Pages.FavoritesPage />,
       },
+      {
+        path: pathname.DOCUMENTITEM,
+        element: <Pages.DocumentItemPage />,
+      },
     ],
   },
 ]);

@@ -19,6 +19,7 @@ export const pathname = {
   HISTORY: "/history",
   // SEARCH: "/search",
   FAVORITES: "/favorites",
+  DOCUMENTITEM: "/document/:id",
 };
 
 export const pages = {

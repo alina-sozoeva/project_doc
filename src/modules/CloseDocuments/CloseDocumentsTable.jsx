@@ -77,6 +77,7 @@ export const CloseDocumentsTable = () => {
         processId={processId}
         columnsItem={сolumnsCloseItem}
         updateDoc={updateDoc}
+        // guid={}
       />
 
       <CloseDocumentsModal

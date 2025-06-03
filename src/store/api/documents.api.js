@@ -11,8 +11,18 @@ export const documentsApi = createApi({
     "DocsContragentList",
     "DocsStatuses",
     "DocCounts",
+    "AllDoc",
+    "DocsById",
   ],
   endpoints: (builder) => ({
+    getDocsById: builder.query({
+      query: ({ guid }) => ({
+        url: `/get_docs/${guid}`,
+        method: "GET",
+        params: { guid },
+      }),
+      providesTags: ["DocsById"],
+    }),
     getDocsClose: builder.query({
       query: ({ process_id, employee_id }) => ({
         url: "/get_docs_close",
@@ -164,10 +174,19 @@ export const documentsApi = createApi({
       }),
       providesTags: ["DocCounts"],
     }),
+    getAllDocs: builder.query({
+      query: ({ user_id }) => ({
+        url: "/get_all_docs",
+        method: "GET",
+        params: { user_id },
+      }),
+      providesTags: ["AllDoc"],
+    }),
   }),
 });
 
 export const {
+  useGetDocsByIdQuery,
   useGetDocsCloseQuery,
   useGetDocsContragentQuery,
   useGetDocsVyplataQuery,
@@ -188,45 +207,5 @@ export const {
   useUpdateMutation,
   useGetDocsStatusesQuery,
   useGetDocCountsQuery,
+  useGetAllDocsQuery,
 } = documentsApi;
-
-// import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-
-// export const documentsApi = createApi({
-//   reducerPath: "documentsApi",
-//   baseQuery: fetchBaseQuery({ baseUrl: process.env.REACT_APP_MAIN_URL }),
-//   tagTypes: ["DocsList"],
-//   endpoints: (builder) => ({
-//     getDocuments: builder.query({
-//       query: (docType) => ({
-//         url: `/get_docs_${docType}`,
-//         method: "GET",
-//       }),
-//       providesTags: (docType) => [`DocsList-${docType}`],
-//     }),
-
-//     addDocument: builder.mutation({
-//       query: ({ docType, newDoc }) => ({
-//         url: `/add_docs_${docType}`,
-//         method: "POST",
-//         body: newDoc,
-//       }),
-//       invalidatesTags: ({ docType }) => [`DocsList-${docType}`],
-//     }),
-
-//     uploadFile: builder.mutation({
-//       query: (formData) => ({
-//         url: "/upload",
-//         method: "POST",
-//         body: formData,
-//         formData: true,
-//       }),
-//     }),
-//   }),
-// });
-
-// export const {
-//   useGetDocumentsQuery,
-//   useAddDocumentMutation,
-//   useUploadFileMutation,
-// } = documentsApi;

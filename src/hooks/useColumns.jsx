@@ -4,6 +4,7 @@ import { useProcessesMembers } from "../utils/useProcessesMembers";
 import { useGetDocsStatusesQuery } from "../store";
 import { RouteButton } from "../common";
 import { status } from "../enums";
+import { DeleteOutlined } from "@ant-design/icons";
 
 export const useColumns = (
   handleOpenWarn,
@@ -96,6 +97,9 @@ export const useColumns = (
 
         if (record.status === status.REJECTED) {
           return (
+            // <span className="text-red-500 cursor-pointer">
+            //   <DeleteOutlined />
+            // </span>
             <Button type="primary" danger>
               Удалить
             </Button>

@@ -5,6 +5,7 @@ import { useState } from "react";
 import { InWorkModal } from "../../components";
 import {
   useAddDocsStatusesMutation,
+  useGetDocsByIdQuery,
   useGetProcessesMembersQuery,
 } from "../../store";
 import { useUser } from "../../utils";
@@ -29,6 +30,7 @@ export const CustomTable = ({
     employee_id: user?.guid,
   });
   const [addStatus] = useAddDocsStatusesMutation();
+  const { data: docsById } = useGetDocsByIdQuery({ guid: user?.guid });
 
   const handleOpenWarn = (guid) => {
     setDocId(guid);
@@ -128,6 +130,7 @@ export const CustomTable = ({
           className={styles.table}
           bordered
           scroll={{ y: 480, x: 1400 }}
+          // onRow={() => }
         />
       </Col>
       <InWorkModal

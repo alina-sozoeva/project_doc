@@ -35,7 +35,7 @@ export const Header = () => {
       <Flex
         align="center"
         justify="space-between"
-        className={`${styles.nav} container`}
+        className={`${styles.nav} `}
         style={{ height: "100%" }}
       >
         <Typography.Title level={4}>{title}</Typography.Title>

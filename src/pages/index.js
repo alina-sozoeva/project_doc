@@ -7,3 +7,4 @@ export * from "./processesPage";
 export * from "./registerPage";
 export * from "./historyPage";
 export * from "./favoritesPage";
+export * from "./documentItemPage";
