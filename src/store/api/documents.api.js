@@ -13,6 +13,7 @@ export const documentsApi = createApi({
     "DocCounts",
     "AllDoc",
     "DocsById",
+    "DocFavorites",
   ],
   endpoints: (builder) => ({
     getDocsById: builder.query({
@@ -182,6 +183,30 @@ export const documentsApi = createApi({
       }),
       providesTags: ["AllDoc"],
     }),
+    updateReadStatus: builder.mutation({
+      query: (info) => ({
+        url: "/update_read_status",
+        method: "POST",
+        body: info,
+      }),
+      invalidatesTags: ["DocCounts", "AllDoc"],
+    }),
+    getFavoritesDocs: builder.query({
+      query: ({ user_id }) => ({
+        url: "/get_favorites_docs",
+        method: "GET",
+        params: { user_id },
+      }),
+      providesTags: ["DocFavorites"],
+    }),
+    addFavoritesDocs: builder.mutation({
+      query: (newFavorites) => ({
+        url: "/add_favorites_docs",
+        method: "POST",
+        body: newFavorites,
+      }),
+      invalidatesTags: ["DocFavorites"],
+    }),
   }),
 });
 
@@ -208,4 +233,7 @@ export const {
   useGetDocsStatusesQuery,
   useGetDocCountsQuery,
   useGetAllDocsQuery,
+  useUpdateReadStatusMutation,
+  useGetFavoritesDocsQuery,
+  useAddFavoritesDocsMutation,
 } = documentsApi;

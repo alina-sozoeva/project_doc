@@ -2,7 +2,6 @@ import { Form, Input, Select, Row, Col } from "antd";
 import { departments } from "../../constants";
 import { useMemo, useState } from "react";
 import styles from "./StepContent.module.scss";
-import { useSelector } from "react-redux";
 import { positionMap } from "../../enums";
 import { useGetEmployeesQuery } from "../../store";
 

@@ -1,7 +1,8 @@
 import { StarOutlined } from "@ant-design/icons";
-import { Col, Row } from "antd";
+import { Checkbox, Col, Flex, Row } from "antd";
 
 import styles from "./AllDocsCard.module.scss";
+import dayjs from "dayjs";
 
 export const AllDocsCard = ({ item, onClick }) => {
   return (
@@ -12,17 +13,26 @@ export const AllDocsCard = ({ item, onClick }) => {
       gap={"small"}
     >
       <Row gutter={24}>
-        <Col>
-          <StarOutlined />
+        <Col
+          span={1}
+          style={{ textAlign: "left" }}
+          onClick={(e) => {
+            e.stopPropagation();
+          }}
+        >
+          <Flex gap={"middle"}>
+            <Checkbox />
+            <StarOutlined />
+          </Flex>
         </Col>
         <Col span={4} style={{ textAlign: "left" }}>
           <span>{item?.employee?.fio}</span>
         </Col>
-        <Col span={16} style={{ textAlign: "left" }}>
+        <Col span={15} style={{ textAlign: "left" }}>
           <span>{item?.comments}</span>
         </Col>
-        <Col span={4} style={{ textAlign: "rigth" }}>
-          <span>{item?.created_at}</span>
+        <Col span={4} style={{ textAlign: "right" }}>
+          <span>{dayjs(item?.created_at).format("DD.MM.YYYY HH:mm")}</span>
         </Col>
       </Row>
     </div>

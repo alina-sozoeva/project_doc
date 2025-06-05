@@ -58,27 +58,27 @@ export const CustomSidebar = () => {
       ),
       children: dynamicMenu,
     },
-    {
-      key: "5",
-      label: (
-        <Flex justify="space-between">
-          <span>
-            <InboxOutlined /> Входящие
-          </span>
-          {processes?.totalCount !== 0 && <span>{processes?.totalCount}</span>}
-        </Flex>
-      ),
-      path: "/documents?process_name=all-docs-process",
-    },
-    {
-      key: "6",
-      label: (
-        <>
-          <BellOutlined /> Непрочитанные
-        </>
-      ),
-      path: "/documents?process_name=unread-docs-process",
-    },
+    // {
+    //   key: "5",
+    //   label: (
+    //     <Flex justify="space-between">
+    //       <span>
+    //         <InboxOutlined /> Входящие
+    //       </span>
+    //       {processes?.totalCount !== 0 && <span>{processes?.totalCount}</span>}
+    //     </Flex>
+    //   ),
+    //   path: "/documents?process_name=all-docs-process",
+    // },
+    // {
+    //   key: "6",
+    //   label: (
+    //     <>
+    //       <BellOutlined /> Непрочитанные
+    //     </>
+    //   ),
+    //   path: "/documents?process_name=unread-docs-process",
+    // },
     {
       key: "7",
       label: (

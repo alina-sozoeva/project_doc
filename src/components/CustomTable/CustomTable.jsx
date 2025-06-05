@@ -7,6 +7,7 @@ import {
   useAddDocsStatusesMutation,
   useGetDocsByIdQuery,
   useGetProcessesMembersQuery,
+  useUpdateReadStatusMutation,
 } from "../../store";
 import { useUser } from "../../utils";
 import { status } from "../../enums";
@@ -31,6 +32,7 @@ export const CustomTable = ({
   });
   const [addStatus] = useAddDocsStatusesMutation();
   const { data: docsById } = useGetDocsByIdQuery({ guid: user?.guid });
+  const [updateReadStatus] = useUpdateReadStatusMutation();
 
   const handleOpenWarn = (guid) => {
     setDocId(guid);
@@ -65,6 +67,13 @@ export const CustomTable = ({
       status: status.IN_PROCESS,
       member_id: filteredMem?.data[0]?.employee_id,
     });
+
+    addStatus({
+      docs_id: docId,
+      member_id: memberList[currentIndex]?.employee_id,
+      status: status.IN_PROCESS,
+      comments: "test",
+    });
     toast.success("Вы отправили документ на обработку");
   };
 
@@ -74,11 +83,17 @@ export const CustomTable = ({
       status: isLast ? status.APPROVED : status.IN_PROCESS,
       member_id: isLast ? "" : memberList[currentIndex + 1]?.employee_id,
     });
+
     addStatus({
       docs_id: docId,
       member_id: memberList[currentIndex]?.employee_id,
       status: status.APPROVED,
       comments: "test",
+    });
+
+    updateReadStatus({
+      guid: docId,
+      read_status: 2,
     });
     toast.success("Вы отправили документ на обработку");
     setOpenApprov(false);
@@ -97,6 +112,11 @@ export const CustomTable = ({
       status: status.REJECTED,
       comments: "test",
     });
+
+    updateReadStatus({
+      guid: docId,
+      read_status: 2,
+    });
     toast.error("Вы отказали в обработке документа");
     setOpenApprov(false);
   };
@@ -113,6 +133,11 @@ export const CustomTable = ({
       member_id: memberList[currentIndex]?.employee_id,
       status: status.REVISION,
       comments: "test",
+    });
+
+    updateReadStatus({
+      guid: docId,
+      read_status: 2,
     });
     toast.warn("Вы успешно отправили документ на доработку");
 

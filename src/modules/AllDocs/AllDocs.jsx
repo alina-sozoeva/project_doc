@@ -1,4 +1,4 @@
-import { Divider, Flex } from "antd";
+import { Flex } from "antd";
 import { AllDocsCard } from "../../components";
 import { useGetDocCountsQuery } from "../../store/api/documents.api";
 import { useUser } from "../../utils";

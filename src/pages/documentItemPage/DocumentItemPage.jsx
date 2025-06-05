@@ -1,6 +1,6 @@
 import { Button, Flex, Input, Typography } from "antd";
 import { StatusButton, Wrapper } from "../../common";
-import { status } from "../../enums";
+import { pages, pathname, status } from "../../enums";
 import {
   CheckOutlined,
   CloseOutlined,
@@ -30,7 +30,14 @@ export const DocumentItemPage = ({ item }) => {
   };
 
   return (
-    <Wrapper className={styles.content}>
+    <Wrapper
+      path={`${pathname.DOCUMENTS}?process_name=all-docs-process`}
+      title={pages.DOCUMENTS}
+      page={true}
+      className={styles.content}
+      pathChildter={`/document/${id}`}
+      descrip={pages.DOCUMENT}
+    >
       <Flex vertical justify="space-between" gap="middle">
         <Flex gap="small" justify="space-between" align="center">
           <Flex gap="small">

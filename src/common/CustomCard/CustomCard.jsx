@@ -7,10 +7,10 @@ export const CustomCard = ({
   backgroundColor,
   icon,
   onClick,
-  path
+  path,
 }) => {
   return (
-    <a href={path} >
+    <a href={path}>
       <Flex
         style={{ backgroundColor: backgroundColor }}
         vertical
@@ -18,7 +18,7 @@ export const CustomCard = ({
         className={styles.card}
         onClick={onClick}
       >
-        <Typography.Title level={4}>
+        <Typography.Title level={5}>
           {count !== null ? `${title}: ${count}` : title}
         </Typography.Title>
         {count !== null ? (

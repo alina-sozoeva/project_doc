@@ -32,6 +32,7 @@ export const pages = {
   HISTORY: "История действий",
   // SEARCH: "Избранные документы",
   FAVORITES: "Избранные документы",
+  DOCUMENT: "Информация о документе",
 };
 
 export const storageKeys = {
