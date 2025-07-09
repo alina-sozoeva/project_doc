@@ -44,7 +44,7 @@ export const PurchaseRequestModal = ({ open, onCancel, processId, user }) => {
       budget: values.budget,
       contragent: values.contragent,
       end_date: values.end_date,
-      comments: values.comments,
+      comments: values.comments || "",
       doc_id: 1,
       status: status.DRAFT,
       process_id: processId,
@@ -107,7 +107,7 @@ export const PurchaseRequestModal = ({ open, onCancel, processId, user }) => {
                 <Input placeholder="Введите основание заявки" />
               </Form.Item>
 
-              <Form.Item label="Комментарии" name="comments">
+              <Form.Item label="Комментарий" name="comments">
                 <Input.TextArea placeholder="Введите комментарий" />
               </Form.Item>
             </Col>
@@ -127,7 +127,6 @@ export const PurchaseRequestModal = ({ open, onCancel, processId, user }) => {
 
               <Row gutter={24}>
                 <Col span={12}>
-                  {" "}
                   <Form.Item
                     label="Бюджетная статья"
                     name="budget"

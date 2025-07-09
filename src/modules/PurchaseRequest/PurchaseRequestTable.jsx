@@ -23,10 +23,7 @@ export const PurchaseRequestTable = () => {
     employee_id: user?.guid,
   });
   const [updateDoc] = useUpdateDocsZakupMutation();
-
-  // const isInitiator = filteredDataMembers?.find(
-  //   (item) => item.employee_id === user.guid
-  // );
+  console.log(filteredData, "filteredData");
 
   return (
     <Flex vertical gap="small">

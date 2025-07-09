@@ -20,7 +20,6 @@ export const documentsApi = createApi({
       query: ({ guid }) => ({
         url: `/get_docs/${guid}`,
         method: "GET",
-        params: { guid },
       }),
       providesTags: ["DocsById"],
     }),
@@ -207,6 +206,14 @@ export const documentsApi = createApi({
       }),
       invalidatesTags: ["DocFavorites"],
     }),
+    getHistoryStatuses: builder.query({
+      query: ({ user_id }) => ({
+        url: "/get_docs_statuses",
+        method: "GET",
+        params: { user_id },
+      }),
+      providesTags: ["HistoryStatuses"],
+    }),
   }),
 });
 
@@ -229,11 +236,11 @@ export const {
   useUpdateDocsVyplataMutation,
   useUpdateDocsZakupMutation,
   useAddDocsStatusesMutation,
-  useUpdateMutation,
   useGetDocsStatusesQuery,
   useGetDocCountsQuery,
   useGetAllDocsQuery,
   useUpdateReadStatusMutation,
   useGetFavoritesDocsQuery,
   useAddFavoritesDocsMutation,
+  useGetHistoryStatusesQuery,
 } = documentsApi;

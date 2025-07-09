@@ -1,6 +1,6 @@
 import styles from "./RouteButton.module.scss";
 import { Button, Flex, Tooltip } from "antd";
-import { status } from "../../enums";
+import { positionMap, status } from "../../enums";
 import foto from "../../assets/foto.jpg";
 import { useGetEmployeesQuery } from "../../store";
 import {
@@ -12,6 +12,7 @@ import {
   RedoOutlined,
   SyncOutlined,
 } from "@ant-design/icons";
+import clsx from "clsx";
 
 export const RouteButton = ({
   children,
@@ -58,16 +59,36 @@ export const RouteButton = ({
 
   const filtered = data?.data?.find((i) => i?.guid === item?.employee_id);
 
+  console.log(filtered, "чел");
+
   return (
     <Tooltip
       title={
         <Flex vertical align="center">
           {item ? (
-            <>
+            <Flex vertical>
               <img src={foto} alt="" style={{ width: "40px" }} />
-              <p>{filtered?.fio}</p>
-              <p>{filtered?.email}</p>
-            </>
+              <Flex vertical>
+                <p>
+                  <span className={clsx("font-bold mr-2")}>ФИО:</span>
+                  {filtered?.fio}
+                </p>
+                <p>
+                  <span className={clsx("font-bold mr-2")}>Должность:</span>
+                  {positionMap[filtered?.position]}
+                </p>
+                <p>
+                  <span className={clsx("font-bold mr-2")}>Email:</span>
+                  {filtered?.email}
+                </p>
+                <p>
+                  <span className={clsx("font-bold mr-2")}>
+                    Время рассмотрения:
+                  </span>
+                  {filtered?.time_limit} дней
+                </p>
+              </Flex>
+            </Flex>
           ) : (
             "Нет данных"
           )}

@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { Button, Checkbox, Divider, Flex, Select, Table } from "antd";
+import { Button, Col, Divider, Flex, Row, Select, Table } from "antd";
 import { Wrapper } from "../../common";
 import { pathname, status } from "../../enums";
 import { useUser } from "../../utils";
@@ -10,10 +10,16 @@ import {
   useGetDocCountsQuery,
   useUpdateReadStatusMutation,
 } from "../../store";
-import { BellOutlined, InboxOutlined, StarOutlined } from "@ant-design/icons";
+import { BellOutlined, InboxOutlined } from "@ant-design/icons";
 import dayjs from "dayjs";
-import "dayjs/locale/ru";
 import styles from "./HomePage.module.scss";
+import clsx from "clsx";
+import FullCalendar from "@fullcalendar/react";
+import dayGridPlugin from "@fullcalendar/daygrid";
+import interactionPlugin from "@fullcalendar/interaction";
+import timeGridPlugin from "@fullcalendar/timegrid";
+import ruLocale from "@fullcalendar/core/locales/ru";
+import { useHomeColumns } from "./useHomeColumns";
 
 const statuses = [
   {
@@ -59,66 +65,7 @@ export const HomePage = () => {
     });
   };
 
-  const columns = [
-    {
-      key: "guid",
-      dataIndex: "guid",
-      title: "...",
-      width: 60,
-      align: "center",
-      render: (_, record) => (
-        <Flex
-          justify="space-around"
-          align="center"
-          onClick={(e) => e.stopPropagation()}
-        >
-          <Checkbox />
-          <StarOutlined style={{ color: "#a7a59f" }} />
-          {/* <Button onClick={() => handleAddFavorites(record)}>В изр</Button> */}
-        </Flex>
-      ),
-    },
-    {
-      key: "employee",
-      dataIndex: "employee",
-      title: "Инициатор",
-      render: (_, record) => (
-        <p
-          className={
-            record?.read_status !== 1 && record?.employee?.guid !== user?.guid
-              ? "font-bold"
-              : ""
-          }
-          style={{ color: "#5f6368" }}
-        >
-          {record?.employee?.fio}
-        </p>
-      ),
-    },
-    {
-      key: "comments",
-      dataIndex: "comments",
-      title: "Комментарии",
-      render: (_, record) => (
-        <p style={{ color: "#5f6368" }}>{record?.comments}</p>
-      ),
-    },
-    {
-      key: "created_at",
-      dataIndex: "created_at",
-      title: "Инициатор",
-      align: "right",
-      render: (_, record) => (
-        <div style={{ color: "#5f6368" }}>
-          {record?.created_at ? (
-            <p>{dayjs(record?.created_at).format("D MMMM")}</p>
-          ) : (
-            <p>нет даты</p>
-          )}
-        </div>
-      ),
-    },
-  ];
+  const { columns } = useHomeColumns({ user, handleAddFavorites });
 
   const handleStatusForMeChange = (value) => {
     setDocStatusForMe(value);
@@ -208,70 +155,102 @@ export const HomePage = () => {
     }
   };
 
+  const [events, setEvents] = useState([
+    { title: "event 1", date: "2025-07-01" },
+    { title: "event 2", date: "2025-07-02" },
+  ]);
+
+  const handleDateSelect = (selectInfo) => {
+    const title = prompt("Название события?");
+    if (title) {
+      setEvents((prev) => [
+        ...prev,
+        {
+          title,
+          date: selectInfo.startStr,
+        },
+      ]);
+    }
+  };
+
   return (
     <Wrapper path={pathname.HOME} page={true} className={styles.home}>
-      <Flex justify="space-between" align="center" gap="middle">
-        <Flex align="center" gap="middle">
-          <Flex align="center" gap="small">
-            <h2>Задачи мне:</h2>
-            <Select
-              allowClear
-              placeholder="Выберете статус"
-              style={{ width: 150 }}
-              onChange={handleStatusForMeChange}
-              options={statuses}
-              value={docStatusForMe}
-            />
+      <Row gutter={24}>
+        <Col span={12}>
+          <Flex justify="space-between" align="center" gap="middle">
+            <Flex align="center" gap="middle" wrap="wrap">
+              <Flex vertical gap="small">
+                <h2>Задачи мне:</h2>
+                <Select
+                  allowClear
+                  placeholder="Выберете статус"
+                  style={{ width: 150 }}
+                  onChange={handleStatusForMeChange}
+                  options={statuses}
+                  value={docStatusForMe}
+                />
+              </Flex>
+              <Flex vertical gap="small">
+                <h2>Задачи от меня:</h2>
+                <Select
+                  allowClear
+                  placeholder="Выберете статус"
+                  style={{ width: 150 }}
+                  onChange={handleStatusMyChange}
+                  options={statuses}
+                  value={docStatusMy}
+                />
+              </Flex>
+
+              <FilterButton
+                active={activeFilter === "myDocs"}
+                onClick={() => onFilterButton("myDocs")}
+                icon={InboxOutlined}
+                label="Мои документы"
+                count={counts.myDocs}
+              />
+
+              <FilterButton
+                active={activeFilter === "incoming"}
+                onClick={() => onFilterButton("incoming")}
+                icon={InboxOutlined}
+                label="Входящие"
+                count={counts.incoming}
+              />
+
+              <FilterButton
+                active={activeFilter === "unread"}
+                onClick={() => onFilterButton("unread")}
+                icon={BellOutlined}
+                label="Непрочитанные"
+                count={counts.unread}
+              />
+            </Flex>
           </Flex>
-          <Flex align="center" gap="small">
-            <h2>Задачи от меня:</h2>
-            <Select
-              allowClear
-              placeholder="Выберете статус"
-              style={{ width: 150 }}
-              onChange={handleStatusMyChange}
-              options={statuses}
-              value={docStatusMy}
-            />
-          </Flex>
 
-          <FilterButton
-            active={activeFilter === "myDocs"}
-            onClick={() => onFilterButton("myDocs")}
-            icon={InboxOutlined}
-            label="Мои документы"
-            count={counts.myDocs}
+          <Divider className="my-5" />
+
+          <Table
+            loading={forUserDocsLoading || userDocsLoading}
+            showHeader={false}
+            columns={columns}
+            dataSource={filteredDocs}
+            onRow={(record) => ({
+              onClick: () => handleNavigate(record),
+            })}
           />
-
-          <FilterButton
-            active={activeFilter === "incoming"}
-            onClick={() => onFilterButton("incoming")}
-            icon={InboxOutlined}
-            label="Входящие"
-            count={counts.incoming}
+        </Col>
+        <Col span={12} className={clsx("")}>
+          <FullCalendar
+            plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
+            initialView="dayGridMonth"
+            locale={ruLocale}
+            selectable={true}
+            select={handleDateSelect}
+            events={events}
           />
-
-          <FilterButton
-            active={activeFilter === "unread"}
-            onClick={() => onFilterButton("unread")}
-            icon={BellOutlined}
-            label="Непрочитанные"
-            count={counts.unread}
-          />
-        </Flex>
-      </Flex>
-
-      <Divider className="my-5" />
-
-      <Table
-        loading={forUserDocsLoading || userDocsLoading}
-        showHeader={false}
-        columns={columns}
-        dataSource={filteredDocs}
-        onRow={(record) => ({
-          onClick: () => handleNavigate(record),
-        })}
-      />
+        </Col>
+      </Row>
     </Wrapper>
   );
 };

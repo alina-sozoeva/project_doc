@@ -5,11 +5,9 @@ import styles from "./CustomSidebar.module.scss";
 import logo from "../../assets/logo.png";
 import { useSelector } from "react-redux";
 import {
-  BellOutlined,
   ClusterOutlined,
   HistoryOutlined,
   HomeOutlined,
-  InboxOutlined,
   PlusOutlined,
   SettingOutlined,
   StarOutlined,
@@ -109,7 +107,8 @@ export const CustomSidebar = () => {
   ];
 
   const adminOnlyMenu =
-    user?.email === "admin@gmail.com"
+    user?.email === "admin@gmail.com" ||
+    user?.email === "administrator@gmail.com"
       ? [
           {
             key: "2",

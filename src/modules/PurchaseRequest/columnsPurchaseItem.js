@@ -54,6 +54,11 @@ export const columnsPurchaseItem = [
     dataIndex: "comments",
     key: "comments",
     width: 100,
-    //   render: (_, record) => dayjs(record.date).format("DD.MM.YYYY HH:mm"),
+    render: (text, _, __) => {
+      if (text === "") {
+        return "Нет комментария";
+      }
+      return text;
+    },
   },
 ];

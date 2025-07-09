@@ -3,10 +3,9 @@ import { Button, Divider, Flex, Form, Steps, Table } from "antd";
 import { WarningModal, Wrapper } from "../../common";
 import { pages, pathname } from "../../enums";
 import { AddProcessesModal, StepContent } from "../../components";
-import { useSelector } from "react-redux";
+
 import {
   useAddProcessesMembersMutation,
-  useGetProcessesByIdQuery,
   useGetProcessesMembersQuery,
   useGetProcessesQuery,
 } from "../../store";
@@ -14,7 +13,6 @@ import { v4 as uuidv4 } from "uuid";
 import styles from "./ProcessesPage.module.scss";
 import { PlusOutlined } from "@ant-design/icons";
 import { useProcessesColumns } from "./useProcessesColumns";
-import { skipToken } from "@reduxjs/toolkit/query";
 import { toast } from "react-toastify";
 
 export const ProcessesPage = () => {
@@ -43,9 +41,6 @@ export const ProcessesPage = () => {
   const [openProcessesModal, setOpenProcessesModal] = useState(false);
   const { data, isLoading } = useGetProcessesQuery();
   const [selectedId, setSelectedId] = useState(null);
-  const { data: dataById } = useGetProcessesByIdQuery(
-    selectedId ? selectedId : skipToken
-  );
   const { data: processesMembers } = useGetProcessesMembersQuery({});
   const [addMembers] = useAddProcessesMembersMutation();
 

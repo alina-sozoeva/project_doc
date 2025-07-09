@@ -4,3 +4,9 @@
 
 .btnActive {
 }
+
+.custom_calendar .ant-picker-calendar {
+  height: 300px;
+  max-width: 500px;
+  overflow: auto;
+}

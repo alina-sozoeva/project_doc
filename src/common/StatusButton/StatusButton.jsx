@@ -26,7 +26,6 @@ export const StatusButton = ({ children, icon, statusFolder, source }) => {
         color={color}
         variant="filled"
         className={source !== "table" ? styles.btn : styles.btn_table}
-        icon={icon}
       >
         {children}
       </Button>

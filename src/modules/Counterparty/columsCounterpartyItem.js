@@ -1,3 +1,5 @@
+import { verification_status } from "../../enums";
+
 export const columsCounterpartyItem = [
   {
     title: "№",
@@ -52,6 +54,6 @@ export const columsCounterpartyItem = [
     dataIndex: "verification_status",
     key: "verification_status",
     width: 100,
-    //   render: (_, record) => dayjs(record.date).format("DD.MM.YYYY HH:mm"),
+    render: (text, _, __) => verification_status[String(text)],
   },
 ];

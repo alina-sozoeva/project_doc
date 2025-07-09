@@ -9,13 +9,17 @@ import {
   Select,
   Typography,
 } from "antd";
-import { useAddDocsContragentMutation } from "../../store";
+import {
+  useAddDocsContragentMutation,
+  useAddDocsStatusesMutation,
+} from "../../store";
 import { status } from "../../enums";
 import styles from "./CounterpartyTable.module.scss";
 
 export const CunterpartyModal = ({ open, onCancel, processId, user }) => {
   const [form] = Form.useForm();
   const [addDocs] = useAddDocsContragentMutation();
+  const [addStatus] = useAddDocsStatusesMutation();
 
   const onFinish = (values) => {
     const newDoc = {
@@ -37,6 +41,13 @@ export const CunterpartyModal = ({ open, onCancel, processId, user }) => {
     };
 
     addDocs(newDoc);
+
+    // addStatus({
+    //   docs_id: docId,
+    //   member_id: memberList[currentIndex]?.employee_id,
+    //   status: status.IN_PROCESS,
+    //   comments: "test",
+    // });
     form.resetFields();
     onCancel();
   };

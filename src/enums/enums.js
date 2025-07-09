@@ -85,3 +85,9 @@ export const positionMap = {
   9: "Генеральный директор",
   10: "Администратор",
 };
+
+export const verification_status = {
+  pending: "ожидание",
+  approved: "проверено",
+  rejected: "отклонено",
+};
